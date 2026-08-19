@@ -73,9 +73,9 @@ function getPostLastmod(postId) {
 
 // https://astro.build/config
 export default defineConfig({
-	site: siteConfig.site_url,
+	site: "https://OVoyage1969O.github.io",
 	
-	base: "/",
+	base: "/Kaguya/",
 	trailingSlash: "always",
 
 	// 图像优化配置
