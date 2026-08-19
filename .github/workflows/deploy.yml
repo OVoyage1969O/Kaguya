@@ -19,12 +19,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node
+        uses: pnpm/actions/setup-node@v4
+        with:
+          version: 11.22.0
+        
+
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: pnpm
 
       - name: Install
-        run: npm install
+        run: npm install --no-frozen-lockfile
 
       - name: Build
         run: npm run build
