@@ -1,0 +1,74 @@
+---
+import { getEntry } from "astro:content";
+import Comment from "@components/comment/index.astro";
+import FriendLinkTerminal from "@components/features/FriendLinkTerminal.svelte";
+import FriendRulesModal from "@components/features/FriendRulesModal.astro";
+import PageTitle from "@/components/common/PageTitle.astro";
+import {
+	commentConfig,
+	friendsPageConfig,
+	getEnabledFriends,
+	siteConfig,
+} from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import "@/styles/components/friend-rules-modal.css";
+
+// 检查页面是否启用
+if (!siteConfig.pages.friends) {
+	return Astro.redirect("/404/");
+}
+
+const friendsPost = await getEntry("spec", "friends");
+
+if (!friendsPost) {
+	throw new Error("friends page content not found");
+}
+
+// 检查评论系统是否启用
+const isCommentEnabled =
+	commentConfig?.type &&
+	commentConfig.type !== "none" &&
+	friendsPageConfig.showComment !== false;
+
+// 使用配置文件中的友链数据，按权重排序
+const items = getEnabledFriends();
+
+// 页面标题和描述
+const title = friendsPageConfig.title || i18n(I18nKey.friends);
+const description =
+	friendsPageConfig.description || i18n(I18nKey.friendsDescription);
+---
+
+<MainGridLayout title={title} description={description} hasOwnH1={true}>
+  <div
+    class="flex w-full rounded-(--radius-large) relative min-h-32"
+  >
+    <div class="card-base z-10 px-4 sm:px-6 lg:px-9 py-6 relative w-full">
+      <!-- 页面标题和描述 -->
+      <div class="mb-5">
+        <PageTitle title={title} variant="stacked" />
+        <p class="mt-2 max-w-2xl text-sm leading-6 text-(--content-meta)">{description}</p>
+      </div>
+
+      <FriendLinkTerminal
+        client:load
+        items={items}
+        allLabel={i18n(I18nKey.all)}
+        applyEnabled={Boolean(friendsPageConfig.applyLink)}
+      />
+    </div>
+  </div>
+
+  <!-- 评论区 -->
+  {isCommentEnabled && (
+    <div class="mt-4">
+      <Comment post={friendsPost} customPath="/friends/" />
+    </div>
+  )}
+
+  <!-- 友链申请指南弹窗 -->
+  <FriendRulesModal applyLink={friendsPageConfig.applyLink} commentEnabled={isCommentEnabled} />
+
+</MainGridLayout>

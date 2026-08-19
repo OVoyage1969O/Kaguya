@@ -1,0 +1,82 @@
+---
+import { render } from "astro:content";
+import PageTitle from "@/components/common/PageTitle.astro";
+import ArticleList from "@/components/pages/ArticleList.svelte";
+import { siteConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@/utils/content-utils";
+import { getCategoryUrl, getPostUrlBySlug, getTagUrl } from "@/utils/url-utils";
+
+const title = i18n(I18nKey.postList);
+const description = i18n(I18nKey.listDescription);
+const posts = await getSortedPosts();
+
+const dateFormatter = new Intl.DateTimeFormat(
+	siteConfig.lang.replace("_", "-"),
+	{
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+	},
+);
+
+const articleListPosts = await Promise.all(
+	posts.map(async (entry) => {
+		const { remarkPluginFrontmatter } = await render(entry);
+		const rawCategory = entry.data.category?.trim();
+		const category = rawCategory || i18n(I18nKey.uncategorized);
+		const tags = (entry.data.tags || [])
+			.map((tag) => tag.trim())
+			.filter(Boolean)
+			.map((tag) => ({
+				name: tag,
+				url: getTagUrl(tag),
+			}));
+
+		return {
+			id: entry.id,
+			title: entry.data.title,
+			url: getPostUrlBySlug(entry.id),
+			publishedIso: entry.data.published.toISOString(),
+			publishedTimestamp: entry.data.published.getTime(),
+			publishedText: dateFormatter.format(entry.data.published),
+			category,
+			categoryUrl: getCategoryUrl(entry.data.category || null),
+			tags,
+			description:
+				entry.data.description ||
+				remarkPluginFrontmatter.excerpt ||
+				i18n(I18nKey.noDescriptionFallback),
+			pinned: !!entry.data.pinned,
+			password: !!entry.data.password,
+		};
+	}),
+);
+
+const umamiConfig = siteConfig.analytics?.umamiAnalytics;
+const umamiPageviews = {
+	enabled:
+		!!umamiConfig?.pageviews?.enabled &&
+		!!umamiConfig.shareId &&
+		!!umamiConfig.scriptUrl,
+	apiBase: umamiConfig?.scriptUrl ? new URL(umamiConfig.scriptUrl).origin : "",
+	shareId: umamiConfig?.shareId || "",
+};
+---
+
+<MainGridLayout title={title} description={description} hasOwnH1={true}>
+	<section class="article-list-page">
+		<header class="article-list-page__header">
+			<PageTitle title={title} />
+		</header>
+
+		<ArticleList
+			client:load
+			posts={articleListPosts}
+			postsPerPage={siteConfig.pagination.postsPerPage}
+			umamiPageviews={umamiPageviews}
+		/>
+	</section>
+</MainGridLayout>
