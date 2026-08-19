@@ -9,7 +9,7 @@ export const homeConfig: HomeConfig = {
 	avatar: "assets/images/Alice.jpg",
 
 	// 名字
-	name: "永远亭",
+	name: "永远邸",
 
 	// 首页展示名字（留空则使用 name）
 	displayName: "永远邸",

@@ -16,7 +16,8 @@ export const commentConfig: CommentConfig = {
 	//waline评论系统配置
 	waline: {
 		// waline 后端服务地址
-		serverURL: "https://kaguyacomments-2jga0oewb-ovoyage1969os-projects.vercel.app",
+		serverURL:
+			"https://kaguyacomments-2jga0oewb-ovoyage1969os-projects.vercel.app",
 		// 设置 Waline 评论系统语言
 		lang: "zh-CN",
 		// 设置 Waline 评论系统表情地址
