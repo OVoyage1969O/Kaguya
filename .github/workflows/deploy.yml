@@ -3,7 +3,7 @@ name: Deploy Astro
 on:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   contents: read

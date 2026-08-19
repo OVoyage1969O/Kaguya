@@ -24,8 +24,8 @@ export const homeConfig: HomeConfig = {
 	aboutCanvasTexture: "/assets/images/Alice.jpg",
 
 	hero: {
-		backgroundImage: "/assets/images/home/LW.jpg",
-		backgroundImageMobile: "/assets/images/home/home-mobile.avif",
+		backgroundImage: "/Kaguya/assets/images/home/LW.jpg",
+		backgroundImageMobile: "/Kaguya/assets/images/home/home-mobile.avif",
 		mosaic: {
 			rows: 4,
 			columns: 6,
@@ -67,7 +67,7 @@ export const homeConfig: HomeConfig = {
 			handle: "姆Q丶",
 		},
 		sticker: {
-			image: "/assets/images/home/Alice.png",
+			image: "/Kaguya/assets/images/home/Alice.png",
 			alt: "黑猫角色贴纸",
 			eye: {
 				xPercent: 41.1,
