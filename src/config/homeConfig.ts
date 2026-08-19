@@ -21,7 +21,7 @@ export const homeConfig: HomeConfig = {
 	bio: ["海月の虚空に秋涼し時鳥"],
 
 	// 关于页 3D 文字球贴图（public 目录路径）
-	aboutCanvasTexture: "/assets/images/Alice.jpg",
+	aboutCanvasTexture: "/Kaguya/assets/images/Alice.jpg",
 
 	hero: {
 		backgroundImage: "/Kaguya/assets/images/home/LW.jpg",
@@ -194,9 +194,9 @@ export const homeConfig: HomeConfig = {
 	},
 
 	dataLayer: {
-		visitImage: "/assets/images/home/BA灵梦.png",
-		archiveImage: "/assets/images/home/goodg.png",
-		contactImage: "/assets/images/home/2.jpg",
+		visitImage: "/Kaguya/assets/images/home/BA灵梦.png",
+		archiveImage: "/Kaguya/assets/images/home/goodg.png",
+		contactImage: "/Kaguya/assets/images/home/2.jpg",
 	},
 
 	// 展示层：垂直线 → 长柱 → 字体显隐 → 柱子扩全屏 → 衔接百叶窗
@@ -207,7 +207,7 @@ export const homeConfig: HomeConfig = {
 		description: "In solitude, where we are least alone.",
 		scrollDistance: 4000,
 		pillarFinalWidth: "18vw",
-		emitterImage: "/assets/images/home-truncated/QAL.webp",
+		emitterImage: "/Kaguya/assets/images/home-truncated/QAL.webp",
 	},
 
 	portfolioShutter: {
@@ -217,15 +217,15 @@ export const homeConfig: HomeConfig = {
 		description: "——Ludwig Josef Johann Wittgenstein",
 		scrollDistance: 3000,
 		finalImage: {
-			midgroundImage: "/assets/images/home-truncated/AokoBG.png",
-			backgroundVideo: "/assets/images/home-truncated/utl-back2.mp4",
-			foregroundImage: "/assets/images/home-truncated/AO.webp",
+			midgroundImage: "/Kaguya/assets/images/home-truncated/AokoBG.png",
+			backgroundVideo: "/Kaguya/assets/images/home-truncated/utl-back2.mp4",
+			foregroundImage: "/Kaguya/assets/images/home-truncated/AO.webp",
 			alt: "2026年 加油！",
 		},
 		interlude: {
-			foreground: "/assets/images/home-truncated/QWE.webp",
-			stripLeft: "/assets/images/home-truncated/HENG1.jpg",
-			stripRight: "/assets/images/home-truncated/HENG3.jpg",
+			foreground: "/Kaguya/assets/images/home-truncated/QWE.webp",
+			stripLeft: "/Kaguya/assets/images/home-truncated/HENG1.jpg",
+			stripRight: "/Kaguya/assets/images/home-truncated/HENG3.jpg",
 			copyLeft: "类型",
 			copyRight: "月亮",
 		},
@@ -234,35 +234,35 @@ export const homeConfig: HomeConfig = {
 				title: "Github站点",
 				english: "PROJECTS",
 				description: "永远宅邸 · 工具导航",
-				image: "/assets/images/home-truncated/Aoko.png",
+				image: "/Kaguya/assets/images/home-truncated/Aoko.png",
 				alt: "外部站点",
 			},
 			{
 				title: "术业专攻",
 				english: "SPECIALITIES",
 				description: "AI学习 · 技术架构 · 踩坑记录",
-				image: "/assets/images/home-truncated/Shiki.png",
+				image: "/Kaguya/assets/images/home-truncated/Shiki.png",
 				alt: "术业专攻",
 			},
 			{
 				title: "博客特色",
 				english: "BLOG FEATURES",
 				description: "逻辑破碎 · 无病呻吟 · 神人发电",
-				image: "/assets/images/home-truncated/Ceter.png",
+				image: "/Kaguya/assets/images/home-truncated/Ceter.png",
 				alt: "博客特色",
 			},
 			{
 				title: "站点技术",
 				english: "STACK",
 				description: "Astro · SSG静态生成 · 纯AI零手工",
-				image: "/assets/images/home-truncated/Alteria.png",
+				image: "/Kaguya/assets/images/home-truncated/Alteria.png",
 				alt: "站点技术",
 			},
 			{
 				title: "相册收录",
 				english: "PHOTO ALBUM",
 				description: "AI 生图 · API 接入",
-				image: "/assets/images/home-truncated/Arcuid.png",
+				image: "/Kaguya/assets/images/home-truncated/Arcuid.png",
 				alt: "相册收录",
 			},
 		],
