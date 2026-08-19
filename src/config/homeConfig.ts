@@ -103,16 +103,28 @@ export const homeConfig: HomeConfig = {
 				{ speaker: "host", text: "欢迎来到永远邸" },
 				{ speaker: "host", text: "我是久远寺有珠" },
 				{ speaker: "visitor", text: "那个...你的脸..." },
-				{ speaker: "host", text: "我的脸吗？眼睛和嘴巴不小心被青子乱学的魔法搞坏了，不要在意。" },
+				{
+					speaker: "host",
+					text: "我的脸吗？眼睛和嘴巴不小心被青子乱学的魔法搞坏了，不要在意。",
+				},
 				{ speaker: "host", text: "我晚点会找她好好算账的" },
-				{ speaker: "host", text: "不管怎么说。永远邸，顾名思义，是永远亭和久远寺邸的结合" },
-				{ speaker: "host", text: "本意是对这个网页主人影响最深的两个系列作品。" },
+				{
+					speaker: "host",
+					text: "不管怎么说。永远邸，顾名思义，是永远亭和久远寺邸的结合",
+				},
+				{
+					speaker: "host",
+					text: "本意是对这个网页主人影响最深的两个系列作品。",
+				},
 				{ speaker: "host", text: "也就是型月和东方。" },
 				{
 					speaker: "host",
 					text: "总而言之，这就是铸币大头蓬莱山的博客。",
 				},
-				{ speaker: "host", text: "如果你想学什么魔术，我看情况可以教你一点基础的PLOY" },
+				{
+					speaker: "host",
+					text: "如果你想学什么魔术，我看情况可以教你一点基础的PLOY",
+				},
 			],
 			// 话题菜单：点击进入逐句对话，末句后返回菜单
 			topics: [
@@ -192,8 +204,7 @@ export const homeConfig: HomeConfig = {
 		enabled: true,
 		kicker: "作品展示",
 		title: "CRYSTALLIZE GALLERY",
-		description:
-			"In solitude, where we are least alone.",
+		description: "In solitude, where we are least alone.",
 		scrollDistance: 4000,
 		pillarFinalWidth: "18vw",
 		emitterImage: "/assets/images/home-truncated/QAL.webp",

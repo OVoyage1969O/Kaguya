@@ -16,7 +16,8 @@ export const siteConfig: SiteConfig = {
 	site_url: "https://tblog.mmzhiku.xyz",
 
 	// 站点描述
-	description: "各种奇谭齐聚之时，突破了义务与所谓大人的理由等种种藩篱，甚至是道德约束后，产生的某个地点",
+	description:
+		"各种奇谭齐聚之时，突破了义务与所谓大人的理由等种种藩篱，甚至是道德约束后，产生的某个地点",
 
 	// 站点关键词
 	keywords: [
@@ -51,7 +52,6 @@ export const siteConfig: SiteConfig = {
 			src: "/favicon/Kaguya.jpg",
 			sizes: "32x32",
 		},
-		
 	],
 
 	// 导航栏配置
