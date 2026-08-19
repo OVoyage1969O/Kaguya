@@ -24,7 +24,8 @@ export const friendsPageConfig: FriendsPageConfig = {
 		name: "永远邸",
 		desc: "在山上的大屋中，有魔女居住着",
 		url: "https://ovoyage1969o.github.io/Kaguya",
-		avatar: "https://thwiki.cc/%E8%93%AC%E8%8E%B1%E5%B1%B1%E8%BE%89%E5%A4%9C#/media/%E6%96%87%E4%BB%B6:%E8%93%AC%E8%8E%B1%E5%B1%B1%E8%BE%89%E5%A4%9C%EF%BC%88%E6%B0%B8%E5%A4%9C%E6%8A%84%E7%AB%8B%E7%BB%98%EF%BC%89.png",
+		avatar:
+			"https://thwiki.cc/%E8%93%AC%E8%8E%B1%E5%B1%B1%E8%BE%89%E5%A4%9C#/media/%E6%96%87%E4%BB%B6:%E8%93%AC%E8%8E%B1%E5%B1%B1%E8%BE%89%E5%A4%9C%EF%BC%88%E6%B0%B8%E5%A4%9C%E6%8A%84%E7%AB%8B%E7%BB%98%EF%BC%89.png",
 		email: "784774835@qq.com",
 	},
 
