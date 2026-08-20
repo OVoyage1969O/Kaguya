@@ -226,9 +226,19 @@ export const zh_TW: Translation = {
 
 	[Key.dynamicExpand]: "展開",
 	[Key.dynamicCollapse]: "收起",
-	// 統計頁面
-	[Key.stats]: "統計",
 
+	[Key.bookshelf]: "书架",
+	[Key.bookshelfCategories]: "分類",
+	[Key.bookshelfEntries]: "詞條",
+	[Key.bookshelfFeatured]: "特色詞條",
+	[Key.bookshelfBrowse]: "書卷分類",
+	[Key.bookshelfRandom]: "隨機一篇",	// 統計頁面
+
+	[Key.bookshelfBack]: "返回書架",	[Key.stats]: "統計",
+
+	[Key.bookshelfView]: "查",
+	[Key.bookshelfTalk]: "論",
+	[Key.bookshelfEdit]: "編",
 	// 密碼保護
 	[Key.passwordProtected]: "密碼保護",
 	[Key.passwordProtectedDesc]: "這篇文章已被密碼保護，請輸入密碼查看內容。",
@@ -240,7 +250,7 @@ export const zh_TW: Translation = {
 
 	// 日曆頁面
 	[Key.calendar]: "日曆",
-	[Key.feibichi]: "个人主站",
+	[Key.feibichi]: "书架",
 	[Key.contactMe]: "聯繫我",
 	[Key.qqGroup]: "QQ群",
 	[Key.navPosts]: "文章",

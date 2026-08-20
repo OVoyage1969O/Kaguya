@@ -1,0 +1,251 @@
+/* ============================================
+   永远百科 · 主页
+   黑白高对比风格 · 无圆角 · 几乎无彩色
+   ============================================ */
+
+/* 页面内统一的强对比色板（尽量不依赖博客主题色） */
+.bookshelf-page {
+	--bk-ink: #000;
+	--bk-paper: #fff;
+	--bk-muted: #555;
+	--bk-line: #000;
+	--bk-soft-line: #bbb;
+	--bk-invert: #fff;
+	--bk-invert-bg: #000;
+}
+
+/* 深色模式下反转 */
+:root.dark .bookshelf-page {
+	--bk-ink: #fff;
+	--bk-paper: #0a0a0a;
+	--bk-muted: #9a9a9a;
+	--bk-line: #fff;
+	--bk-soft-line: #444;
+	--bk-invert: #000;
+	--bk-invert-bg: #fff;
+}
+
+.bookshelf__header {
+	margin-bottom: 2rem;
+	padding-bottom: 1.5rem;
+	border-bottom: 3px solid var(--bk-line);
+}
+
+.bookshelf__title-row {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.bookshelf__logo {
+	font-size: 2rem;
+	color: var(--bk-ink);
+}
+
+.bookshelf__description {
+	margin: 0.75rem 0 0;
+	max-width: 52rem;
+	font-size: 0.95rem;
+	line-height: 1.7;
+	color: var(--bk-muted);
+}
+
+.bookshelf__stats {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin-top: 0.75rem;
+	font-size: 0.8rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--bk-ink);
+}
+
+.bookshelf__stats-dot {
+	opacity: 0.5;
+}
+
+/* --- 分区 --- */
+.bookshelf__section {
+	margin-top: 2.25rem;
+}
+
+.bookshelf__section-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0 0 1.25rem;
+	padding-bottom: 0.5rem;
+	font-size: 1.1rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	border-bottom: 1px solid var(--bk-soft-line);
+	color: var(--bk-ink);
+}
+
+/* --- 特色词条 --- */
+.bookshelf__featured {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 0.75rem;
+}
+
+.bookshelf__featured-card {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	padding: 0.9rem 1rem;
+	border: 2px solid var(--bk-line);
+	background: var(--bk-paper);
+	color: var(--bk-ink);
+	text-decoration: none;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bookshelf__featured-card:hover {
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+}
+
+.bookshelf__featured-cat {
+	font-size: 0.68rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	opacity: 0.65;
+}
+
+.bookshelf__featured-title {
+	font-size: 1.05rem;
+	font-weight: 700;
+}
+
+.bookshelf__featured-summary {
+	font-size: 0.82rem;
+	line-height: 1.5;
+	opacity: 0.75;
+}
+
+/* hover 反转时次级文字也反转 */
+.bookshelf__featured-card:hover .bookshelf__featured-cat,
+.bookshelf__featured-card:hover .bookshelf__featured-summary {
+	opacity: 0.7;
+}
+
+/* --- 书架：分类书（无圆角、黑白） --- */
+.bookshelf__shelf {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 0.75rem;
+}
+
+.bookshelf__book {
+	display: flex;
+	flex-direction: column;
+	border: 2px solid var(--bk-line);
+	background: var(--bk-paper);
+	color: var(--bk-ink);
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bookshelf__book:hover {
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+}
+
+.bookshelf__book-cover {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.4rem;
+	padding: 1.1rem 1.2rem;
+	text-decoration: none;
+	color: inherit;
+	border-bottom: 2px solid var(--bk-line);
+}
+
+.bookshelf__book-icon {
+	font-size: 1.7rem;
+	color: inherit;
+}
+
+.bookshelf__book-title {
+	font-size: 1.15rem;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+}
+
+.bookshelf__book-summary {
+	font-size: 0.8rem;
+	opacity: 0.7;
+}
+
+.bookshelf__book-count {
+	font-size: 0.7rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.6;
+}
+
+.bookshelf__book-entries {
+	list-style: none;
+	margin: 0;
+	padding: 0.6rem 1.2rem 1rem;
+}
+
+.bookshelf__book-entries li {
+	margin: 0.3rem 0;
+}
+
+.bookshelf__book-entries a {
+	color: inherit;
+	text-decoration: none;
+	font-size: 0.9rem;
+	position: relative;
+}
+
+.bookshelf__book-entries a:hover {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.bookshelf__book-entries a::before {
+	content: "·";
+	margin-right: 0.4rem;
+	opacity: 0.6;
+}
+
+.bookshelf__book-more a {
+	opacity: 0.65;
+	font-size: 0.8rem;
+}
+
+/* --- 随机词条（无圆角、黑白） --- */
+.bookshelf__random {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.6rem 1.4rem;
+	border: 2px solid var(--bk-line);
+	background: var(--bk-paper);
+	color: var(--bk-ink);
+	font: inherit;
+	font-size: 0.9rem;
+	letter-spacing: 0.04em;
+	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bookshelf__random:hover {
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+}
+
+/* --- 移动端 --- */
+@media (max-width: 640px) {
+	.bookshelf__shelf {
+		grid-template-columns: 1fr;
+	}
+	.bookshelf__featured {
+		grid-template-columns: 1fr;
+	}
+}

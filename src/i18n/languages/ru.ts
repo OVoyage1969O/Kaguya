@@ -231,9 +231,19 @@ export const ru: Translation = {
 
 	[Key.dynamicExpand]: "Развернуть",
 	[Key.dynamicCollapse]: "Свернуть",
-	// Страница статистики
-	[Key.stats]: "Статистика",
 
+	[Key.bookshelf]: "书架",
+	[Key.bookshelfCategories]: "Категории",
+	[Key.bookshelfEntries]: "статей",
+	[Key.bookshelfFeatured]: "Избранное",
+	[Key.bookshelfBrowse]: "Обзор",
+	[Key.bookshelfRandom]: "Случайная статья",	// Страница статистики
+
+	[Key.bookshelfBack]: "Назад к полке",	[Key.stats]: "Статистика",
+
+	[Key.bookshelfView]: "Просмотр",
+	[Key.bookshelfTalk]: "Обсуждение",
+	[Key.bookshelfEdit]: "Править",
 	// Защита паролем
 	[Key.passwordProtected]: "Защищено паролем",
 	[Key.passwordProtectedDesc]:
@@ -247,7 +257,7 @@ export const ru: Translation = {
 
 	// Календарь
 	[Key.calendar]: "Календарь",
-	[Key.feibichi]: "Фэйби Цзюби",
+	[Key.feibichi]: "Книжная полка",
 	[Key.contactMe]: "Связаться",
 	[Key.qqGroup]: "QQ Группа",
 	[Key.navPosts]: "Статьи",

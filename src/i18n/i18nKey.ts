@@ -206,6 +206,18 @@ enum I18nKey {
 	dynamicExpand = "dynamicExpand",
 	dynamicCollapse = "dynamicCollapse",
 
+	// 永远百科
+	bookshelf = "bookshelf",
+	bookshelfCategories = "bookshelfCategories",
+	bookshelfEntries = "bookshelfEntries",
+	bookshelfFeatured = "bookshelfFeatured",
+	bookshelfBrowse = "bookshelfBrowse",
+	bookshelfRandom = "bookshelfRandom",
+	bookshelfBack = "bookshelfBack",
+	bookshelfView = "bookshelfView",
+	bookshelfTalk = "bookshelfTalk",
+	bookshelfEdit = "bookshelfEdit",
+
 	// 统计页面
 	stats = "stats",
 

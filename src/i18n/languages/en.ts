@@ -230,9 +230,19 @@ export const en: Translation = {
 
 	[Key.dynamicExpand]: "Expand",
 	[Key.dynamicCollapse]: "Collapse",
-	// Stats page
-	[Key.stats]: "Stats",
 
+	[Key.bookshelf]: "书架",
+	[Key.bookshelfCategories]: "Categories",
+	[Key.bookshelfEntries]: "entries",
+	[Key.bookshelfFeatured]: "Featured",
+	[Key.bookshelfBrowse]: "Browse",
+	[Key.bookshelfRandom]: "Random article",	// Stats page
+
+	[Key.bookshelfBack]: "Back to shelf",	[Key.stats]: "Stats",
+
+	[Key.bookshelfView]: "View",
+	[Key.bookshelfTalk]: "Talk",
+	[Key.bookshelfEdit]: "Edit",
 	// Password Protection
 	[Key.passwordProtected]: "Password Protected",
 	[Key.passwordProtectedDesc]:
@@ -246,7 +256,7 @@ export const en: Translation = {
 
 	// Calendar page
 	[Key.calendar]: "Calendar",
-	[Key.feibichi]: "Feibichi",
+	[Key.feibichi]: "Bookshelf",
 	[Key.contactMe]: "Contact Me",
 	[Key.qqGroup]: "QQ Group",
 	[Key.navPosts]: "Posts",

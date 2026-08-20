@@ -56,8 +56,66 @@ const dynamicCollection = defineCollection({
 	}),
 });
 
+/**
+ * 永远百科 · 词条内容集合。
+ * 每个 Markdown 文件对应一篇词条，按分类分文件夹存放。
+ * frontmatter 存结构化数据，正文用 Markdown（## 标题分节）。
+ */
+const bookshelfCollection = defineCollection({
+	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/bookshelf" }),
+	schema: z.object({
+		title: z.string(), // 词条名
+		categoryId: z.string(), // 所属分类 id
+		categoryName: z.string(), // 所属分类名
+		summary: z.string().optional().default(""), // 简介
+		// 顶部说明栏
+		notices: z
+			.array(
+				z.object({
+					icon: z.string().optional(),
+					text: z.string(),
+					color: z.string().optional(),
+				}),
+			)
+			.optional()
+			.default([]),
+		// 右侧信息栏
+		infobox: z
+			.object({
+				title: z.string(),
+				image: z.string().optional(),
+				imageAlt: z.string().optional(),
+				groups: z.array(
+					z.object({
+						title: z.string().optional(),
+						fields: z
+							.array(
+								z.object({
+									label: z.string(),
+									value: z.string(),
+								}),
+							)
+							.optional()
+							.default([]),
+					}),
+				),
+			})
+			.optional(),
+		// 背景图
+		background: z
+			.object({
+				image: z.string(),
+				opacity: z.number().optional(),
+			})
+			.optional(),
+		// 正文插图
+		gallery: z.array(z.string()).optional().default([]),
+	}),
+});
+
 export const collections = {
 	posts: postsCollection,
 	spec: specCollection,
 	dynamic: dynamicCollection,
+	bookshelf: bookshelfCollection,
 };

@@ -231,9 +231,19 @@ export const ja: Translation = {
 
 	[Key.dynamicExpand]: "展開",
 	[Key.dynamicCollapse]: "折りたたむ",
-	// 統計ページ
-	[Key.stats]: "統計",
 
+	[Key.bookshelf]: "书架",
+	[Key.bookshelfCategories]: "カテゴリ",
+	[Key.bookshelfEntries]: "記事",
+	[Key.bookshelfFeatured]: "特集記事",
+	[Key.bookshelfBrowse]: "分類を閲覧",
+	[Key.bookshelfRandom]: "ランダム",	// 統計ページ
+
+	[Key.bookshelfBack]: "棚に戻る",	[Key.stats]: "統計",
+
+	[Key.bookshelfView]: "表示",
+	[Key.bookshelfTalk]: "議論",
+	[Key.bookshelfEdit]: "編集",
 	// パスワード保護
 	[Key.passwordProtected]: "パスワード保護",
 	[Key.passwordProtectedDesc]:
@@ -247,7 +257,7 @@ export const ja: Translation = {
 
 	// カレンダーページ
 	[Key.calendar]: "カレンダー",
-	[Key.feibichi]: "个人主站",
+	[Key.feibichi]: "书架",
 	[Key.contactMe]: "お問い合わせ",
 	[Key.qqGroup]: "QQグループ",
 	[Key.navPosts]: "記事",

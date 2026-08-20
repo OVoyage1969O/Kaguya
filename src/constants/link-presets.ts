@@ -75,9 +75,8 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 	},
 	[LinkPreset.Feibichi]: {
 		name: i18n(I18nKey.feibichi),
-		url: "https://www.mmzhiku.xyz/",
-		icon: "material-symbols:link",
-		external: true,
+		url: "/bookshelf/",
+		icon: "material-symbols:menu-book-rounded",
 	},
 	[LinkPreset.ContactMe]: {
 		name: i18n(I18nKey.contactMe),
@@ -86,7 +85,7 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 	},
 	[LinkPreset.QQGroup]: {
 		name: i18n(I18nKey.qqGroup),
-		url: "https://qm.qq.com/q/2R07cjGTZ0",
+		url: "https://qun.qq.com/universal-share/share?ac=1&authKey=yGSwkEERKUo1gyW6LJu6RRXX8Z9xaC1KFQeDNyiqdXgqueKy7BbJ0JSzZrJyrAZV&busi_data=eyJncm91cENvZGUiOiIxMDk4MTgwMTI2IiwidG9rZW4iOiIvMTkxbS9MYUJIWHkxRjB4OTYzVktwaHhyaGx5WGZKdlRLb0MwbnNHbmVJNDBaSFFkdEIwbW9XL1lTMGFCc2wzIiwidWluIjoiNTc1ODIwNTAzIn0%3D&data=j8-RpjeXSTpW1q03zGN_KXEYyMyewUadEpFk4gjEEEVVKNBAf1M53rGTF7n7Av6KlFiZTq3-DpNZooai193IDA&svctype=4&tempid=h5_group_info",
 		icon: "fa7-brands:qq",
 		external: true,
 	},

@@ -1,0 +1,40 @@
+---
+import type { BookshelfInfoboxGroup } from "@/types/config";
+
+interface Props {
+	title: string;
+	image?: string;
+	imageAlt?: string;
+	groups: BookshelfInfoboxGroup[];
+}
+
+const { title, image, imageAlt = "", groups = [] } = Astro.props;
+---
+
+<aside class="bk-infobox">
+	<div class="bk-infobox__title">{title}</div>
+
+	{image && (
+		<div class="bk-infobox__image">
+			<img src={image} alt={imageAlt || title} loading="lazy" />
+		</div>
+	)}
+
+	<div class="bk-infobox__body">
+		{groups.map((group) => (
+			<div class="bk-infobox__group">
+				{group.title && <div class="bk-infobox__group-title">{group.title}</div>}
+				{group.fields && (
+					<dl class="bk-infobox__fields">
+						{group.fields.map((field) => (
+							<div class="bk-infobox__field">
+								<dt class="bk-infobox__label">{field.label}</dt>
+								<dd class="bk-infobox__value">{field.value}</dd>
+							</div>
+						))}
+					</dl>
+				)}
+			</div>
+		))}
+	</div>
+</aside>

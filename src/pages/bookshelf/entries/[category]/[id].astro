@@ -1,0 +1,104 @@
+---
+import Icon from "@components/common/Icon.astro";
+import PageTitle from "@/components/common/PageTitle.astro";
+import Infobox from "@/components/bookshelf/Infobox.astro";
+import Notices from "@/components/bookshelf/Notices.astro";
+import Navbox from "@/components/bookshelf/Navbox.astro";
+import { bookshelfConfig } from "@/config";
+import { getCollection, render } from "astro:content";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { url } from "@/utils/url-utils";
+import "@/styles/pages/bookshelf.css";
+import "@/styles/pages/bookshelf-entry.css";
+import "@/styles/components/bookshelf-navbox.css";
+import "@/styles/components/bookshelf-infobox.css";
+import "@/styles/components/bookshelf-notices.css";
+
+export async function getStaticPaths() {
+	const entries = await getCollection("bookshelf");
+	return entries.map((entry) => {
+		const id = entry.data.title;
+		const catId = entry.data.categoryId;
+		return {
+			params: { category: catId, id: entry.data.title },
+		};
+	});
+}
+
+const { category, id } = Astro.params;
+const entry = (await getCollection("bookshelf")).find((e) => e.data.title === id && e.data.categoryId === category);
+
+if (!entry) {
+	return Astro.redirect(url(`/bookshelf/`));
+}
+
+const data = entry.data;
+const { Content } = await render(entry);
+const categoryMeta = bookshelfConfig.categories.find((c) => c.id === category);
+const wikiTitle = `${data.title} - ${bookshelfConfig.name}`;
+const bgOpacity = data.background?.opacity ?? 0.15;
+---
+
+<MainGridLayout title={wikiTitle} description={data.summary} hasOwnH1={true}>
+	<div
+		class:list={["bookshelf-entry", data.background ? "bookshelf-entry--has-bg" : ""]}
+		style={data.background ? `--bk-bg-image: url('${data.background.image}'); --bk-bg-opacity: ${bgOpacity};` : undefined}
+	>
+		{data.background && <div class="bookshelf-entry__bg" aria-hidden="true"></div>}
+
+		<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+			<div class="card-base z-10 px-4 py-6 md:px-9 relative w-full">
+				<nav class="bookshelf-entry__crumb">
+					<a href={url(`/bookshelf/`)}>{bookshelfConfig.name}</a>
+					<span class="bookshelf-entry__crumb-sep">/</span>
+					{categoryMeta ? (
+						<a href={url(`/bookshelf/category/${categoryMeta.id}/`)}>{categoryMeta.name}</a>
+					) : (
+						<span>{data.categoryName}</span>
+					)}
+				</nav>
+
+				<header class="bookshelf-entry__header">
+					<PageTitle title={data.title} variant="stacked" />
+					<p class="bookshelf-entry__summary">{data.summary}</p>
+				</header>
+
+				{data.notices && data.notices.length > 0 && <Notices notices={data.notices} />}
+
+				<article class="bookshelf-entry__body bookshelf-entry__markdown custom-md">
+					{data.infobox && (
+						<Infobox
+							title={data.infobox.title}
+							image={data.infobox.image}
+							imageAlt={data.infobox.imageAlt}
+							groups={data.infobox.groups}
+						/>
+					)}
+
+					<Content />
+				</article>
+
+				{data.gallery && data.gallery.length > 0 && (
+					<div class="bookshelf-entry__gallery">
+						{data.gallery.map((src) => (
+							<figure class="bookshelf-entry__gallery-item">
+								<img src={src} alt="" loading="lazy" />
+							</figure>
+						))}
+					</div>
+				)}
+
+				<Navbox currentCategory={category} currentId={id} />
+
+				<footer class="bookshelf-entry__footer">
+					<a href={url(`/bookshelf/`)} class="bookshelf-entry__back">
+						<Icon name="material-symbols:arrow-back-rounded" />
+						{i18n(I18nKey.bookshelfBack)}
+					</a>
+				</footer>
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

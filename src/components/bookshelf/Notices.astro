@@ -1,0 +1,22 @@
+---
+import Icon from "@components/common/Icon.astro";
+import type { BookshelfNotice } from "@/types/config";
+
+interface Props {
+	notices: BookshelfNotice[];
+}
+
+const { notices = [] } = Astro.props;
+---
+
+<div class="bk-notices">
+	{notices.map((notice) => (
+		<div
+			class="bk-notice"
+			style={notice.color ? `--bk-notice-color: ${notice.color}` : undefined}
+		>
+			{notice.icon && <Icon name={notice.icon} class="bk-notice__icon" />}
+			<div class="bk-notice__text" set:html={notice.text}></div>
+		</div>
+	))}
+</div>

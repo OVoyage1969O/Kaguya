@@ -1,0 +1,207 @@
+/* ============================================
+   永远百科 · 词条详情页
+   黑白高对比风格 · 无圆角
+   ============================================ */
+
+.bookshelf-entry {
+	--bk-ink: #000;
+	--bk-paper: #fff;
+	--bk-muted: #555;
+	--bk-line: #000;
+	--bk-soft-line: #bbb;
+	--bk-invert: #fff;
+	--bk-invert-bg: #000;
+}
+
+:root.dark .bookshelf-entry {
+	--bk-ink: #fff;
+	--bk-paper: #0a0a0a;
+	--bk-muted: #9a9a9a;
+	--bk-line: #fff;
+	--bk-soft-line: #444;
+	--bk-invert: #000;
+	--bk-invert-bg: #fff;
+}
+
+.bookshelf-entry {
+	color: var(--bk-ink);
+}
+
+/* --- 面包屑 --- */
+.bookshelf-entry__crumb {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 1.5rem;
+	font-size: 0.82rem;
+	letter-spacing: 0.04em;
+}
+
+.bookshelf-entry__crumb a {
+	color: var(--bk-muted);
+	text-decoration: none;
+}
+
+.bookshelf-entry__crumb a:hover {
+	color: var(--bk-ink);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.bookshelf-entry__crumb-sep {
+	opacity: 0.5;
+}
+
+/* --- 标题 --- */
+.bookshelf-entry__header {
+	padding-bottom: 1.5rem;
+	border-bottom: 3px solid var(--bk-line);
+	margin-bottom: 2rem;
+}
+
+.bookshelf-entry__summary {
+	margin: 0.75rem 0 0;
+	max-width: 52rem;
+	font-size: 0.95rem;
+	line-height: 1.7;
+	color: var(--bk-muted);
+}
+
+/* --- 正文容器（包含浮动的右侧信息栏） --- */
+.bookshelf-entry__body {
+	/* 让内部 float 的 infobox 不溢出容器，同时保持文字环绕 */
+	display: flow-root;
+}
+
+/* --- 正文分节 --- */
+.bookshelf-entry__section {
+	margin-bottom: 2rem;
+}
+
+.bookshelf-entry__section-heading {
+	display: flex;
+	align-items: baseline;
+	gap: 0.6rem;
+	margin: 0 0 0.6rem;
+	font-size: 1.15rem;
+	letter-spacing: 0.02em;
+	color: var(--bk-ink);
+}
+
+.bookshelf-entry__section-num {
+	font-size: 0.8rem;
+	font-weight: 700;
+	opacity: 0.5;
+	letter-spacing: 0.08em;
+}
+
+.bookshelf-entry__section-body {
+	margin: 0;
+	max-width: 52rem;
+	font-size: 0.95rem;
+	line-height: 1.8;
+	color: var(--bk-ink);
+}
+
+/* --- 页脚返回 --- */
+.bookshelf-entry__footer {
+	margin-top: 2.5rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--bk-soft-line);
+	clear: both;
+}
+
+.bookshelf-entry__back {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 1.1rem;
+	border: 2px solid var(--bk-line);
+	background: var(--bk-paper);
+	color: var(--bk-ink);
+	text-decoration: none;
+	font-size: 0.9rem;
+	letter-spacing: 0.04em;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bookshelf-entry__back:hover {
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+}
+
+
+/* --- 背景图 --- */
+.bookshelf-entry--has-bg {
+	position: relative;
+}
+
+.bookshelf-entry__bg {
+	position: absolute;
+	inset: 0;
+	background-image: var(--bk-bg-image);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: var(--bk-bg-opacity, 0.15);
+	pointer-events: none;
+	z-index: 0;
+}
+
+/* 正文插图（gallery） */
+.bookshelf-entry__gallery {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 0.75rem;
+	margin: 1.5rem 0;
+}
+
+.bookshelf-entry__gallery-item {
+	margin: 0;
+	border: 2px solid var(--bk-line, #000);
+	background: var(--bk-paper, #fff);
+}
+
+.bookshelf-entry__gallery-item img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+/* --- 正文 Markdown 分节（用 ## 标题） --- */
+.bookshelf-entry__markdown h2 {
+	display: flex;
+	align-items: baseline;
+	gap: 0.6rem;
+	margin: 0 0 0.6rem;
+	padding-bottom: 0.3rem;
+	font-size: 1.15rem;
+	letter-spacing: 0.02em;
+	color: var(--bk-ink, #000);
+	border-bottom: 1px solid var(--bk-soft-line, #bbb);
+}
+
+.bookshelf-entry__markdown h2::before {
+	content: counter(bk-section);
+	counter-increment: bk-section;
+	font-size: 0.8rem;
+	font-weight: 700;
+	opacity: 0.5;
+	letter-spacing: 0.08em;
+}
+
+.bookshelf-entry__markdown {
+	counter-reset: bk-section;
+}
+
+.bookshelf-entry__markdown p {
+	margin: 0 0 1rem;
+	max-width: 52rem;
+	font-size: 0.95rem;
+	line-height: 1.8;
+	color: var(--bk-ink, #000);
+}
+
+/* 正文分节间距 */
+.bookshelf-entry__markdown h2 + p {
+	margin-top: 0;
+}

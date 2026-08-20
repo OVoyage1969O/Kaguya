@@ -1,0 +1,76 @@
+---
+import { bookshelfConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import { url } from "@/utils/url-utils";
+
+interface Props {
+	/** 当前词条 id，用于高亮当前所在分类 */
+	currentCategory?: string;
+	currentId?: string;
+}
+
+const { currentCategory = "", currentId = "" } = Astro.props;
+const { name, categories } = bookshelfConfig;
+---
+
+<nav class="bookshelf-navbox" aria-label={`${name} 导航`}>
+	<div class="bookshelf-navbox__title">
+		<span class="bookshelf-navbox__title-text">{name}</span>
+		<span class="bookshelf-navbox__navbar">
+			<a href={url(`/bookshelf/`)} title={i18n(I18nKey.bookshelfView)}>{i18n(I18nKey.bookshelfView)}</a>
+			<span aria-hidden="true">·</span>
+			<a href={url(`/guestbook/`)} title={i18n(I18nKey.bookshelfTalk)}>{i18n(I18nKey.bookshelfTalk)}</a>
+			<span aria-hidden="true">·</span>
+			<a href="https://github.com/OVoyage1969O" target="_blank" rel="noopener" title={i18n(I18nKey.bookshelfEdit)}>{i18n(I18nKey.bookshelfEdit)}</a>
+		</span>
+	</div>
+
+	<div class="bookshelf-navbox__body">
+		{categories.map((cat) => {
+			const isCurrent = cat.id === currentCategory;
+			return (
+				<section
+					class:list={[
+						"bookshelf-navbox__group",
+						isCurrent ? "bookshelf-navbox__group--current" : "",
+					]}
+					data-navbox-group
+				>
+					<div class="bookshelf-navbox__group-head" data-navbox-toggle role="button" tabindex={0}>
+						<span class="bookshelf-navbox__group-title">{cat.name}</span>
+						<span class="bookshelf-navbox__group-arrow" aria-hidden="true"></span>
+					</div>
+					<ul class="bookshelf-navbox__group-list">
+						{cat.entries.map((entry) => (
+							<li class:list={["bookshelf-navbox__item", entry.title === currentId ? "bookshelf-navbox__item--current" : ""]}>
+								<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>{entry.title}</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			);
+		})}
+	</div>
+</nav>
+
+<script>
+	// 每个分组的折叠/展开
+	document.addEventListener("click", (e) => {
+		const toggle = (e.target as HTMLElement).closest("[data-navbox-toggle]");
+		if (!toggle) return;
+		const group = toggle.closest("[data-navbox-group]");
+		if (!group) return;
+		e.preventDefault();
+		group.classList.toggle("bookshelf-navbox__group--collapsed");
+	});
+
+	// 键盘支持（回车/空格切换）
+	document.addEventListener("keydown", (e) => {
+		if (e.key !== "Enter" && e.key !== " ") return;
+		const toggle = (e.target as HTMLElement).closest("[data-navbox-toggle]");
+		if (!toggle) return;
+		e.preventDefault();
+		toggle.click();
+	});
+</script>

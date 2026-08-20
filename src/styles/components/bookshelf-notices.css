@@ -1,0 +1,66 @@
+/* ============================================
+   永远百科 · 顶部说明栏（Notice）
+   黑白高对比 · 仿萌娘 infoBox 提示条
+   ============================================ */
+
+.bk-notices {
+	--bk-ink: #000;
+	--bk-paper: #fff;
+	--bk-muted: #555;
+	--bk-line: #000;
+	--bk-soft-line: #bbb;
+	--bk-invert: #fff;
+	--bk-invert-bg: #000;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-bottom: 1.5rem;
+}
+
+:root.dark .bk-notices {
+	--bk-ink: #fff;
+	--bk-paper: #0a0a0a;
+	--bk-muted: #9a9a9a;
+	--bk-line: #fff;
+	--bk-soft-line: #444;
+	--bk-invert: #000;
+	--bk-invert-bg: #fff;
+}
+
+.bk-notice {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.6rem;
+	padding: 0.6rem 0.8rem;
+	border: 1px solid var(--bk-soft-line);
+	border-left: 6px solid var(--bk-notice-color, var(--bk-ink));
+	background: var(--bk-paper);
+	color: var(--bk-ink);
+	font-size: 0.88rem;
+	line-height: 1.6;
+}
+
+.bk-notice__icon {
+	flex: 0 0 auto;
+	font-size: 1.3rem;
+	margin-top: 0.1rem;
+}
+
+.bk-notice__text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.bk-notice__text :is(p, ul, ol) {
+	margin: 0;
+}
+
+.bk-notice__text :is(a) {
+	color: var(--bk-ink);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.bk-notice__text :is(a):hover {
+	text-decoration-thickness: 2px;
+}

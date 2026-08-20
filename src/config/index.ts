@@ -6,6 +6,9 @@ export type {
 	AnnouncementConfig,
 	AnnouncementItem,
 	BirthdayItem,
+	BookshelfCategory,
+	BookshelfConfig,
+	BookshelfEntry,
 	CalendarConfig,
 	CollectionApiGroup,
 	CollectionApiItem,
@@ -53,6 +56,7 @@ export { calendarConfig } from "./calendarConfig"; // 日历配置
 export { collectionsApiConfig } from "./collectionsApiConfig"; // 收藏API配置
 // 功能配置
 export { commentConfig } from "./commentConfig"; // 评论系统配置
+export { bookshelfConfig } from "./bookshelfConfig"; // 永远百科配置
 export { coverImageConfig } from "./coverImageConfig"; // 封面图配置
 export { dynamicConfig } from "./dynamicConfig"; // 动态页面配置
 export { expressiveCodeConfig } from "./expressiveCodeConfig"; // 代码高亮配置

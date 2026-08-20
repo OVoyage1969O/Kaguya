@@ -225,9 +225,19 @@ export const zh_CN: Translation = {
 
 	[Key.dynamicExpand]: "展开",
 	[Key.dynamicCollapse]: "收起",
-	// 统计页面
-	[Key.stats]: "统计",
 
+	[Key.bookshelf]: "书架",
+	[Key.bookshelfCategories]: "分类",
+	[Key.bookshelfEntries]: "词条",
+	[Key.bookshelfFeatured]: "特色词条",
+	[Key.bookshelfBrowse]: "书卷分类",
+	[Key.bookshelfRandom]: "随机一篇",	// 统计页面
+
+	[Key.bookshelfBack]: "返回书架",	[Key.stats]: "统计",
+
+	[Key.bookshelfView]: "查",
+	[Key.bookshelfTalk]: "论",
+	[Key.bookshelfEdit]: "编",
 	// 密码保护
 	[Key.passwordProtected]: "密码保护",
 	[Key.passwordProtectedDesc]: "这篇文章已被密码保护，请输入密码查看内容。",
@@ -239,7 +249,7 @@ export const zh_CN: Translation = {
 
 	// 日历页面
 	[Key.calendar]: "日历",
-	[Key.feibichi]: "个人主站",
+	[Key.feibichi]: "书架",
 	[Key.contactMe]: "联系我",
 	[Key.qqGroup]: "QQ群",
 	[Key.navPosts]: "文章",

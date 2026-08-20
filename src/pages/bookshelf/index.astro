@@ -1,0 +1,133 @@
+---
+import Icon from "@components/common/Icon.astro";
+import PageTitle from "@/components/common/PageTitle.astro";
+import { bookshelfConfig, siteConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { url } from "@/utils/url-utils";
+import "@/styles/pages/bookshelf.css";
+
+const { name, description, categories, featured = [] } = bookshelfConfig;
+
+// 展平所有词条
+const allEntries = categories.flatMap((cat) =>
+	cat.entries.map((e) => ({ ...e, categoryId: cat.id, categoryName: cat.name })),
+);
+const featuredEntries = allEntries.filter((e) => featured.includes(e.id));
+const featuredCount = Math.min(featuredEntries.length, 6);
+const bookTotal = categories.reduce((sum, c) => sum + c.entries.length, 0);
+
+const wikiTitle = name;
+const wikiDescription = description || "";
+---
+
+<MainGridLayout title={wikiTitle} description={wikiDescription} hasOwnH1={true}>
+	<div class="bookshelf-page">
+		<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+			<div class="card-base z-10 px-4 py-6 md:px-9 relative w-full">
+				<header class="bookshelf__header">
+					<div class="bookshelf__title-row">
+						<Icon name="material-symbols:menu-book-rounded" class="bookshelf__logo" />
+						<PageTitle title={wikiTitle} variant="stacked" />
+					</div>
+					<p class="bookshelf__description">{wikiDescription}</p>
+					<div class="bookshelf__stats">
+						<span>{categories.length} {i18n(I18nKey.bookshelfCategories)}</span>
+						<span class="bookshelf__stats-dot">·</span>
+						<span>{bookTotal} {i18n(I18nKey.bookshelfEntries)}</span>
+					</div>
+				</header>
+
+				{
+					featuredEntries.length > 0 && (
+						<section class="bookshelf__section">
+							<h2 class="bookshelf__section-title">
+								<Icon name="material-symbols:star-rounded" />
+								{i18n(I18nKey.bookshelfFeatured)}
+							</h2>
+							<div class="bookshelf__featured">
+								{featuredEntries.slice(0, featuredCount).map((entry) => (
+									<a
+										href={url(`/bookshelf/entries/${entry.categoryId}/${encodeURIComponent(entry.title)}/`)}
+										class="bookshelf__featured-card"
+									>
+										<span class="bookshelf__featured-cat">{entry.categoryName}</span>
+										<span class="bookshelf__featured-title">{entry.title}</span>
+										<span class="bookshelf__featured-summary">{entry.summary}</span>
+									</a>
+								))}
+							</div>
+						</section>
+					)
+				}
+
+				<section class="bookshelf__section">
+					<h2 class="bookshelf__section-title">
+						<Icon name="material-symbols:library-books" />
+						{i18n(I18nKey.bookshelfBrowse)}
+					</h2>
+
+					<div class="bookshelf__shelf">
+						{categories.map((cat, i) => (
+							<article class="bookshelf__book" style={`--book-index: ${i}`}>
+								<a
+									href={url(`/bookshelf/category/${cat.id}/`)}
+									class="bookshelf__book-cover"
+								>
+									<Icon name={cat.icon} class="bookshelf__book-icon" />
+									<span class="bookshelf__book-title">{cat.name}</span>
+									<span class="bookshelf__book-summary">{cat.summary}</span>
+									<span class="bookshelf__book-count">{cat.entries.length}</span>
+								</a>
+
+								<ul class="bookshelf__book-entries">
+									{cat.entries.slice(0, 4).map((entry) => (
+										<li>
+											<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>
+												{entry.title}
+											</a>
+										</li>
+									))}
+									{
+										cat.entries.length > 4 && (
+											<li class="bookshelf__book-more">
+												<a href={url(`/bookshelf/category/${cat.id}/`)}>
+													{i18n(I18nKey.more)}… ({cat.entries.length})
+												</a>
+											</li>
+										)
+									}
+								</ul>
+							</article>
+						))}
+					</div>
+				</section>
+
+				<section class="bookshelf__section">
+					<button type="button" class="bookshelf__random" data-bookshelf-random>
+						<Icon name="material-symbols:casino" />
+						{i18n(I18nKey.bookshelfRandom)}
+					</button>
+				</section>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// 收集所有词条链接
+		document.querySelectorAll("a[href*='/bookshelf/entries/']").forEach((a) => {
+			a.setAttribute("data-bookshelf-entry-url", a.getAttribute("href"));
+		});
+
+		function randomEntry() {
+			const links = document.querySelectorAll("[data-bookshelf-entry-url]");
+			if (links.length === 0) return;
+			const idx = Math.floor(Math.random() * links.length);
+			window.location.href = links[idx].getAttribute("data-bookshelf-entry-url");
+		}
+
+		const btn = document.querySelector("[data-bookshelf-random]");
+		btn?.addEventListener("click", randomEntry);
+	</script>
+</MainGridLayout>

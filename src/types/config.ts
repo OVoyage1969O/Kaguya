@@ -963,6 +963,83 @@ export type DynamicConfig = {
 	showLocation?: boolean;
 };
 
+
+// 永远百科配置
+export type BookshelfEntry = {
+	id: string; // 词条 ID
+	title: string; // 词条名
+	summary: string; // 简介
+};
+
+export type BookshelfCategory = {
+	id: string; // 分类 ID
+	name: string; // 分类名
+	icon: string; // 图标（Iconify）
+	summary: string; // 分类简介
+	entries: BookshelfEntry[]; // 词条列表
+};
+
+export type BookshelfConfig = {
+	name: string; // 百科站点名
+	description?: string; // 简介
+	categories: BookshelfCategory[]; // 分类（书架上的书）
+	featured?: string[]; // 特色词条 ID
+};
+
+
+// 永远百科词条正文
+export type BookshelfEntrySection = {
+	heading: string; // 小节标题
+	body: string; // 小节正文
+};
+
+// 顶部说明栏提示条
+export type BookshelfNotice = {
+	icon?: string; // 图标（Iconify）
+	text: string; // 提示文字
+	color?: string; // 左侧边条颜色（可选）
+};
+
+// 右侧信息栏字段项
+export type BookshelfInfoboxField = {
+	label: string; // 字段名
+	value: string; // 字段值（支持纯文本）
+};
+
+// 右侧信息栏分组
+export type BookshelfInfoboxGroup = {
+	title: string; // 分组标题
+	fields?: BookshelfInfoboxField[]; // 字段列表
+};
+
+export type BookshelfEntryBody = {
+	title: string; // 词条名
+	categoryId: string; // 所属分类 ID
+	categoryName: string; // 所属分类名
+	summary: string; // 简介
+	sections: BookshelfEntrySection[]; // 正文分节
+
+	// 顶部说明栏（萌娘 infoBox 提示条）
+	notices?: BookshelfNotice[];
+
+	// 右侧信息栏（萌娘 moe-infobox）
+	infobox?: {
+		title: string; // 标题
+		image?: string; // 顶部图片 URL
+		imageAlt?: string;
+		groups: BookshelfInfoboxGroup[]; // 分组
+	};
+
+	// 背景图片（透明度可调）
+	background?: {
+		image: string; // 图片 URL
+		opacity?: number; // 透明度 0-1，默认 0.15
+	};
+
+	// 正文可插入的图片（展示在正文后）
+	gallery?: string[];
+};
+
 // 收藏API单项
 export type CollectionApiItem = {
 	name: string; // API 名称

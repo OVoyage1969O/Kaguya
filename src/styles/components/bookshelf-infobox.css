@@ -1,0 +1,122 @@
+/* ============================================
+   永远百科 · 右侧信息栏（Infobox）
+   黑白高对比 · 无圆角 · 仿萌娘百科结构
+   ============================================ */
+
+.bk-infobox {
+	--bk-ink: #000;
+	--bk-paper: #fff;
+	--bk-muted: #555;
+	--bk-line: #000;
+	--bk-soft-line: #bbb;
+	--bk-invert: #fff;
+	--bk-invert-bg: #000;
+
+	float: right;
+	clear: right;
+	width: 280px;
+	max-width: 100%;
+	margin: 0 0 1.25rem 1.5rem;
+	border: 2px solid var(--bk-line);
+	background: var(--bk-paper);
+	color: var(--bk-ink);
+	font-size: 0.88rem;
+	text-align: center;
+}
+
+:root.dark .bk-infobox {
+	--bk-ink: #fff;
+	--bk-paper: #0a0a0a;
+	--bk-muted: #9a9a9a;
+	--bk-line: #fff;
+	--bk-soft-line: #444;
+	--bk-invert: #000;
+	--bk-invert-bg: #fff;
+}
+
+/* 标题 */
+.bk-infobox__title {
+	padding: 0.9em 0.5em;
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+	font-size: 1.05rem;
+	font-weight: 800;
+	letter-spacing: 0.03em;
+	border-bottom: 2px solid var(--bk-line);
+}
+
+/* 顶部图片 */
+.bk-infobox__image {
+	border-bottom: 1px solid var(--bk-soft-line);
+	background: var(--bk-paper);
+}
+
+.bk-infobox__image img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+/* 主体 */
+.bk-infobox__body {
+	border-top: 0;
+}
+
+.bk-infobox__group {
+	border-bottom: 1px solid var(--bk-soft-line);
+}
+
+.bk-infobox__group:last-child {
+	border-bottom: 0;
+}
+
+/* 分组标题 */
+.bk-infobox__group-title {
+	padding: 0.45em 0.4em;
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+	font-size: 0.95rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+}
+
+/* 字段 */
+.bk-infobox__fields {
+	margin: 0;
+}
+
+.bk-infobox__field {
+	display: flex;
+	align-items: stretch;
+	border-bottom: 1px solid var(--bk-soft-line);
+}
+
+.bk-infobox__field:last-child {
+	border-bottom: 0;
+}
+
+.bk-infobox__label {
+	flex: 0 0 38%;
+	padding: 0.4em 0.4em;
+	background: color-mix(in srgb, var(--bk-ink) 8%, var(--bk-paper));
+	font-weight: 700;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.bk-infobox__value {
+	flex: 1 1 auto;
+	padding: 0.4em 0.4em;
+	text-align: left;
+	margin: 0;
+}
+
+@media (max-width: 768px) {
+	.bk-infobox {
+		float: none;
+		width: 100%;
+		margin: 0 0 1rem;
+	}
+}

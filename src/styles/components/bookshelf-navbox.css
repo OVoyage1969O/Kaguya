@@ -1,0 +1,164 @@
+/* ============================================
+   永远百科 · 导航框（Navbox）
+   黑白高对比 · 无圆角
+   ============================================ */
+
+.bookshelf-navbox {
+	--bk-ink: #000;
+	--bk-paper: #fff;
+	--bk-muted: #555;
+	--bk-line: #000;
+	--bk-soft-line: #bbb;
+	--bk-invert: #fff;
+	--bk-invert-bg: #000;
+	margin-top: 2.5rem;
+	/* 清除右侧信息栏（infobox）的浮动，确保始终在其下方 */
+	clear: both;
+}
+
+:root.dark .bookshelf-navbox {
+	--bk-ink: #fff;
+	--bk-paper: #0a0a0a;
+	--bk-muted: #9a9a9a;
+	--bk-line: #fff;
+	--bk-soft-line: #444;
+	--bk-invert: #000;
+	--bk-invert-bg: #fff;
+}
+
+/* 标题栏 */
+.bookshelf-navbox__title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.5rem 0.9rem;
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+	border: 2px solid var(--bk-line);
+}
+
+.bookshelf-navbox__title-text {
+	font-size: 1rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+}
+
+.bookshelf-navbox__navbar {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: 0.8rem;
+}
+
+.bookshelf-navbox__navbar a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.bookshelf-navbox__navbar a:hover {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+/* 主体 */
+.bookshelf-navbox__body {
+	border: 2px solid var(--bk-line);
+	border-top: 0;
+}
+
+/* 每个分组 */
+.bookshelf-navbox__group {
+	border-bottom: 1px solid var(--bk-soft-line);
+}
+
+.bookshelf-navbox__group:last-child {
+	border-bottom: 0;
+}
+
+.bookshelf-navbox__group--current {
+	background: color-mix(in srgb, var(--bk-ink) 6%, var(--bk-paper));
+}
+
+/* 组标题（可折叠） */
+.bookshelf-navbox__group-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0.4rem 0.9rem;
+	cursor: pointer;
+	user-select: none;
+}
+
+.bookshelf-navbox__group-head:hover {
+	background: color-mix(in srgb, var(--bk-ink) 8%, var(--bk-paper));
+}
+
+.bookshelf-navbox__group-title {
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+
+.bookshelf-navbox__group-arrow {
+	width: 0;
+	height: 0;
+	border-left: 0.4rem solid transparent;
+	border-right: 0.4rem solid transparent;
+	border-top: 0.5rem solid var(--bk-muted);
+	transition: transform 0.15s ease;
+	flex: 0 0 auto;
+}
+
+.bookshelf-navbox__group--collapsed .bookshelf-navbox__group-arrow {
+	transform: rotate(180deg);
+}
+
+/* 组内词条列表 */
+.bookshelf-navbox__group-list {
+	list-style: none;
+	margin: 0;
+	padding: 0.3rem 0.9rem 0.6rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.15rem 0;
+}
+
+.bookshelf-navbox__group--collapsed .bookshelf-navbox__group-list {
+	display: none;
+}
+
+.bookshelf-navbox__item {
+	padding: 0.05rem 0.4rem;
+	font-size: 0.85rem;
+}
+
+.bookshelf-navbox__item a {
+	color: var(--bk-ink);
+	text-decoration: none;
+}
+
+.bookshelf-navbox__item a:hover {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.bookshelf-navbox__item--current a {
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+	padding: 0 0.3rem;
+}
+
+/* 组间分隔点 */
+.bookshelf-navbox__item + .bookshelf-navbox__item::before {
+	content: "·";
+	margin-right: 0.5rem;
+	opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+	.bookshelf-navbox__title {
+		flex-wrap: wrap;
+	}
+}
