@@ -217,6 +217,15 @@ export const zh_TW: Translation = {
 	[Key.collectionsDescription]: "收集和管理常用的 API 與工具",
 	[Key.collectionsEmpty]: "暫無收藏的 API",
 
+	// 動態頁面
+	[Key.dynamic]: "動態",
+	[Key.dynamicDescription]: "分享日常、想法與碎碎念",
+	[Key.dynamicEmpty]: "還沒有動態，敬請期待",
+	[Key.dynamicLocation]: "位置",
+	[Key.dynamicPinned]: "置頂",
+
+	[Key.dynamicExpand]: "展開",
+	[Key.dynamicCollapse]: "收起",
 	// 統計頁面
 	[Key.stats]: "統計",
 

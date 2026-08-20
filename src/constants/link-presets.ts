@@ -105,4 +105,9 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		url: "/music/",
 		icon: "material-symbols:graphic-eq-rounded",
 	},
+	[LinkPreset.Dynamic]: {
+		name: i18n(I18nKey.dynamic),
+		url: "/dynamic/",
+		icon: "material-symbols:dynamic-feed-rounded",
+	},
 };

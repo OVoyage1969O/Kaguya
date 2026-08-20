@@ -221,6 +221,15 @@ export const en: Translation = {
 	[Key.collectionsDescription]: "Collect and manage useful APIs and tools",
 	[Key.collectionsEmpty]: "No collected APIs yet",
 
+	// Dynamic / Moments Page
+	[Key.dynamic]: "Moments",
+	[Key.dynamicDescription]: "Share daily life, thoughts and ramblings",
+	[Key.dynamicEmpty]: "No moments yet, stay tuned",
+	[Key.dynamicLocation]: "Location",
+	[Key.dynamicPinned]: "Pinned",
+
+	[Key.dynamicExpand]: "Expand",
+	[Key.dynamicCollapse]: "Collapse",
 	// Stats page
 	[Key.stats]: "Stats",
 

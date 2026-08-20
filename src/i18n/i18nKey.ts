@@ -197,6 +197,15 @@ enum I18nKey {
 	collectionsDescription = "collectionsDescription",
 	collectionsEmpty = "collectionsEmpty",
 
+	// 动态页面
+	dynamic = "dynamic",
+	dynamicDescription = "dynamicDescription",
+	dynamicEmpty = "dynamicEmpty",
+	dynamicLocation = "dynamicLocation",
+	dynamicPinned = "dynamicPinned",
+	dynamicExpand = "dynamicExpand",
+	dynamicCollapse = "dynamicCollapse",
+
 	// 统计页面
 	stats = "stats",
 

@@ -216,6 +216,15 @@ export const zh_CN: Translation = {
 	[Key.collectionsDescription]: "收集和管理常用的 API 与工具",
 	[Key.collectionsEmpty]: "暂无收藏的 API",
 
+	// 动态页面
+	[Key.dynamic]: "动态",
+	[Key.dynamicDescription]: "分享日常、想法与碎碎念",
+	[Key.dynamicEmpty]: "还没有动态，敬请期待",
+	[Key.dynamicLocation]: "位置",
+	[Key.dynamicPinned]: "置顶",
+
+	[Key.dynamicExpand]: "展开",
+	[Key.dynamicCollapse]: "收起",
 	// 统计页面
 	[Key.stats]: "统计",
 

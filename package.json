@@ -11,6 +11,8 @@
 		"astro": "astro",
 		"type-check": "tsc --noEmit",
 		"new-post": "node scripts/new-post.js",
+		"new-d": "node scripts/new-dynamic.js",
+		"new-dynamic": "node scripts/new-dynamic.js",
 		"format": "biome format --write ./src",
 		"lint": "biome check --write ./src",
 		"preinstall": "npx only-allow pnpm",

@@ -1,0 +1,199 @@
+---
+import Icon from "@components/common/Icon.astro";
+import { homeConfig, siteConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+
+interface Props {
+	published: Date;
+	pinned?: boolean;
+	location?: string;
+	images?: string[];
+	/** 正文 HTML（由页面先用 marked 渲染好，图片已抽离到 images） */
+	body?: string;
+	/** 是否显示位置信息 */
+	showLocation?: boolean;
+	/** 超过该张数时折叠剩余图片，默认 6 */
+	maxVisible?: number;
+}
+
+const {
+	published,
+	pinned = false,
+	location = "",
+	images = [],
+	body = "",
+	showLocation = true,
+	maxVisible = 6,
+} = Astro.props;
+
+const dateFormatter = new Intl.DateTimeFormat(
+	siteConfig.lang.replace("_", "-"),
+	{
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+	},
+);
+
+// 折叠逻辑：超过 maxVisible 张时折叠剩余图片
+const total = images.length;
+const isCollapsed = total > maxVisible;
+const hiddenCount = isCollapsed ? total - maxVisible : 0;
+const groupId = `moment-${published.getTime()}`;
+const expandText = i18n(I18nKey.dynamicExpand);
+const collapseText = i18n(I18nKey.dynamicCollapse);
+	const avatarSrc = homeConfig.aboutCanvasTexture || homeConfig.avatar;
+---
+
+<article class:list={["moment-card", pinned ? "moment-card--pinned" : ""]}>
+	<div class="moment-card__avatar" aria-hidden="true">
+		{avatarSrc && <img src={avatarSrc} alt="" loading="lazy" />}
+	</div>
+
+	<div class="moment-card__body">
+		<header class="moment-card__meta">
+			<span class="moment-card__name">
+				{siteConfig.navbar.title || siteConfig.title}
+			</span>
+			<time class="moment-card__time" datetime={published.toISOString()}>
+				{dateFormatter.format(published)}
+			</time>
+			{pinned && (
+				<span class="moment-card__pinned">
+					<Icon name="material-symbols:pin-rounded" />
+					{i18n(I18nKey.dynamicPinned)}
+				</span>
+			)}
+			{showLocation && location && (
+				<span class="moment-card__location">
+					<Icon name="material-symbols:location-on-rounded" />
+					{location}
+				</span>
+			)}
+		</header>
+
+		{body && (
+			<div class="moment-card__content custom-md" set:html={body}></div>
+		)}
+
+		{images.length > 0 && (
+			<div
+				class="moment-images moment-card__images"
+				data-moment-images
+				data-collapsible={isCollapsed ? "true" : "false"}
+				data-group={groupId}
+				data-hidden-count={hiddenCount}
+				data-expand-text={expandText}
+				data-collapse-text={collapseText}
+			>
+				{images.map((src, idx) => {
+					const isLastVisible = isCollapsed && idx === maxVisible - 1;
+					const isHidden = isCollapsed && idx >= maxVisible;
+					return (
+						<div
+							class:list={[
+								"moment-images__item",
+								isLastVisible ? "moment-images__item--last" : "",
+								isHidden ? "moment-images__item--hidden" : "",
+							]}
+						>
+							<img
+								src={src}
+								alt=""
+								loading="lazy"
+								data-fancybox={groupId}
+								data-src={src}
+							/>
+							{isLastVisible && (
+								<span class="moment-images__more">+{hiddenCount}</span>
+							)}
+						</div>
+					);
+				})}
+
+				{isCollapsed && (
+					<button
+						type="button"
+						class="moment-images__toggle"
+						data-moment-toggle
+						aria-expanded="false"
+					>
+						<span class="moment-images__toggle-icon">
+							<Icon name="material-symbols:expand-more-rounded" />
+						</span>
+						<span class="moment-images__toggle-text" data-moment-toggle-text></span>
+					</button>
+				)}
+			</div>
+		)}
+	</div>
+</article>
+
+<script>
+	// 动态图片折叠/展开切换
+	function initMomentImages(grid: HTMLElement) {
+		if (grid.dataset.momentInited === "true") return;
+		grid.dataset.momentInited = "true";
+
+		const toggleBtn = grid.querySelector<HTMLElement>("[data-moment-toggle]");
+		const toggleText = grid.querySelector<HTMLElement>("[data-moment-toggle-text]");
+		const more = grid.querySelector(".moment-images__more");
+		if (!toggleBtn) return;
+
+		const expandText = grid.dataset.expandText || "展开";
+		const collapseText = grid.dataset.collapseText || "收起";
+		const hiddenCount = grid.dataset.hiddenCount || "";
+
+		function isExpanded() {
+			return grid.classList.contains("moment-images--expanded");
+		}
+
+		function updateUI() {
+			const expanded = isExpanded();
+			toggleBtn.setAttribute("aria-expanded", String(expanded));
+			if (more) more.style.display = expanded ? "none" : "";
+			if (toggleText) {
+				toggleText.textContent = expanded ? collapseText : `${expandText} ${hiddenCount}`;
+			}
+			// 按钮始终显示，仅切换文字（折叠时“展开 N”，展开后“收起”）
+		}
+
+		function toggle() {
+			grid.classList.toggle("moment-images--expanded");
+			updateUI();
+		}
+
+		toggleBtn.addEventListener("click", function (e: Event) {
+			e.preventDefault();
+			e.stopPropagation();
+			toggle();
+		});
+
+		// 点击 +N 遮罩也展开
+		if (more) {
+			more.addEventListener("click", function (e: Event) {
+				e.preventDefault();
+				e.stopPropagation();
+				grid.classList.add("moment-images--expanded");
+				updateUI();
+			});
+		}
+
+		updateUI();
+	}
+
+	function scanMomentImages() {
+		document
+			.querySelectorAll<HTMLElement>("[data-moment-images]")
+			.forEach(initMomentImages);
+	}
+
+	// 初始化
+	scanMomentImages();
+	// Swup 导航后重新绑定
+	document.addEventListener("swup:content:replace", scanMomentImages);
+	document.addEventListener("astro:page-load", scanMomentImages);
+</script>

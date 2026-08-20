@@ -222,6 +222,15 @@ export const ru: Translation = {
 	[Key.collectionsDescription]: "Сбор и управление часто используемыми API",
 	[Key.collectionsEmpty]: "Нет сохранённых API",
 
+	// Страница моментов
+	[Key.dynamic]: "Моменты",
+	[Key.dynamicDescription]: "Делитесь повседневной жизнью и мыслями",
+	[Key.dynamicEmpty]: "Пока нет моментов",
+	[Key.dynamicLocation]: "Местоположение",
+	[Key.dynamicPinned]: "Закреплено",
+
+	[Key.dynamicExpand]: "Развернуть",
+	[Key.dynamicCollapse]: "Свернуть",
 	// Страница статистики
 	[Key.stats]: "Статистика",
 

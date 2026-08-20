@@ -222,6 +222,15 @@ export const ja: Translation = {
 	[Key.collectionsDescription]: "よく使うAPIの収集と管理",
 	[Key.collectionsEmpty]: "収集したAPIはまだありません",
 
+	// 動態ページ
+	[Key.dynamic]: "モーメント",
+	[Key.dynamicDescription]: "日常や考えを共有",
+	[Key.dynamicEmpty]: "まだモーメントはありません",
+	[Key.dynamicLocation]: "位置",
+	[Key.dynamicPinned]: "固定",
+
+	[Key.dynamicExpand]: "展開",
+	[Key.dynamicCollapse]: "折りたたむ",
 	// 統計ページ
 	[Key.stats]: "統計",
 

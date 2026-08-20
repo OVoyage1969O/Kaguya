@@ -36,7 +36,28 @@ const specCollection = defineCollection({
 	schema: z.object({}),
 });
 
+/**
+ * 动态/Moments 内容集合。
+ * 每个 Markdown 文件对应一条动态，文件内容为动态正文（支持 Markdown 语法）。
+ * frontmatter：
+ * - published: 发布时间（必需）
+ * - pinned: 是否置顶（可选，默认 false）
+ * - location: 位置信息（可选）
+ * - images: 附加图片列表（可选，用于渲染图片网格并接入 Fancybox 灯箱）
+ */
+const dynamicCollection = defineCollection({
+	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/dynamic" }),
+	schema: z.object({
+		// 使用 coerce：兼容 "2026-07-15 02:11:27" 这类字符串日期
+		published: z.coerce.date(),
+		pinned: z.boolean().optional().default(false),
+		location: z.string().optional().default(""),
+		images: z.array(z.string()).optional().default([]),
+	}),
+});
+
 export const collections = {
 	posts: postsCollection,
 	spec: specCollection,
+	dynamic: dynamicCollection,
 };

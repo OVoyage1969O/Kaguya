@@ -1,0 +1,219 @@
+/* ============================================
+   动态 / Moments 页面
+   ============================================ */
+
+.dynamic-page__header {
+	margin-bottom: 1.5rem;
+}
+
+/* --- 动态列表 --- */
+.moment-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.moment-card {
+	display: flex;
+	gap: 0.875rem;
+	padding: 1rem 1.125rem;
+	border: 1px solid var(--line-divider, rgba(127, 127, 127, 0.2));
+	border-radius: var(--radius-large, 1rem);
+	background: color-mix(in srgb, var(--card-bg, #fff) 92%, transparent);
+}
+
+.moment-card--pinned {
+	border-color: color-mix(in srgb, var(--accent-color, #7c3aed) 45%, transparent);
+}
+
+.moment-card__avatar {
+	flex: 0 0 auto;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 9999px;
+	display: grid;
+	place-items: center;
+	background: color-mix(in srgb, var(--accent-color, #7c3aed) 18%, transparent);
+	color: var(--accent-color, #7c3aed);
+	font-size: 1.35rem;
+}
+
+.moment-card__body {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.moment-card__meta {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.5rem 0.75rem;
+	font-size: 0.8rem;
+	color: var(--content-meta, #6b7280);
+}
+
+.moment-card__name {
+	font-weight: 600;
+	color: var(--deep-text);
+}
+
+.moment-card__pinned,
+.moment-card__location {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.moment-card__pinned {
+	color: var(--accent-color, #7c3aed);
+	font-weight: 500;
+}
+
+.moment-card__content {
+	margin-top: 0.5rem;
+	font-size: 0.95rem;
+	line-height: 1.7;
+}
+
+/* --- frontmatter images 字段的网格（备用，兼容 images: [...] 写法） --- */
+.moment-card__images.moment-images {
+	margin-top: 0.75rem;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.5rem;
+}
+
+.moment-images__item {
+	position: relative;
+	display: block;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	border-radius: 0.5rem;
+	background: color-mix(in srgb, var(--card-bg, #fff) 80%, #000 8%);
+}
+
+.moment-images__item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.25s ease;
+}
+
+.moment-images__item:hover img {
+	transform: scale(1.04);
+}
+
+/* --- 空状态 --- */
+.dynamic-page__empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem;
+	padding: 3.5rem 1rem;
+	color: var(--content-meta, #6b7280);
+	text-align: center;
+}
+
+.dynamic-page__empty-icon {
+	font-size: 3rem;
+	opacity: 0.4;
+}
+
+/* --- 移动端 --- */
+@media (max-width: 640px) {
+	.moment-card {
+		padding: 0.75rem 0.875rem;
+		gap: 0.625rem;
+	}
+	.moment-card__avatar {
+		width: 2.125rem;
+		height: 2.125rem;
+		font-size: 1.1rem;
+	}
+	.moment-card__images.moment-images {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+/* --- 动态图片折叠（超过 maxVisible 张时） --- */
+.moment-images__item--hidden {
+	display: none;
+}
+
+/* 展开后显示所有图片 */
+.moment-images--expanded .moment-images__item--hidden {
+	display: block;
+}
+
+/* 第 maxVisible 张：叠加 +N 遮罩 */
+.moment-images__item--last {
+	position: relative;
+	cursor: pointer;
+}
+
+.moment-images__more {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	background: rgba(0, 0, 0, 0.55);
+	color: #fff;
+	font-size: 1.4rem;
+	font-weight: 600;
+	border-radius: 0.5rem;
+	backdrop-filter: blur(2px);
+	transition: background 0.2s ease;
+	user-select: none;
+}
+
+.moment-images__item--last:hover .moment-images__more {
+	background: rgba(0, 0, 0, 0.45);
+}
+
+/* 展开后隐藏 +N 遮罩 */
+.moment-images--expanded .moment-images__more {
+	display: none;
+}
+/* 展开/收起切换按钮 */
+.moment-images__toggle {
+	grid-column: 1 / -1;
+	justify-self: center;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	margin-top: 0.25rem;
+	padding: 0.25rem 0.75rem;
+	border: 1px solid var(--line-divider, rgba(127, 127, 127, 0.25));
+	border-radius: 9999px;
+	background: transparent;
+	color: var(--content-meta, #6b7280);
+	font-size: 0.8rem;
+	cursor: pointer;
+	transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.moment-images__toggle:hover {
+	color: var(--accent-color, #7c3aed);
+	border-color: color-mix(in srgb, var(--accent-color, #7c3aed) 40%, transparent);
+	background: color-mix(in srgb, var(--accent-color, #7c3aed) 8%, transparent);
+}
+
+.moment-images__toggle-icon {
+	display: inline-flex;
+	transition: transform 0.25s ease;
+}
+
+/* 展开后：按钮文字为“收起”，图标旋转 */
+.moment-images--expanded .moment-images__toggle-icon {
+	transform: rotate(180deg);
+}
+/* 头像图片 */
+.moment-card__avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 9999px;
+	display: block;
+}

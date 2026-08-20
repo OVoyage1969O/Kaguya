@@ -1,0 +1,93 @@
+---
+import { getCollection } from "astro:content";
+import Icon from "@components/common/Icon.astro";
+import PageTitle from "@/components/common/PageTitle.astro";
+import MomentCard from "@/components/pages/dynamic/MomentCard.astro";
+import { dynamicConfig, siteConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import {
+	extractImagesFromMarkdown,
+	getAllMoments,
+	renderMarkdownToHtml,
+	type MomentEntry,
+} from "@/utils/dynamic-utils";
+import "@/styles/pages/dynamic.css";
+
+// 页面开关
+if (!siteConfig.pages.dynamic) {
+	return Astro.redirect("/404/");
+}
+
+const title = dynamicConfig.title || i18n(I18nKey.dynamic);
+const description = dynamicConfig.description || i18n(I18nKey.dynamicDescription);
+const showLocation = dynamicConfig.showLocation !== false;
+
+// 1. 加载本地动态（内容集合）
+// 从原始 Markdown 提取图片（用九宫格网格渲染），文字部分单独渲染
+const localEntries = await getCollection("dynamic");
+const localMoments: MomentEntry[] = localEntries.map((entry) => {
+	const body = entry.body || "";
+	const { text, images } = extractImagesFromMarkdown(body);
+	const textHtml = renderMarkdownToHtml(text);
+	return {
+		published: entry.data.published,
+		pinned: !!entry.data.pinned,
+		location: entry.data.location || "",
+		images: [...(entry.data.images || []), ...images],
+		body: textHtml,
+		source: "local" as const,
+	} as MomentEntry;
+});
+
+// 2. 加载 Memos 动态（若有配置）
+const memosMoments = await getAllMoments(dynamicConfig);
+
+// 3. 合并、排序（置顶优先，其次按时间倒序）
+const allMoments = [...localMoments, ...memosMoments].sort((a, b) => {
+	if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+	return b.published.getTime() - a.published.getTime();
+});
+
+// 4. 分页
+const pageSize = dynamicConfig.pageSize ?? 10;
+const totalPages = Math.max(1, Math.ceil(allMoments.length / pageSize));
+const page = 1; // 静态首页；如需分页可扩展 /dynamic/[page]
+const pageMoments = allMoments.slice(0, page * pageSize);
+---
+
+<MainGridLayout title={title} description={description} hasOwnH1={true}>
+	<div class="dynamic-page">
+		<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+			<div class="card-base z-10 px-4 sm:px-6 lg:px-9 py-6 relative w-full">
+				<header class="dynamic-page__header">
+					<PageTitle title={title} variant="stacked" />
+					<p class="mt-2 max-w-2xl text-sm leading-6 text-(--content-meta)">
+						{description}
+					</p>
+				</header>
+
+				{allMoments.length > 0 ? (
+					<div class="moment-list">
+						{pageMoments.map((moment) => (
+							<MomentCard
+								published={moment.published}
+								pinned={moment.pinned}
+								location={moment.location}
+								images={moment.images}
+								body={moment.body}
+								showLocation={showLocation}
+							/>
+						))}
+					</div>
+				) : (
+					<div class="dynamic-page__empty">
+						<Icon name="material-symbols:dynamic-feed-rounded" class="dynamic-page__empty-icon" />
+						<p>{i18n(I18nKey.dynamicEmpty)}</p>
+					</div>
+				)}
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

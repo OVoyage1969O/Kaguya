@@ -82,6 +82,7 @@ export type SiteConfig = {
 		gallery: boolean; // 相册页面开关
 		collections: boolean; // 收藏API页面开关
 		calendar: boolean; // 日历页面开关
+		dynamic: boolean; // 动态页面开关
 	};
 
 	// 分类导航栏开关
@@ -209,6 +210,7 @@ export enum LinkPreset {
 	NavPosts = 17,
 	NavMy = 18,
 	Music = 19,
+	Dynamic = 20,
 }
 
 export type NavBarLink = {
@@ -925,6 +927,40 @@ export type GalleryConfig = {
 		// 默认获取数量
 		defaultQuantity?: number;
 	};
+};
+
+// ============= 动态 / Moments 配置 =============
+
+/** 动态数据源：本地 Markdown 内容集合 */
+export type DynamicLocalSource = {
+	type: "local";
+};
+
+/** 动态数据源：对接 Memos API */
+export type DynamicMemosSource = {
+	type: "memos";
+	/** Memos 实例 API 地址，如 "https://memos.example.com" */
+	apiUrl: string;
+	/** 拉取该用户名下的公开动态 */
+	username: string;
+	/** 单次拉取条数上限，默认 30 */
+	limit?: number;
+	/** 是否拉取置顶动态（Memos 的 pinned） */
+	includePinned?: boolean;
+};
+
+// 动态配置
+export type DynamicConfig = {
+	// 页面标题，留空则使用 i18n 翻译
+	title?: string;
+	// 页面描述，留空则使用 i18n 翻译
+	description?: string;
+	// 数据源：local（本地 Markdown）或 memos（Memos API）
+	sources?: (DynamicLocalSource | DynamicMemosSource)[];
+	// 每页展示的动态数量，默认 10
+	pageSize?: number;
+	// 是否显示位置信息
+	showLocation?: boolean;
 };
 
 // 收藏API单项
