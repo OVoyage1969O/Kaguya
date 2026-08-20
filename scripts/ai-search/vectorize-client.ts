@@ -41,7 +41,8 @@ function parseEmbeddingPayload(payload: unknown): number[][] | null {
 	);
 	return embeddings.every(
 		(vector): vector is number[] =>
-			Array.isArray(vector) && vector.every((value) => typeof value === "number"),
+			Array.isArray(vector) &&
+			vector.every((value) => typeof value === "number"),
 	)
 		? embeddings
 		: null;
@@ -96,7 +97,9 @@ export class EmbeddingClient {
 					},
 				);
 		if (!response.ok) {
-			throw new Error(`Embedding API ${response.status}: ${await errorSnippet(response)}`);
+			throw new Error(
+				`Embedding API ${response.status}: ${await errorSnippet(response)}`,
+			);
 		}
 
 		const payload: unknown = await response.json();
@@ -154,9 +157,13 @@ export class VectorizeClient {
 
 		const payload: unknown = await response.json();
 		const result =
-			payload && typeof payload === "object" ? Reflect.get(payload, "result") : null;
+			payload && typeof payload === "object"
+				? Reflect.get(payload, "result")
+				: null;
 		const config =
-			result && typeof result === "object" ? Reflect.get(result, "config") : null;
+			result && typeof result === "object"
+				? Reflect.get(result, "config")
+				: null;
 		const dimensions =
 			config && typeof config === "object"
 				? Reflect.get(config, "dimensions")

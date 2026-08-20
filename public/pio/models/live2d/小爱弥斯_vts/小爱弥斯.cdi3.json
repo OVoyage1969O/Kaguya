@@ -1696,13 +1696,7 @@
 		}
 	],
 	"CombinedParameters": [
-		[
-			"ParamEyeBallX",
-			"ParamEyeBallY"
-		],
-		[
-			"Param162",
-			"Param163"
-		]
+		["ParamEyeBallX", "ParamEyeBallY"],
+		["Param162", "Param163"]
 	]
 }

@@ -45,7 +45,7 @@ const hiddenCount = isCollapsed ? total - maxVisible : 0;
 const groupId = `moment-${published.getTime()}`;
 const expandText = i18n(I18nKey.dynamicExpand);
 const collapseText = i18n(I18nKey.dynamicCollapse);
-	const avatarSrc = homeConfig.aboutCanvasTexture || homeConfig.avatar;
+const avatarSrc = homeConfig.aboutCanvasTexture || homeConfig.avatar;
 ---
 
 <article class:list={["moment-card", pinned ? "moment-card--pinned" : ""]}>

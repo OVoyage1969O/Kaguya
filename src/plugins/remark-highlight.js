@@ -49,7 +49,11 @@ export function remarkHighlight() {
 			if (node.children && Array.isArray(node.children)) {
 				const newChildren = [];
 				for (const child of node.children) {
-					if (child.type === "text" && child.value && child.value.includes("==")) {
+					if (
+						child.type === "text" &&
+						child.value &&
+						child.value.includes("==")
+					) {
 						newChildren.push(...splitHighlight(child.value));
 					} else {
 						// 保留原有节点；对嵌套节点继续递归

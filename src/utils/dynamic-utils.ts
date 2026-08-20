@@ -1,8 +1,5 @@
 import { marked } from "marked";
-import type {
-	DynamicConfig,
-	DynamicMemosSource,
-} from "@/types/config";
+import type { DynamicConfig, DynamicMemosSource } from "@/types/config";
 
 /** 归一化后的单条动态 */
 export type MomentEntry = {
@@ -64,7 +61,7 @@ export async function fetchMemosMemos(
 			// v1 返回 { memos: [...] }
 			const list = Array.isArray(json)
 				? json
-				: (json as { memos?: MemosMemo[] })?.memos ?? [];
+				: ((json as { memos?: MemosMemo[] })?.memos ?? []);
 			data = list as MemosMemo[];
 			if (data.length > 0) {
 				fetched = true;
@@ -102,9 +99,10 @@ export async function fetchMemosMemos(
  * 这里用 marked 解析正文，把图片节点全部抽离（存入返回的 images），
  * 正文只保留文字部分，随后由页面用九宫格网格渲染图片。
  */
-export function extractImagesFromMarkdown(
-	body: string,
-): { text: string; images: string[] } {
+export function extractImagesFromMarkdown(body: string): {
+	text: string;
+	images: string[];
+} {
 	const images: string[] = [];
 	const tokens = marked.lexer(body);
 	const text = extractText(tokens, images);

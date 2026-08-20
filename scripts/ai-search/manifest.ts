@@ -48,7 +48,10 @@ export function loadManifest(filePath: string): IndexManifest {
 	if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
 		throw new Error("向量索引 Manifest 格式无效");
 	}
-	if (Reflect.get(parsed, "schemaVersion") === aiSearchConfig.index.manifestSchemaVersion) {
+	if (
+		Reflect.get(parsed, "schemaVersion") ===
+		aiSearchConfig.index.manifestSchemaVersion
+	) {
 		return {
 			schemaVersion: aiSearchConfig.index.manifestSchemaVersion,
 			providerFingerprint: String(

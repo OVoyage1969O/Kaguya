@@ -75,7 +75,7 @@ function getPostLastmod(postId) {
 // https://astro.build/config
 export default defineConfig({
 	site: "https://OVoyage1969O.github.io",
-	
+
 	base: "/Kaguya/",
 	trailingSlash: "always",
 
@@ -181,9 +181,7 @@ export default defineConfig({
 		}),
 		svelte(),
 		sitemap({
-			customPages: [
-				new URL("/llms.txt", siteConfig.site_url).toString(),
-			],
+			customPages: [new URL("/llms.txt", siteConfig.site_url).toString()],
 			filter: (page) => {
 				// 根据页面开关配置过滤sitemap
 				const url = new URL(page);
@@ -223,18 +221,14 @@ export default defineConfig({
 					item.changefreq = "weekly";
 				} else if (pathname.startsWith("/posts/")) {
 					// 文章页：高优先级，基于 frontmatter 的 updated/published 设置 lastmod
-					const postId = pathname
-						.replace(/^\/posts\//, "")
-						.replace(/\/$/, "");
+					const postId = pathname.replace(/^\/posts\//, "").replace(/\/$/, "");
 					const lastmod = getPostLastmod(postId);
 					if (lastmod) {
 						item.lastmod = new Date(lastmod).toISOString();
 					}
 					item.priority = 0.8;
 					item.changefreq = "monthly";
-				} else if (
-					["/archive/", "/categories/", "/tags/"].includes(pathname)
-				) {
+				} else if (["/archive/", "/categories/", "/tags/"].includes(pathname)) {
 					// 归档/分类/标签列表页：中优先级，有新文章时会更新
 					item.priority = 0.6;
 					item.changefreq = "weekly";
@@ -343,7 +337,8 @@ export default defineConfig({
 						if (id.includes("node_modules")) {
 							if (id.includes("katex")) return "vendor-katex";
 							if (id.includes("mermaid")) return "vendor-mermaid";
-							if (id.includes("pixi") || id.includes("live2d")) return "vendor-live2d";
+							if (id.includes("pixi") || id.includes("live2d"))
+								return "vendor-live2d";
 							if (id.includes("gsap")) return "vendor-gsap";
 						}
 						if (id.includes("AISearch")) return "vendor-ai";

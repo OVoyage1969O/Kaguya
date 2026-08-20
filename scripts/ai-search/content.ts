@@ -77,7 +77,10 @@ export async function loadPosts(cwd = process.cwd()): Promise<BlogPost[]> {
 	return posts;
 }
 
-function splitByHeadings(content: string, articleTitle: string): ContentSection[] {
+function splitByHeadings(
+	content: string,
+	articleTitle: string,
+): ContentSection[] {
 	const sections: ContentSection[] = [];
 	const headingOccurrences = new Map<string, number>();
 	let currentHeadingPath: string[] = [];

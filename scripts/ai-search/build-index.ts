@@ -55,10 +55,8 @@ function getProviderFingerprint(useThirdParty: boolean): string {
 				...descriptor,
 				dimensions: aiSearchConfig.provider.embeddingDimensions,
 				manifestSchemaVersion: aiSearchConfig.index.manifestSchemaVersion,
-				minimumChunkCharacters:
-					aiSearchConfig.index.minimumChunkCharacters,
-				maximumExcerptCharacters:
-					aiSearchConfig.index.maximumExcerptCharacters,
+				minimumChunkCharacters: aiSearchConfig.index.minimumChunkCharacters,
+				maximumExcerptCharacters: aiSearchConfig.index.maximumExcerptCharacters,
 			}),
 		)
 		.digest("hex");
@@ -105,7 +103,10 @@ function createSyncPlan(
 	return { fullSync, postsToUpload, staleIds, nextManifest };
 }
 
-function validateEmbeddings(embeddings: number[][], expectedCount: number): void {
+function validateEmbeddings(
+	embeddings: number[][],
+	expectedCount: number,
+): void {
 	if (embeddings.length !== expectedCount) {
 		throw new Error(
 			`嵌入数量不匹配：预期 ${expectedCount}，实际 ${embeddings.length}`,
@@ -221,11 +222,12 @@ async function main(): Promise<void> {
 			index < vectors.length;
 			index += aiSearchConfig.index.batchSize
 		) {
-			const batch = vectors.slice(index, index + aiSearchConfig.index.batchSize);
-			await vectorizeClient.upsert(batch);
-			console.log(
-				`上传向量 ${index + batch.length}/${vectors.length}`,
+			const batch = vectors.slice(
+				index,
+				index + aiSearchConfig.index.batchSize,
 			);
+			await vectorizeClient.upsert(batch);
+			console.log(`上传向量 ${index + batch.length}/${vectors.length}`);
 		}
 	}
 

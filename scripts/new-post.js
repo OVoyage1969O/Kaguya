@@ -29,7 +29,11 @@ if (
 	!requestedName ||
 	path.isAbsolute(requestedName) ||
 	pathSegments.some(
-		(segment) => !segment || segment === "." || segment === ".." || !validSegment.test(segment),
+		(segment) =>
+			!segment ||
+			segment === "." ||
+			segment === ".." ||
+			!validSegment.test(segment),
 	)
 ) {
 	console.error("Error: Filename contains an invalid path or character");
