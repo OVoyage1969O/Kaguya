@@ -10,13 +10,16 @@ import "@/styles/pages/bookshelf.css";
 
 const { name, description, categories, featured = [] } = bookshelfConfig;
 
-// 展平所有词条
-const allEntries = categories.flatMap((cat) =>
-	cat.entries.map((e) => ({ ...e, categoryId: cat.id, categoryName: cat.name })),
-);
+// 展平所有词条（含子分组）
+const allEntries = categories.flatMap((cat) => [
+	...cat.entries.map((e) => ({ ...e, categoryId: cat.id, categoryName: cat.name })),
+	...(cat.subgroups ?? []).flatMap((sub) =>
+		sub.entries.map((e) => ({ ...e, categoryId: cat.id, categoryName: cat.name, subgroup: sub.name })),
+	),
+]);
 const featuredEntries = allEntries.filter((e) => featured.includes(e.id));
 const featuredCount = Math.min(featuredEntries.length, 6);
-const bookTotal = categories.reduce((sum, c) => sum + c.entries.length, 0);
+const bookTotal = allEntries.length;
 
 const wikiTitle = name;
 const wikiDescription = description || "";
@@ -78,7 +81,7 @@ const wikiDescription = description || "";
 									<Icon name={cat.icon} class="bookshelf__book-icon" />
 									<span class="bookshelf__book-title">{cat.name}</span>
 									<span class="bookshelf__book-summary">{cat.summary}</span>
-									<span class="bookshelf__book-count">{cat.entries.length}</span>
+									<span class="bookshelf__book-count">{allEntries.filter((e) => e.categoryId === cat.id).length}</span>
 								</a>
 
 								<ul class="bookshelf__book-entries">
@@ -89,11 +92,20 @@ const wikiDescription = description || "";
 											</a>
 										</li>
 									))}
+									{(cat.subgroups ?? []).map((sub) =>
+										sub.entries.slice(0, 4).map((entry) => (
+											<li class="bookshelf__book-entry--sub" title={sub.name}>
+												<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>
+													{entry.title}
+												</a>
+											</li>
+										)),
+									)}
 									{
-										cat.entries.length > 4 && (
+										allEntries.filter((e) => e.categoryId === cat.id).length > 4 && (
 											<li class="bookshelf__book-more">
 												<a href={url(`/bookshelf/category/${cat.id}/`)}>
-													{i18n(I18nKey.more)}… ({cat.entries.length})
+													{i18n(I18nKey.more)}… ({allEntries.filter((e) => e.categoryId === cat.id).length})
 												</a>
 											</li>
 										)

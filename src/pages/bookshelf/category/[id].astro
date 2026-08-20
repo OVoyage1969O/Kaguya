@@ -1,0 +1,109 @@
+---
+import Icon from "@components/common/Icon.astro";
+import PageTitle from "@/components/common/PageTitle.astro";
+import Navbox from "@/components/bookshelf/Navbox.astro";
+import { bookshelfConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { url } from "@/utils/url-utils";
+import "@/styles/pages/bookshelf.css";
+import "@/styles/components/bookshelf-navbox.css";
+
+export function getStaticPaths() {
+	return bookshelfConfig.categories.map((cat) => ({
+		params: { id: cat.id },
+	}));
+}
+
+const { id } = Astro.params;
+const category = bookshelfConfig.categories.find((c) => c.id === id);
+
+if (!category) {
+	return Astro.redirect(url(`/bookshelf/`));
+}
+
+const wikiTitle = `${category.name} - ${bookshelfConfig.name}`;
+const wikiDescription = category.summary || "";
+const directCount = category.entries.length;
+const subCount = (category.subgroups ?? []).reduce(
+	(sum, sub) => sum + sub.entries.length,
+	0,
+);
+const totalCount = directCount + subCount;
+---
+
+<MainGridLayout title={wikiTitle} description={wikiDescription} hasOwnH1={true}>
+	<div class="bookshelf-page">
+		<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+			<div class="card-base z-10 px-4 py-6 md:px-9 relative w-full">
+				<nav class="bookshelf-entry__crumb">
+					<a href={url(`/bookshelf/`)}>{bookshelfConfig.name}</a>
+					<span class="bookshelf-entry__crumb-sep">/</span>
+					<span>{category.name}</span>
+				</nav>
+
+				<header class="bookshelf__header">
+					<div class="bookshelf__title-row">
+						<Icon name={category.icon} class="bookshelf__logo" />
+						<PageTitle title={category.name} variant="stacked" />
+					</div>
+					{category.summary && <p class="bookshelf__description">{category.summary}</p>}
+					<div class="bookshelf__stats">
+						<span>{totalCount} {i18n(I18nKey.bookshelfEntries)}</span>
+					</div>
+				</header>
+
+				<!-- 分类直接词条 -->
+				{directCount > 0 && (
+					<section class="bookshelf__section">
+						<h2 class="bookshelf__section-title">
+							<Icon name="material-symbols:library-books" />
+							{category.name}
+						</h2>
+						<div class="bookshelf-category__grid">
+							{category.entries.map((entry) => (
+								<a
+									href={url(`/bookshelf/entries/${category.id}/${encodeURIComponent(entry.title)}/`)}
+									class="bookshelf-category__card"
+								>
+									<span class="bookshelf-category__title">{entry.title}</span>
+									{entry.summary && <span class="bookshelf-category__summary">{entry.summary}</span>}
+								</a>
+							))}
+						</div>
+					</section>
+				)}
+
+				<!-- 子分组词条 -->
+				{(category.subgroups ?? []).map((sub) => (
+					<section class="bookshelf__section">
+						<h2 class="bookshelf__section-title">
+							<Icon name="material-symbols:subdirectory-arrow-right-rounded" />
+							{sub.name}
+						</h2>
+						<div class="bookshelf-category__grid">
+							{sub.entries.map((entry) => (
+								<a
+									href={url(`/bookshelf/entries/${category.id}/${encodeURIComponent(entry.title)}/`)}
+									class="bookshelf-category__card"
+								>
+									<span class="bookshelf-category__title">{entry.title}</span>
+									{entry.summary && <span class="bookshelf-category__summary">{entry.summary}</span>}
+								</a>
+							))}
+						</div>
+					</section>
+				))}
+
+				{totalCount === 0 && (
+					<section class="bookshelf__section">
+						<p class="bookshelf-category__empty">{i18n(I18nKey.dynamicEmpty)}</p>
+					</section>
+				)}
+
+				<Navbox currentCategory={category.id} />
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

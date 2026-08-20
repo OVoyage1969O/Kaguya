@@ -205,3 +205,64 @@
 .bookshelf-entry__markdown h2 + p {
 	margin-top: 0;
 }
+/* --- 名言栏（无框，居中，综艺圆字体） --- */
+@font-face {
+	font-family: "AaZongYiYuan";
+	src: url("/Kaguya/fonts/AaZongYiYuan/AaZongYiYuan-2.woff2") format("woff2");
+	font-display: swap;
+}
+
+.bookshelf-entry__quote {
+	margin: 0 0 1.75rem;
+	padding: 0;
+	border: 0;
+	text-align: center;
+}
+
+/* 名言与作者的内联容器（居中，作者相对此容器定位在句子右下） */
+.bookshelf-entry__quote-inner {
+	position: relative;
+	display: inline-block;
+	text-align: left;
+	padding: 0 1.5rem 1.25rem;
+	max-width: 100%;
+}
+
+.bookshelf-entry__quote-text {
+	margin: 0;
+	font-family: "AaZongYiYuan", "Microsoft YaHei", "PingFang SC", sans-serif;
+	font-size: 1.55rem;
+	font-weight: 600;
+	line-height: 1.55;
+	color: var(--bk-ink, #000);
+	opacity: 0.92;
+	letter-spacing: 0.05em;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* 名言前后加引号 */
+.bookshelf-entry__quote-text::before {
+	content: "“";
+	margin-right: 0.15em;
+	opacity: 0.6;
+}
+
+.bookshelf-entry__quote-text::after {
+	content: "”";
+	margin-left: 0.15em;
+	opacity: 0.6;
+}
+/* 名言说话者（右下角，小字） */
+.bookshelf-entry__quote-by {
+	position: absolute;
+	right: 0;
+	bottom: 0.25rem;
+	font-family: inherit;
+	font-size: 0.8rem;
+	font-weight: 500;
+	font-style: normal;
+	color: var(--bk-ink, #000);
+	opacity: 0.55;
+	letter-spacing: 0.04em;
+	line-height: 1;
+}

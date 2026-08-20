@@ -249,3 +249,100 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/* 子分组词条（轻微缩进） */
+.bookshelf__book-entry--sub a {
+	opacity: 0.75;
+}
+
+.bookshelf__book-entry--sub a::before {
+	content: "⌄";
+	margin-right: 0.35rem;
+	opacity: 0.5;
+}
+/* ============================================
+   书卷分类导航页（/bookshelf/category/[id]）
+   ============================================ */
+
+/* 面包屑 */
+.bookshelf-entry__crumb {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 1.5rem;
+	font-size: 0.82rem;
+	letter-spacing: 0.04em;
+}
+
+.bookshelf-entry__crumb a {
+	color: var(--bk-muted, #555);
+	text-decoration: none;
+}
+
+.bookshelf-entry__crumb a:hover {
+	color: var(--bk-ink, #000);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.bookshelf-entry__crumb-sep {
+	opacity: 0.5;
+}
+
+/* 词条卡片网格 */
+.bookshelf-category__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 0.75rem;
+}
+
+.bookshelf-category__card {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	padding: 0.9rem 1rem;
+	border: 2px solid var(--bk-line, #000);
+	background: var(--bk-paper, #fff);
+	color: var(--bk-ink, #000);
+	text-decoration: none;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.bookshelf-category__card:hover {
+	background: var(--bk-invert-bg, #000);
+	color: var(--bk-invert, #fff);
+}
+
+.bookshelf-category__title {
+	font-size: 1.05rem;
+	font-weight: 700;
+}
+
+.bookshelf-category__summary {
+	font-size: 0.82rem;
+	line-height: 1.5;
+	opacity: 0.7;
+}
+
+.bookshelf-category__card:hover .bookshelf-category__summary {
+	opacity: 0.75;
+}
+
+.bookshelf-category__empty {
+	padding: 3rem 0;
+	text-align: center;
+	color: var(--bk-muted, #555);
+}
+
+/* 深色适配 */
+:root.dark .bookshelf-category__card {
+	--bk-line: #fff;
+	--bk-paper: #0a0a0a;
+	--bk-ink: #fff;
+	--bk-invert: #000;
+	--bk-invert-bg: #fff;
+}
+
+:root.dark .bookshelf-entry__crumb a {
+	color: #9a9a9a;
+}

@@ -41,13 +41,33 @@ const { name, categories } = bookshelfConfig;
 						<span class="bookshelf-navbox__group-title">{cat.name}</span>
 						<span class="bookshelf-navbox__group-arrow" aria-hidden="true"></span>
 					</div>
-					<ul class="bookshelf-navbox__group-list">
-						{cat.entries.map((entry) => (
-							<li class:list={["bookshelf-navbox__item", entry.title === currentId ? "bookshelf-navbox__item--current" : ""]}>
-								<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>{entry.title}</a>
-							</li>
+					<div class="bookshelf-navbox__group-body">
+						{cat.entries.length > 0 && (
+							<ul class="bookshelf-navbox__group-list">
+								{cat.entries.map((entry) => (
+									<li class:list={["bookshelf-navbox__item", entry.title === currentId ? "bookshelf-navbox__item--current" : ""]}>
+										<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>{entry.title}</a>
+									</li>
+								))}
+							</ul>
+						)}
+
+						{cat.subgroups && cat.subgroups.map((sub) => (
+							<section class="bookshelf-navbox__subgroup" data-navbox-subgroup>
+								<div class="bookshelf-navbox__subgroup-head" data-navbox-subgroup-toggle role="button" tabindex={0}>
+									<span class="bookshelf-navbox__subgroup-title">{sub.name}</span>
+									<span class="bookshelf-navbox__subgroup-arrow" aria-hidden="true"></span>
+								</div>
+								<ul class="bookshelf-navbox__subgroup-list">
+									{sub.entries.map((entry) => (
+										<li class:list={["bookshelf-navbox__item", entry.title === currentId ? "bookshelf-navbox__item--current" : ""]}>
+											<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>{entry.title}</a>
+										</li>
+									))}
+								</ul>
+							</section>
 						))}
-					</ul>
+					</div>
 				</section>
 			);
 		})}
@@ -55,22 +75,33 @@ const { name, categories } = bookshelfConfig;
 </nav>
 
 <script>
-	// 每个分组的折叠/展开
+	// 大分组折叠/展开
 	document.addEventListener("click", (e) => {
 		const toggle = (e.target as HTMLElement).closest("[data-navbox-toggle]");
-		if (!toggle) return;
-		const group = toggle.closest("[data-navbox-group]");
-		if (!group) return;
-		e.preventDefault();
-		group.classList.toggle("bookshelf-navbox__group--collapsed");
+		if (toggle) {
+			const group = toggle.closest("[data-navbox-group]");
+			if (group) {
+				e.preventDefault();
+				group.classList.toggle("bookshelf-navbox__group--collapsed");
+			}
+			return;
+		}
+		const subToggle = (e.target as HTMLElement).closest("[data-navbox-subgroup-toggle]");
+		if (subToggle) {
+			const sub = subToggle.closest("[data-navbox-subgroup]");
+			if (sub) {
+				e.preventDefault();
+				sub.classList.toggle("bookshelf-navbox__subgroup--collapsed");
+			}
+		}
 	});
 
-	// 键盘支持（回车/空格切换）
+	// 键盘支持
 	document.addEventListener("keydown", (e) => {
 		if (e.key !== "Enter" && e.key !== " ") return;
-		const toggle = (e.target as HTMLElement).closest("[data-navbox-toggle]");
-		if (!toggle) return;
+		const el = (e.target as HTMLElement).closest("[data-navbox-toggle], [data-navbox-subgroup-toggle]");
+		if (!el) return;
 		e.preventDefault();
-		toggle.click();
+		el.click();
 	});
 </script>

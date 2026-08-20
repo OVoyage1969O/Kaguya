@@ -1,4 +1,6 @@
 ---
+import katex from "katex";
+import "katex/dist/katex.min.css";
 import type { BookshelfInfoboxGroup } from "@/types/config";
 
 interface Props {
@@ -9,6 +11,49 @@ interface Props {
 }
 
 const { title, image, imageAlt = "", groups = [] } = Astro.props;
+
+/** 转义 HTML 特殊字符，防止 set:html 注入 */
+function escapeHtml(str: string): string {
+	return str
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+}
+
+/**
+ * 处理 infobox 字段值：
+ * 1. 把 `[黑幕]内容[/黑幕]` / `[spoiler]内容[/spoiler]` 转成黑幕元素
+ * 2. 把 `$...$` LaTeX 片段渲染为 KaTeX HTML
+ * 其余文本 HTML 转义后安全输出（配合 set:html）。
+ */
+function renderValue(value: string): string {
+	let out = escapeHtml(value);
+
+	// 1. 黑幕标记 → <span class="spoiler">（内容已转义）
+	out = out.replace(
+		/\[(黑幕|spoiler)\]([\s\S]*?)\[\/(黑幕|spoiler)\]/g,
+		(_, __, content) => `<span class="spoiler">${content}</span>`,
+	);
+
+	// 2. LaTeX $...$ → KaTeX（仅在含 $ 时处理）
+	if (out.includes("$")) {
+		out = out.replace(/\$([^$]+)\$/g, (_, latex: string) => {
+			try {
+				return katex.renderToString(latex.trim(), {
+					throwOnError: false,
+					displayMode: false,
+					strict: false,
+				});
+			} catch {
+				return `$${escapeHtml(latex)}$`;
+			}
+		});
+	}
+
+	return out;
+}
 ---
 
 <aside class="bk-infobox">
@@ -29,7 +74,7 @@ const { title, image, imageAlt = "", groups = [] } = Astro.props;
 						{group.fields.map((field) => (
 							<div class="bk-infobox__field">
 								<dt class="bk-infobox__label">{field.label}</dt>
-								<dd class="bk-infobox__value">{field.value}</dd>
+								<dd class="bk-infobox__value" set:html={renderValue(field.value)}></dd>
 							</div>
 						))}
 					</dl>

@@ -24,6 +24,17 @@ export const bookshelfConfig: BookshelfConfig = {
 				{ id: "holy-grail-war", title: "圣杯战争", summary: "围绕万能的许愿机展开的魔术战争。" },
 				{ id: "true-magic", title: "魔法·根源", summary: "抵达根源的五大魔法，与魔术的界限。" },
 			],
+			// 子分组：型月人物（原"角色志"）
+			subgroups: [
+				{
+					name: "型月人物",
+					entries: [
+						{ id: "alice", title: "久远寺有珠", summary: "魔女之家的少女，永远邸的女主人。" },
+						{ id: "aoko", title: "苍崎青子", summary: "继承第五魔法的女性魔术师。" },
+						{ id: "shiki", title: "两仪式", summary: "同时看到死亡的两仪之体。" },
+					],
+				},
+			],
 		},
 		{
 			id: "touhou",
@@ -48,17 +59,6 @@ export const bookshelfConfig: BookshelfConfig = {
 			],
 		},
 		{
-			id: "characters",
-			name: "角色志",
-			icon: "material-symbols:person-book",
-			summary: "登场人物档案",
-			entries: [
-				{ id: "alice", title: "久远寺有珠", summary: "魔女之家的少女，永远邸的女主人。" },
-				{ id: "aoko", title: "苍崎青子", summary: "继承第五魔法的女性魔术师。" },
-				{ id: "shiki", title: "两仪式", summary: "同时看到死亡的两仪之体。" },
-			],
-		},
-		{
 			id: "places",
 			name: "地点",
 			icon: "material-symbols:location-home-rounded",
@@ -67,6 +67,23 @@ export const bookshelfConfig: BookshelfConfig = {
 				{ id: "eternal-mansion", title: "永远邸", summary: "永远亭与久远寺邸的结合，本站的精神居所。" },
 				{ id: "misaki", title: "三咲町", summary: "月姬与魔法使之夜所发生的城市。" },
 				{ id: "kaminogi", title: "神野市", summary: "魔法使之夜的舞台。" },
+			],
+		},
+		{
+			id: "trivia",
+			name: "特里维亚",
+			icon: "material-symbols:auto-awesome-motion",
+			summary: "零散的趣闻与杂项",
+			entries: [],
+			// 子分组：人物（先放维塔·萨普里、迪普·桑姆博）
+			subgroups: [
+				{
+					name: "人物",
+					entries: [
+						{ id: "vita-sapri", title: "维塔·萨普里", summary: "" },
+						{ id: "deep-sambo", title: "迪普·桑姆博", summary: "" },
+					],
+				},
 			],
 		},
 	],

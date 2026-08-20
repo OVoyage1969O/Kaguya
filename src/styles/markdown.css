@@ -239,10 +239,46 @@
   border-radius: var(--radius-large, 0.75rem);
 }
 
-/* ==高亮== 语法：渲染为 <mark> 荧光笔效果 */
+/* ==高亮== 语法：渲染为 <mark> 黑蓝色高亮 */
 .custom-md mark {
-  background: color-mix(in srgb, var(--mark-bg, oklch(0.90 0.15 90)) 60%, transparent);
-  color: var(--deep-text);
+  background: #1a2b6d;
+  color: #fff;
   border-radius: 0.2rem;
   padding: 0 0.2em;
+}
+/* ============================================
+   黑幕 / 隐藏剧透（Spoiler）
+   用法：Markdown 里写 [黑幕]内容[/黑幕]
+   默认遮挡（暗色模式为白幕），鼠标移上去显示
+   ============================================ */
+/* 黑幕：默认遮挡，鼠标移上去显示（全局生效，不依赖 custom-md） */
+.spoiler {
+	display: inline;
+	padding: 0 0.15em;
+	border-radius: 0.2em;
+	background: #000;
+	color: transparent;
+	text-shadow: none;
+	cursor: pointer;
+	user-select: none;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.spoiler .spoiler__text {
+	color: transparent;
+}
+
+:root.dark .spoiler {
+	background: #fff;
+}
+
+/* 鼠标悬停显示文字（使用主题正文色，保证亮/暗模式都可见） */
+.spoiler:hover {
+	background: transparent !important;
+	color: var(--deep-text, #111) !important;
+}
+
+.spoiler:hover .spoiler__text {
+	color: inherit !important;
+	background: transparent !important;
 }

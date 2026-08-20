@@ -67,6 +67,16 @@ const bgOpacity = data.background?.opacity ?? 0.15;
 
 				{data.notices && data.notices.length > 0 && <Notices notices={data.notices} />}
 
+				<!-- 名言栏 -->
+				{data.quote && (
+					<blockquote class="bookshelf-entry__quote">
+						<span class="bookshelf-entry__quote-inner">
+							<span class="bookshelf-entry__quote-text">{data.quote}</span>
+							{data.quoteBy && <cite class="bookshelf-entry__quote-by">—— {data.quoteBy}</cite>}
+						</span>
+					</blockquote>
+				)}
+
 				<article class="bookshelf-entry__body bookshelf-entry__markdown custom-md">
 					{data.infobox && (
 						<Infobox

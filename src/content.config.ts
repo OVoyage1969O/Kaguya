@@ -68,6 +68,8 @@ const bookshelfCollection = defineCollection({
 		categoryId: z.string(), // 所属分类 id
 		categoryName: z.string(), // 所属分类名
 		summary: z.string().optional().default(""), // 简介
+		quote: z.string().optional().default(""), // 名言（居中显示）
+		quoteBy: z.string().optional().default(""), // 名言说话者
 		// 顶部说明栏
 		notices: z
 			.array(

@@ -971,12 +971,18 @@ export type BookshelfEntry = {
 	summary: string; // 简介
 };
 
+export type BookshelfSubgroup = {
+	name: string; // 子分组名
+	entries: BookshelfEntry[]; // 子分组词条
+};
+
 export type BookshelfCategory = {
 	id: string; // 分类 ID
 	name: string; // 分类名
 	icon: string; // 图标（Iconify）
 	summary: string; // 分类简介
 	entries: BookshelfEntry[]; // 词条列表
+	subgroups?: BookshelfSubgroup[]; // 可折叠子分组（用于导航框多级结构）
 };
 
 export type BookshelfConfig = {

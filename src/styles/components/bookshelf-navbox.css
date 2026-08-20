@@ -162,3 +162,59 @@
 		flex-wrap: wrap;
 	}
 }
+
+/* --- 子分组 --- */
+.bookshelf-navbox__subgroup {
+	border-top: 1px solid var(--bk-soft-line);
+}
+
+.bookshelf-navbox__subgroup-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0.35rem 0.9rem 0.35rem 1.6rem;
+	cursor: pointer;
+	user-select: none;
+	font-size: 0.82rem;
+	font-weight: 600;
+}
+
+.bookshelf-navbox__subgroup-head:hover {
+	background: color-mix(in srgb, var(--bk-ink) 8%, var(--bk-paper));
+}
+
+.bookshelf-navbox__subgroup-title {
+	opacity: 0.85;
+}
+
+.bookshelf-navbox__subgroup-arrow {
+	width: 0;
+	height: 0;
+	border-left: 0.35rem solid transparent;
+	border-right: 0.35rem solid transparent;
+	border-top: 0.45rem solid var(--bk-muted);
+	transition: transform 0.15s ease;
+	flex: 0 0 auto;
+}
+
+.bookshelf-navbox__subgroup--collapsed .bookshelf-navbox__subgroup-arrow {
+	transform: rotate(180deg);
+}
+
+.bookshelf-navbox__subgroup-list {
+	list-style: none;
+	margin: 0;
+	padding: 0.2rem 0.9rem 0.5rem 1.6rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.15rem 0;
+}
+
+.bookshelf-navbox__subgroup--collapsed .bookshelf-navbox__subgroup-list {
+	display: none;
+}
+
+.bookshelf-navbox__group--collapsed .bookshelf-navbox__group-body {
+	display: none;
+}
