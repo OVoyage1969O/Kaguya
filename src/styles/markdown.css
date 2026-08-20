@@ -238,3 +238,11 @@
   margin: 1.5rem auto !important;
   border-radius: var(--radius-large, 0.75rem);
 }
+
+/* ==高亮== 语法：渲染为 <mark> 荧光笔效果 */
+.custom-md mark {
+  background: color-mix(in srgb, var(--mark-bg, oklch(0.90 0.15 90)) 60%, transparent);
+  color: var(--deep-text);
+  border-radius: 0.2rem;
+  padding: 0 0.2em;
+}

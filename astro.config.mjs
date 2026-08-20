@@ -46,6 +46,7 @@ import rehypeEmailProtection from "./src/plugins/rehype-email-protection.mjs";
 import rehypeExternalLinks from "./src/plugins/rehype-external-links.mjs";
 import rehypeFigure from "./src/plugins/rehype-figure.mjs";
 import { remarkImageGrid } from "./src/plugins/remark-image-grid.js";
+import { remarkHighlight } from "./src/plugins/remark-highlight.js";
 import { unified } from "@astrojs/markdown-remark";
 
 if (process.env.NODE_ENV === "development") {
@@ -257,6 +258,7 @@ export default defineConfig({
 				remarkExcerpt,
 				remarkDirective,
 				remarkSectionize,
+				remarkHighlight,
 				parseDirectiveNode,
 				remarkMermaid,
 				[remarkPlantuml, plantumlConfig],
