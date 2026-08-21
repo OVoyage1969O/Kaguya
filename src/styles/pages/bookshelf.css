@@ -14,6 +14,100 @@
 	--bk-invert-bg: #000;
 }
 
+/* ---------- 首屏 Opening 幕布 ---------- */
+.bookshelf-intro {
+	position: fixed;
+	inset: 0;
+	z-index: 200;
+	overflow: hidden;
+	pointer-events: none;
+	display: none;
+}
+
+.bookshelf-intro__panels {
+	position: absolute;
+	inset: 0;
+}
+
+.bookshelf-intro__panel {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 50%;
+	background: var(--bk-invert-bg);
+	will-change: transform;
+}
+
+.bookshelf-intro__panel--left {
+	left: 0;
+}
+
+.bookshelf-intro__panel--right {
+	right: 0;
+}
+
+.bookshelf-intro__title {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.6rem;
+	z-index: 1;
+	text-align: center;
+}
+
+.bookshelf-intro__en {
+	font-size: clamp(0.9rem, 3vw, 1.4rem);
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--bk-invert);
+	opacity: 0.85;
+}
+
+.bookshelf-intro__zh {
+	font-size: clamp(2.2rem, 9vw, 5rem);
+	font-weight: 900;
+	line-height: 1;
+	letter-spacing: 0.04em;
+	color: var(--bk-invert);
+}
+
+/* 每个模块：英文大标题 + 中文小标题 */
+.bookshelf__section-head {
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 1.5rem;
+}
+
+.bookshelf__section-en {
+	display: block;
+	font-size: clamp(2.6rem, 9vw, 5rem);
+	font-weight: 900;
+	line-height: 0.9;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: transparent;
+	-webkit-text-stroke: 2px var(--bk-ink);
+	opacity: 0.2;
+	user-select: none;
+	pointer-events: none;
+	will-change: transform;
+}
+
+.bookshelf__section-head .bookshelf__section-title {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0.35rem 0 0 !important;
+	padding: 0.25rem 0.6rem;
+	font-size: 0.95rem;
+	background: var(--bk-paper);
+	border: 1px solid var(--bk-line);
+}
+
 /* 深色模式下反转 */
 :root.dark .bookshelf-page {
 	--bk-ink: #fff;

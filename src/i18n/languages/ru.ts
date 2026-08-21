@@ -333,6 +333,11 @@ export const ru: Translation = {
 	[Key.reopenDialogue]: "Снова открыть диалог",
 	[Key.dialogueRestoreHint]: "Мяу? Продолжим беседу?",
 
+	// ===== 首页移动端开屏公告 =====
+	[Key.homeMobileNoticeTitle]: "Уведомление для мобильных",
+	[Key.homeMobileNoticeDesc]: "Для лучшего опыта рекомендуем просматривать на ПК.",
+	[Key.homeMobileNoticeGotIt]: "Понятно",
+
 	// ===== 首页数据层 =====
 	[Key.siteData]: "Данные сайта",
 	[Key.mapGuide]: "Путеводитель",

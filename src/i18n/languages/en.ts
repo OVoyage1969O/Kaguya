@@ -333,6 +333,11 @@ export const en: Translation = {
 	[Key.reopenDialogue]: "Reopen dialogue",
 	[Key.dialogueRestoreHint]: "Meow? Want to keep chatting?",
 
+	// ===== 首页移动端开屏公告 =====
+	[Key.homeMobileNoticeTitle]: "Mobile Notice",
+	[Key.homeMobileNoticeDesc]: "For the best experience, please view on a PC.",
+	[Key.homeMobileNoticeGotIt]: "Got it",
+
 	// ===== 首页数据层 =====
 	[Key.siteData]: "Site Data",
 	[Key.mapGuide]: "Map Guide",

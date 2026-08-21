@@ -47,8 +47,12 @@ import rehypeExternalLinks from "./src/plugins/rehype-external-links.mjs";
 import rehypeFigure from "./src/plugins/rehype-figure.mjs";
 import { remarkImageGrid } from "./src/plugins/remark-image-grid.js";
 import { remarkHighlight } from "./src/plugins/remark-highlight.js";
+import { remarkObsidianImage } from "./src/plugins/remark-obsidian-image.js";
 import { remarkSpoiler } from "./src/plugins/remark-spoiler.js";
 import { unified } from "@astrojs/markdown-remark";
+
+// 站点根路径（base），同时用于插件拼图片 URL，避免在 config 求值期读 import.meta.env.BASE_URL（此时为 undefined）
+const SITE_BASE = "/Kaguya/";
 
 if (process.env.NODE_ENV === "development") {
 	setMaxListeners(20);
@@ -77,7 +81,7 @@ function getPostLastmod(postId) {
 export default defineConfig({
 	site: "https://OVoyage1969O.github.io",
 
-	base: "/Kaguya/",
+	base: SITE_BASE,
 	trailingSlash: "always",
 
 	// 图像优化配置
@@ -254,6 +258,7 @@ export default defineConfig({
 				remarkDirective,
 				remarkSectionize,
 				remarkHighlight,
+				[remarkObsidianImage, { base: SITE_BASE }],
 				remarkSpoiler,
 				parseDirectiveNode,
 				remarkMermaid,

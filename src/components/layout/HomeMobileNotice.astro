@@ -1,0 +1,51 @@
+---
+import Icon from "@components/common/Icon.astro";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+---
+
+<div class="home-mobile-notice" data-home-mobile-notice aria-hidden="true">
+	<div class="home-mobile-notice__card">
+		<div class="home-mobile-notice__head">
+			<Icon name="material-symbols:desktop-windows-rounded" class="home-mobile-notice__icon" />
+			<span class="home-mobile-notice__title">{i18n(I18nKey.homeMobileNoticeTitle)}</span>
+		</div>
+		<p class="home-mobile-notice__desc">{i18n(I18nKey.homeMobileNoticeDesc)}</p>
+		<button type="button" class="home-mobile-notice__dismiss" data-home-mobile-notice-dismiss>
+			{i18n(I18nKey.homeMobileNoticeGotIt)}
+		</button>
+	</div>
+</div>
+
+<script>
+	function initMobileNotice() {
+		const overlay = document.querySelector<HTMLElement>("[data-home-mobile-notice]");
+		if (!overlay) return;
+		// 仅移动端显示
+		if (!window.matchMedia("(max-width: 768px)").matches) return;
+		// 已关闭过则不再打扰
+		if (window.localStorage?.getItem("home-mobile-notice-dismissed")) return;
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+		const dismiss = () => {
+			overlay.classList.add("is-dismissed");
+			window.localStorage?.setItem("home-mobile-notice-dismissed", "1");
+			window.setTimeout(() => {
+				overlay.setAttribute("aria-hidden", "true");
+			}, reduceMotion ? 0 : 450);
+		};
+
+		overlay
+			.querySelector<HTMLElement>("[data-home-mobile-notice-dismiss]")
+			?.addEventListener("click", dismiss);
+
+		overlay.setAttribute("aria-hidden", "false");
+		// 轻提示延迟出现，避免与页面入场动画抢节奏
+		window.requestAnimationFrame(() => {
+			window.setTimeout(() => overlay.classList.add("is-visible"), reduceMotion ? 0 : 350);
+		});
+	}
+
+	initMobileNotice();
+	document.addEventListener("astro:page-load", initMobileNotice);
+</script>

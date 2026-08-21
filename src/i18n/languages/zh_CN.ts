@@ -325,6 +325,11 @@ export const zh_CN: Translation = {
 	[Key.reopenDialogue]: "重新打开对话",
 	[Key.dialogueRestoreHint]: "喵？还想继续聊聊吗",
 
+	// ===== 首页移动端开屏公告 =====
+	[Key.homeMobileNoticeTitle]: "移动端提示",
+	[Key.homeMobileNoticeDesc]: "推荐使用 PC 端 以获得最佳体验",
+	[Key.homeMobileNoticeGotIt]: "我知道了",
+
 	// ===== 首页数据层 =====
 	[Key.siteData]: "站点数据",
 	[Key.mapGuide]: "地图指南",

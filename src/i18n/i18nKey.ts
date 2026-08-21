@@ -323,6 +323,11 @@ enum I18nKey {
 	reopenDialogue = "reopenDialogue",
 	dialogueRestoreHint = "dialogueRestoreHint",
 
+	// ===== 首页移动端开屏公告 =====
+	homeMobileNoticeTitle = "homeMobileNoticeTitle",
+	homeMobileNoticeDesc = "homeMobileNoticeDesc",
+	homeMobileNoticeGotIt = "homeMobileNoticeGotIt",
+
 	// ===== 首页数据层 =====
 	siteData = "siteData",
 	mapGuide = "mapGuide",

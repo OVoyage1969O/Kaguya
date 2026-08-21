@@ -131,13 +131,13 @@
 }
 
 
-/* --- 背景图 --- */
+/* --- 背景图：固定全屏，覆盖整个网页、滚动不动 --- */
 .bookshelf-entry--has-bg {
 	position: relative;
 }
 
 .bookshelf-entry__bg {
-	position: absolute;
+	position: fixed;
 	inset: 0;
 	background-image: var(--bk-bg-image);
 	background-size: cover;
@@ -204,6 +204,33 @@
 /* 正文分节间距 */
 .bookshelf-entry__markdown h2 + p {
 	margin-top: 0;
+}
+
+/* 正文中间插图（Obsidian ![[...]] → <center><figure><img>） */
+.bookshelf-entry__markdown center,
+.bookshelf-entry__markdown figure {
+	display: block;
+	margin: 1.25rem auto;
+	text-align: center;
+}
+
+.bookshelf-entry__markdown figure img {
+	display: block;
+	max-width: 100%;
+	max-height: 520px;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	margin: 0 auto;
+	border: 2px solid var(--bk-line, #000);
+	background: var(--bk-paper, #fff);
+}
+
+.bookshelf-entry__markdown figure figcaption {
+	margin-top: 0.5rem;
+	font-size: 0.8rem;
+	line-height: 1.5;
+	color: var(--bk-muted, #555);
 }
 /* --- 名言栏（无框，居中，综艺圆字体） --- */
 @font-face {

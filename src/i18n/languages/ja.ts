@@ -332,6 +332,11 @@ export const ja: Translation = {
 	[Key.reopenDialogue]: "対話を再開",
 	[Key.dialogueRestoreHint]: "ニャ？まだ話したい？",
 
+	// ===== 首页移动端开屏公告 =====
+	[Key.homeMobileNoticeTitle]: "モバイルのお知らせ",
+	[Key.homeMobileNoticeDesc]: "最良の体験のため、PCでの閲覧を推奨します。",
+	[Key.homeMobileNoticeGotIt]: "了解しました",
+
 	// ===== 首页数据层 =====
 	[Key.siteData]: "サイトデータ",
 	[Key.mapGuide]: "マップガイド",

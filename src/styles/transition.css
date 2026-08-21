@@ -77,12 +77,16 @@ html.is-rendering .transition-swup-main {
    出现非 none 的 transform 时会改以容器为 containing block，过渡瞬间跳位/飞出。
    因此仅在进出这些页面（DOM 含对应标记）时退化为纯 opacity 过渡，其余页面保留位移 */
 html.is-leaving:has(.home-hero) .transition-swup-main,
-html.is-leaving:has(.article-outline-rail) .transition-swup-main {
+html.is-leaving:has(.article-outline-rail) .transition-swup-main,
+html.is-leaving:has(.bookshelf-page) .transition-swup-main,
+html.is-leaving:has(.bookshelf-entry) .transition-swup-main {
     animation-name: fade-out-only;
 }
 
 html.is-rendering:has(.home-hero) .transition-swup-main,
-html.is-rendering:has(.article-outline-rail) .transition-swup-main {
+html.is-rendering:has(.article-outline-rail) .transition-swup-main,
+html.is-rendering:has(.bookshelf-page) .transition-swup-main,
+html.is-rendering:has(.bookshelf-entry) .transition-swup-main {
     animation-name: fade-in-only;
 }
 
@@ -93,7 +97,11 @@ html.is-rendering:has(.article-outline-rail) .transition-swup-main {
     html.is-leaving:has(.home-hero) .transition-swup-main,
     html.is-rendering:has(.home-hero) .transition-swup-main,
     html.is-leaving:has(.article-outline-rail) .transition-swup-main,
-    html.is-rendering:has(.article-outline-rail) .transition-swup-main {
+    html.is-rendering:has(.article-outline-rail) .transition-swup-main,
+    html.is-leaving:has(.bookshelf-page) .transition-swup-main,
+    html.is-rendering:has(.bookshelf-page) .transition-swup-main,
+    html.is-leaving:has(.bookshelf-entry) .transition-swup-main,
+    html.is-rendering:has(.bookshelf-entry) .transition-swup-main {
         animation: none;
     }
 }
@@ -118,6 +126,17 @@ html.is-rendering:has(.article-outline-rail) .transition-swup-main {
    fade-in-up 的 translateY 会让 #content-wrapper 变成 fixed 的 containing block
    导致 hero 回弹跳动，其 opacity:0 起步又与 swup 进入动画叠成双重淡入闪烁 */
 #content-wrapper:has(> .home-page) {
+    animation: none;
+}
+
+/* 永远百科 书架页有自己的 GSAP 首屏幕布（position: fixed），
+   同样需要关闭 onload 位移，否则 fixed 会被 #content-wrapper 捕获导致幕布少一块/卡顿 */
+#content-wrapper:has(> .bookshelf-page) {
+    animation: none;
+}
+
+/* 百科词条页有固定全屏背景图（position: fixed），同样需关闭 onload 位移 */
+#content-wrapper:has(> .bookshelf-entry) {
     animation: none;
 }
 
