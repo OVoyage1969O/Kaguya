@@ -981,6 +981,7 @@ export type BookshelfCategory = {
 	name: string; // 分类名
 	icon: string; // 图标（Iconify）
 	summary: string; // 分类简介
+	cover?: string; // 书籍封面图路径（public 目录，可选，如 "/Kaguya/assets/images/Alice.jpg"）
 	entries: BookshelfEntry[]; // 词条列表
 	subgroups?: BookshelfSubgroup[]; // 可折叠子分组（用于导航框多级结构）
 };

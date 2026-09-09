@@ -19,6 +19,7 @@ export const bookshelfConfig: BookshelfConfig = {
 			name: "型月世界",
 			icon: "material-symbols:auto-awesome-mosaic",
 			summary: "月之圣杯、魔术与英灵",
+			cover: "/Kaguya/assets/images/Chaldea.png",
 			entries: [
 				{ id: "magic-circuit", title: "魔术回路", summary: "魔术师体内天生的回路，用于行使魔术。" },
 				{ id: "holy-grail-war", title: "圣杯战争", summary: "围绕万能的许愿机展开的魔术战争。" },
@@ -41,6 +42,7 @@ export const bookshelfConfig: BookshelfConfig = {
 			name: "东方project",
 			icon: "material-symbols:auto-awesome",
 			summary: "幻想乡的异变与弹幕",
+			cover: "/Kaguya/assets/images/琪露诺.jpg",
 			entries: [
 				{ id: "gensokyo", title: "幻想乡", summary: "被结界与世界隔绝的幻想乐园。" },
 				{ id: "incident", title: "异变", summary: "破坏幻想乡平衡的异常事象。" },
@@ -52,6 +54,7 @@ export const bookshelfConfig: BookshelfConfig = {
 			name: "魔法与魔术",
 			icon: "material-symbols:auto-fix",
 			summary: "魔术、魔法与神秘",
+			cover: "/Kaguya/assets/images/Aoko.jpg",
 			entries: [
 				{ id: "magecraft", title: "魔术", summary: "凭人力可达成的技术。" },
 				{ id: "sorcery", title: "魔法", summary: "人类领域之外的奇迹。" },
@@ -63,6 +66,7 @@ export const bookshelfConfig: BookshelfConfig = {
 			name: "地点",
 			icon: "material-symbols:location-home-rounded",
 			summary: "舞台与场所",
+			cover: "/Kaguya/assets/images/LW.jpg",
 			entries: [
 				{ id: "eternal-mansion", title: "永远邸", summary: "永远亭与久远寺邸的结合，本站的精神居所。" },
 				{ id: "misaki", title: "三咲町", summary: "月姬与魔法使之夜所发生的城市。" },
@@ -74,6 +78,7 @@ export const bookshelfConfig: BookshelfConfig = {
 			name: "特里维亚",
 			icon: "material-symbols:auto-awesome-motion",
 			summary: "零散的趣闻与杂项",
+			cover: "/Kaguya/assets/images/AOO.jpg",
 			entries: [],
 			// 子分组：人物（先放维塔·萨普里、迪普·桑姆博）
 			subgroups: [

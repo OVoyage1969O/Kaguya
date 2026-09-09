@@ -31,17 +31,25 @@ const selected = entries.filter(entry => featured.includes(entry.id)).slice(0, 4
       <div class="el-section-label" data-bk-heading><h2 id="collection-title">典藏书架 <span>THE COLLECTION</span></h2><span class="el-hint">选择一册 · 抽取翻阅 ↗</span></div>
       <div class="el-shelf-window">
         <div class="el-shelf" data-bk-shelf>
+          <div class="el-shelf__frame" aria-hidden="true"><i class="el-shelf__crown"></i><i class="el-shelf__side el-shelf__side--left"></i><i class="el-shelf__side el-shelf__side--right"></i></div>
           <div class="el-shelf__inscription" aria-hidden="true">WORLDS BETWEEN PAGES</div>
           <div class="el-books" role="group" aria-label="选择分类藏书">
             {volumes.map((cat, index) => (
               <div class="el-book-slot" data-bk-slot>
-                <button class="el-book" type="button" data-bk-book={index} aria-expanded="true" aria-controls={`volume-${cat.id}`} aria-label={`抽取${cat.name}，${cat.items.length}个词条`}>
+                <button class="el-book" type="button" data-bk-book={index} aria-expanded="false" aria-controls={`volume-${cat.id}`} aria-label={`抽取${cat.name}，${cat.items.length}个词条`}>
                   <span class="el-book__object" data-bk-object>
                     <span class="el-book__pages" aria-hidden="true"></span>
                     <span class="el-book__spine" aria-hidden="true"><span>{cat.number}</span><strong>{cat.name}</strong><span>永远百科</span></span>
                     <span class="el-book__cover">
                       <span class="el-book__edition">ETERNAL ARCHIVE <span>VOL. {cat.number}</span></span>
-                      <span class={`el-book__art el-book__art--${index % 5}`} aria-hidden="true"><i></i><i></i><i></i><Icon name={cat.icon} /></span>
+                      {cat.cover ? (
+                        <span class="el-book__art el-book__art--cover" aria-hidden="true">
+                          <span class={`el-book__art-fallback el-book__art--${index % 5}`}><Icon name={cat.icon} /></span>
+                          <img class="el-book__cover-img" src={cat.cover} alt="" loading="lazy" decoding="async" onerror="this.closest(&apos;.el-book__art--cover&apos;).classList.add(&apos;is-failed&apos;)" />
+                        </span>
+                      ) : (
+                        <span class={`el-book__art el-book__art--${index % 5}`} aria-hidden="true"><i></i><i></i><i></i><Icon name={cat.icon} /></span>
+                      )}
                       <strong class="el-book__name">{cat.name}</strong>
                       <span class="el-book__summary">{cat.summary}</span>
                       <span class="el-book__footer"><span>{String(cat.items.length).padStart(2, "0")} ENTRIES</span><span>↗</span></span>
@@ -59,7 +67,7 @@ const selected = entries.filter(entry => featured.includes(entry.id)).slice(0, 4
     </section>
     <div class="el-reading" data-bk-reading>
       {volumes.map(cat => (
-        <section class="el-volume" id={`volume-${cat.id}`} data-bk-volume aria-labelledby={`title-${cat.id}`}>
+        <section class="el-volume" id={`volume-${cat.id}`} data-bk-volume hidden aria-labelledby={`title-${cat.id}`}>
           <div class="el-volume__intro"><span class="el-kicker">OPEN VOLUME / {cat.number}</span><h2 id={`title-${cat.id}`}>{cat.name}</h2><p>{cat.summary}</p><a class="el-text-link" href={url(`/bookshelf/category/${cat.id}/`)}>进入完整分类 <span>↗</span></a><span class="el-volume__number" aria-hidden="true">{cat.number}</span></div>
           <div class="el-volume__entries">{cat.items.length ? cat.items.map((entry, index) => (
             <a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)} class="el-entry"><span class="el-entry__index">{String(index + 1).padStart(2, "0")}</span><span><strong>{entry.title}</strong><small>{entry.summary || "一份等待展开的幻想档案。"}</small></span><span class="el-entry__arrow">↗</span></a>

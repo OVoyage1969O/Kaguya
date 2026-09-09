@@ -20,19 +20,71 @@
 	min-height: clamp(16rem, 34vh, 24rem);
 }
 
+.home-hero__dialogue-scene-mark {
+	position: absolute;
+	top: clamp(1.15rem, 3vh, 1.8rem);
+	left: clamp(21rem, 30vw, 36rem);
+	z-index: 6;
+	display: flex;
+	align-items: baseline;
+	gap: 0.55rem;
+	color: color-mix(in oklch, var(--home-hero-ink) 72%, transparent);
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.2em;
+}
+
+.home-hero__dialogue-scene-mark strong {
+	font-size: 1.1rem;
+	font-variant-numeric: tabular-nums;
+}
+
 .home-hero__dialogue-box {
 	position: relative;
 	width: 100%;
 	min-height: inherit;
 	padding: clamp(5.5rem, 10vh, 7.5rem) clamp(3rem, 7vw, 8rem)
 		clamp(4rem, 7vw, 5.5rem) clamp(21rem, 30vw, 36rem);
-	background: color-mix(in oklch, var(--home-hero-surface) 68%, transparent);
+	background:
+		linear-gradient(110deg, color-mix(in oklch, var(--home-hero-surface) 88%, transparent), color-mix(in oklch, var(--home-hero-surface) 66%, transparent));
 	color: var(--home-hero-ink);
 	clip-path: polygon(0 0, 25% 0, 30% 24%, 100% 24%, 100% 100%, 0 100%);
-	backdrop-filter: blur(14px);
+	backdrop-filter: blur(18px) saturate(1.1);
+	border-top: 1px solid color-mix(in oklch, var(--home-hero-ink) 28%, transparent);
 	box-shadow: 0 1.25rem 3.5rem var(--home-hero-shadow);
 	overflow: hidden;
 	transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.home-hero__dialogue-box::before {
+	content: "";
+	position: absolute;
+	top: 24%;
+	left: 30%;
+	right: 0;
+	height: 2px;
+	background: linear-gradient(90deg, var(--home-hero-ink), color-mix(in oklch, var(--home-hero-ink) 8%, transparent) 55%, transparent);
+	opacity: 0.72;
+}
+
+.home-hero__dialogue-box::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: calc((var(--dialogue-progress, 1) / var(--dialogue-total, 1)) * 100%);
+	height: 3px;
+	background: var(--home-hero-ink);
+	box-shadow: 0 0 1rem color-mix(in oklch, var(--home-hero-ink) 70%, transparent);
+	transition: width 320ms ease;
+}
+
+.home-hero__dialogue-frame {
+	position: absolute;
+	inset: calc(24% + 0.8rem) 1.25rem 1.1rem calc(30% + 0.8rem);
+	pointer-events: none;
+	border-right: 1px solid color-mix(in oklch, var(--home-hero-ink) 14%, transparent);
+	border-bottom: 1px solid color-mix(in oklch, var(--home-hero-ink) 14%, transparent);
 }
 
 .home-hero__dialogue[data-hidden="true"] .home-hero__dialogue-box,
@@ -108,6 +160,36 @@
 	margin-bottom: var(--space-4);
 	font-size: 1.55rem;
 	font-weight: 750;
+	letter-spacing: 0.04em;
+}
+
+.home-hero__dialogue-role {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	color: color-mix(in oklch, var(--home-hero-ink) 52%, transparent);
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.18em;
+}
+
+.home-hero__dialogue-role::before {
+	content: "";
+	width: 1.6rem;
+	height: 1px;
+	background: currentColor;
+}
+
+.home-hero__dialogue-role::after { content: "HOST"; }
+.home-hero__dialogue-box[data-speaker="visitor"] .home-hero__dialogue-role::after { content: "GUEST"; }
+
+.home-hero__dialogue[data-speaker="visitor"] .home-hero__sticker {
+	filter: grayscale(0.28) brightness(0.62) drop-shadow(0 1rem 1rem var(--home-hero-shadow));
+	transform: translateX(-0.4rem) scale(0.98);
+}
+
+.home-hero__dialogue[data-speaker="visitor"] .home-hero__dialogue-box {
+	background: linear-gradient(110deg, oklch(0.035 0 0 / 0.94), oklch(0.07 0 0 / 0.8));
 }
 
 .home-hero__dialogue-name {
@@ -193,6 +275,16 @@
 	justify-content: end;
 }
 
+.home-hero__dialogue-mode {
+	position: absolute;
+	right: 100%;
+	margin-right: 1rem;
+	color: color-mix(in oklch, var(--home-hero-ink) 42%, transparent);
+	font-size: 0.65rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+}
+
 .home-hero__dialogue-advance {
 	display: inline-flex;
 	min-height: 3rem;
@@ -212,6 +304,10 @@
 .home-hero__dialogue-advance svg {
 	width: 1.1rem;
 	height: 1.1rem;
+}
+
+.home-hero__dialogue-box:not([data-typing="true"]) .home-hero__dialogue-advance svg {
+	animation: home-hero-dialogue-next 1.15s ease-in-out infinite;
 }
 
 
@@ -309,6 +405,11 @@
 	}
 }
 
+@keyframes home-hero-dialogue-next {
+	0%, 100% { transform: translateY(-0.12rem); opacity: 0.45; }
+	50% { transform: translateY(0.2rem); opacity: 1; }
+}
+
 @keyframes home-hero-sticker-blink {
 	0%,
 	46%,
@@ -342,10 +443,19 @@
 		min-height: 16.5rem;
 	}
 
+	.home-hero__dialogue-scene-mark {
+		display: none;
+	}
+
 	.home-hero__dialogue-box {
 		padding: 5.25rem 1.25rem 3.6rem 12.5rem;
 		clip-path: polygon(0 0, 24% 0, 31% 20%, 100% 20%, 100% 100%, 0 100%);
 		backdrop-filter: blur(7px);
+	}
+
+	.home-hero__dialogue-frame,
+	.home-hero__dialogue-mode {
+		display: none;
 	}
 
 	.home-hero__dialogue-controls {

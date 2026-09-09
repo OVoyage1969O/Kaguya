@@ -36,6 +36,10 @@ const dialogueConfig = {
 >
 	<div class="home-hero__dialogue-layout">
 		<HeroSticker config={sticker} />
+		<div class="home-hero__dialogue-scene-mark" aria-hidden="true">
+			<span>SCENE</span>
+			<strong>01</strong>
+		</div>
 
 		<div class="home-hero__dialogue-controls">
 			<button type="button" class="home-hero__dialogue-button" data-dialogue-action="back" aria-label={i18n(I18nKey.dialoguePrev)} title={i18n(I18nKey.dialoguePrev)}>
@@ -53,15 +57,18 @@ const dialogueConfig = {
 		</div>
 
 		<div class="home-hero__dialogue-box" data-dialogue-box data-speaker="host">
+			<div class="home-hero__dialogue-frame" aria-hidden="true"></div>
 			<div class="home-hero__dialogue-body" data-dialogue-click>
 				<div class="home-hero__dialogue-nameplate">
 					<span class="home-hero__dialogue-name" data-dialogue-name>{dialogueConfig.speakers.host}</span>
+					<span class="home-hero__dialogue-role" aria-hidden="true"></span>
 				</div>
 				<p class="home-hero__dialogue-text" data-dialogue-text aria-live="polite"></p>
 				<ul class="home-hero__dialogue-menu" data-dialogue-menu hidden></ul>
 			</div>
 
 			<div class="home-hero__dialogue-footer">
+				<span class="home-hero__dialogue-mode" aria-hidden="true">DIALOGUE</span>
 				<button type="button" class="home-hero__dialogue-advance" data-dialogue-advance>
 					<span data-dialogue-advance-label>{i18n(I18nKey.dialogueNext)}</span>
 					<Icon name="material-symbols:keyboard-arrow-down-rounded" is:inline aria-hidden="true" />

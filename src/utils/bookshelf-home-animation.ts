@@ -23,8 +23,8 @@ export function mountBookshelfAnimations(): () => void {
 	const leaves = intro?.querySelectorAll("[data-bk-leaf]");
 	// Escape the page's stacking context and Swup transforms so the curtain
 	// covers the viewport, including the navigation and floating controls.
-	if (intro) document.body.append(intro);
-	let active = 0;
+	if (intro) document.body.appendChild(intro);
+	let active = -1; // 默认不选中任何书
 	let panelMotion: gsap.core.Timeline | undefined;
 	root.classList.add("is-enhanced");
 	const sync = () => {
@@ -172,7 +172,7 @@ export function mountBookshelfAnimations(): () => void {
 		panelMotion?.kill();
 		media.revert();
 		context.revert();
-		if (intro) root.prepend(intro);
+		if (intro) root.insertBefore(intro, root.firstChild);
 		panels.forEach((panel) => {
 			panel.hidden = false;
 		});

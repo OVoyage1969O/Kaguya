@@ -14,12 +14,15 @@ import {
 	spineModelConfig,
 } from "@/config";
 import { LinkPresets } from "@/constants/link-presets";
+import { isHomePage } from "@/utils/layout-utils";
+import StudyFooter from "@components/layout/StudyFooter.astro";
 import Layout from "./Layout.astro";
 
 import "@/styles/markdown.css";
 import "@/styles/expressive-code.css";
 import "@/styles/toc.css";
 import "@/styles/collections.css";
+import "@/styles/study-theme.css";
 
 interface Props {
 	title?: string;
@@ -62,6 +65,7 @@ const {
 } = Astro.props;
 
 const isPostPage = !!postSlug;
+const isStudyPage = !isHomePage(Astro.url.pathname);
 const shouldRenderCategoryBar = !!siteConfig.categoryBar;
 const navbarWidthFull = siteConfig.navbar.widthFull ?? false;
 
@@ -94,7 +98,7 @@ const navLinks = navBarConfig.links.map((item) => {
 			<div id="left-sidebar-dynamic" class="hidden"></div>
 			<div id="right-sidebar-dynamic" class="hidden"></div>
 
-			<main id="swup-container" class="transition-swup-main" data-current-post-category={postCategory || ""}>
+			<main id="swup-container" class="transition-swup-main" data-study-page={isStudyPage ? "" : undefined} data-current-post-category={postCategory || ""}>
 				{isPostPage && <ArticleOutlineRail />}
 				{shouldRenderCategoryBar && <div id="category-bar-wrapper"><CategoryBar title={title} postSlug={postSlug} postCategory={postCategory} /></div>}
 				{/* 页面组件有自己的 H1 时不再输出布局兜底标题，确保每页只有一个 H1。 */}
@@ -104,7 +108,7 @@ const navLinks = navBarConfig.links.map((item) => {
 					<slot></slot>
 				</div>
 				<div class="footer onload-animation mt-16 pt-8 border-t">
-					<Footer></Footer>
+					{isStudyPage ? <StudyFooter /> : <Footer />}
 				</div>
 			</main>
 
@@ -113,3 +117,8 @@ const navLinks = navBarConfig.links.map((item) => {
 		</div>
 	</div>
 </Layout>
+
+<script>
+	import { initStudyMotion } from "@/utils/study-motion";
+	initStudyMotion();
+</script>

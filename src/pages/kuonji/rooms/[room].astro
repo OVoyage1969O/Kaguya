@@ -1,0 +1,37 @@
+---
+import { url } from '@/utils/url-utils';
+export function getStaticPaths(){return [{params:{room:'parlor'},props:{title:'客厅'}},{params:{room:'conservatory'},props:{title:'花房'}},{params:{room:'bedroom'},props:{title:'卧室'}}];}
+const {room}=Astro.params;
+const {title}=Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN" class="kuonji-room-page">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#292825" /><title>{title} · 久远寺宅</title>
+    <meta name="description" content={`久远寺宅${title}，可环顾的三维室内空间。`} />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%239caaa7' d='M5 20 20 5l15 15v16H5z'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <main id="kuonji-room" data-room={room} aria-label={`${title}三维场景`}></main>
+    <nav class="room-access" aria-label="键盘房间导航">
+      <a href={url('/kuonji/rooms/parlor/')}>前往客厅</a><a href={url('/kuonji/rooms/conservatory/')}>前往花房</a><a href={url('/kuonji/rooms/bedroom/')}>前往卧室</a><a href={url('/kuonji/')}>返回庭院</a>
+    </nav>
+    <noscript>请开启 JavaScript 查看房间。</noscript>
+    <script>
+      import {mountRoom} from '@/components/features/kuonji-diorama/room-scene';
+      import type {RoomName} from '@/components/features/kuonji-diorama/rooms';
+      let cleanup:(()=>void)|undefined;
+      const mount=()=>{const host=document.getElementById('kuonji-room');if(!host||host.dataset.sceneReady)return;try{cleanup=mountRoom(host,host.dataset.room as RoomName);}catch(error){console.error(error);host.textContent='室内场景未能加载，请开启浏览器硬件加速后刷新。';}};
+      mount();document.addEventListener('astro:page-load',mount);document.addEventListener('astro:before-swap',()=>{cleanup?.();cleanup=undefined;});window.addEventListener('pagehide',()=>{cleanup?.();cleanup=undefined;});window.addEventListener('pageshow',mount);
+    </script>
+  </body>
+</html>
+<style is:global>
+  html.kuonji-room-page,.kuonji-room-page body{margin:0;width:100%;height:100%;overflow:hidden;scrollbar-gutter:auto;background:#292825;}
+  #kuonji-room{width:100%;height:100dvh;display:grid;place-items:center;color:#ded4bf;}
+  #kuonji-room canvas{display:block;touch-action:none;cursor:grab;outline:none;}
+  .kuonji-room-page astro-dev-toolbar{display:none;}
+  .room-access a{position:fixed;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
+  .room-access a:focus{inset:auto auto 20px 20px;width:auto;height:auto;clip-path:none;z-index:5;padding:10px 20px;background:#312820;color:#e7d7ba;outline:1px solid #a08b65;}
+</style>

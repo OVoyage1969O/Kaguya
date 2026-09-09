@@ -86,6 +86,9 @@ function setSpeaker(state: DialogueState, speaker?: "host" | "visitor") {
 	const resolvedSpeaker = speaker === "visitor" ? "visitor" : "host";
 	state.elements.name.textContent = state.config.speakers[resolvedSpeaker];
 	state.elements.box.dataset.speaker = resolvedSpeaker;
+	state.root.dataset.speaker = resolvedSpeaker;
+	const hero = state.root.closest<HTMLElement>("[data-home-hero]");
+	if (hero) hero.dataset.dialogueSpeaker = resolvedSpeaker;
 }
 
 function updateAdvanceLabel(state: DialogueState) {
@@ -280,6 +283,8 @@ export function initHomeHeroDialogue(
 
 		clearTimers(state);
 		state.lineIndex = lineIndex;
+		state.elements.box.style.setProperty("--dialogue-progress", String(lineIndex + 1));
+		state.elements.box.style.setProperty("--dialogue-total", String(Math.max(state.lines.length, 1)));
 		state.typing = true;
 		state.elements.box.dataset.typing = "true";
 		state.elements.menu.hidden = true;
@@ -411,6 +416,8 @@ export function initHomeHeroDialogue(
 		destroy() {
 			clearTimers(state);
 			abortController.abort();
+			const hero = state.root.closest<HTMLElement>("[data-home-hero]");
+			if (hero) delete hero.dataset.dialogueSpeaker;
 		},
 	};
 }

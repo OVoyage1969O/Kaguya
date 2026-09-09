@@ -1,0 +1,53 @@
+---
+import { footerConfig, homeConfig, siteConfig } from "@/config";
+import { getSortedPosts } from "@/utils/content-utils";
+import { url } from "@/utils/url-utils";
+import Icon from "@components/common/Icon.astro";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+
+const posts = await getSortedPosts();
+const latest = posts.reduce<Date | null>((date, post) => !date || post.data.published > date ? post.data.published : date, null);
+const year = new Date().getFullYear();
+const start = siteConfig.siteStartDate?.slice(0, 4) || String(year);
+const { socialLinks, beian, poweredBy } = footerConfig;
+const indexLinks = [
+  { label: "文章归档", english: "ARCHIVE", href: "/archive/" },
+  { label: "分类索引", english: "INDEX", href: "/categories/" },
+  { label: "关于这里", english: "ABOUT", href: "/about/" },
+];
+---
+<footer class="study-footer" aria-label="站点页脚" data-study-footer>
+  <div class="study-footer__rule" aria-hidden="true"><span>FINIS / 卷末</span><span>THE STUDY REMAINS OPEN</span><i data-study-footer-line></i></div>
+  <div class="study-footer__body">
+    <div class="study-footer__note" data-study-footer-item>
+      <span class="study-eyebrow">{siteConfig.navbar.title || siteConfig.title} · PERSONAL ARCHIVE</span>
+      <p class="study-footer__heading">知识有迹，<br />长夜有光<span>。</span></p>
+      <p class="study-footer__description">在技术与数学之间，在思考与日常之间。<br />把尚未想明白的事，慢慢写成答案。</p>
+      <a class="study-footer__home" href={url("/")}>返回扉页 <span aria-hidden="true">↗</span></a>
+    </div>
+    <nav class="study-footer__index" aria-label="站点索引" data-study-footer-item>
+      <h2>01 / 阅读索引</h2>
+      {indexLinks.map(link => <a href={url(link.href)}><span>{link.label}</span><small>{link.english}</small></a>)}
+      <a href={url("rss/")}><span>订阅更新</span><small>RSS ↗</small></a>
+    </nav>
+    <nav class="study-footer__social" aria-label="联系与社交" data-study-footer-item>
+      <h2>02 / 保持联络</h2>
+      {socialLinks.map(link => <a href={link.href} target={/^https?:/.test(link.href) ? "_blank" : undefined} rel={/^https?:/.test(link.href) ? "noopener noreferrer" : undefined}><span>{link.label}</span><Icon name={link.icon} /></a>)}
+    </nav>
+  </div>
+  <div class="study-footer__closing" data-study-footer-item>
+    <svg viewBox="0 0 110 40" fill="none" aria-hidden="true"><path d="m2 28 27-17 28 15 24-21 27 14" stroke="currentColor" stroke-width=".5"/><circle cx="29" cy="11" r="2" fill="currentColor"/><circle cx="57" cy="26" r="2" fill="currentColor"/><circle cx="81" cy="5" r="2" fill="currentColor"/><path d="M96 27v10m-5-5h10" stroke="currentColor" stroke-width=".6"/></svg>
+    <span>PER ASPERA, AD ASTRA.</span>
+    {latest && <span class="study-footer__updated">最近落笔 <time datetime={latest.toISOString()}>{latest.toISOString().slice(0,10).replaceAll("-", ".")}</time></span>}
+  </div>
+  <div class="study-footer__meta">
+    <span>© {start === String(year) ? year : `${start}–${year}`} {homeConfig.name}</span>
+    <div><a href={url("sitemap-index.xml")}>Sitemap</a><button type="button" onclick="window.openPrivacyModal?.()">{i18n(I18nKey.privacyPolicy)}</button><button type="button" onclick="window.openUserAgreementModal?.()">{i18n(I18nKey.userAgreement)}</button></div>
+    <div>{poweredBy.map(item => <a href={item.href} target="_blank" rel="noopener noreferrer">{item.label} {item.name}</a>)}</div>
+  </div>
+  {(beian.icp || beian.police) && <div class="study-footer__legal">
+    {beian.icp && <a href={beian.icpUrl} target="_blank" rel="noopener noreferrer">{beian.icp}</a>}
+    {beian.police && <a href={beian.policeUrl} target="_blank" rel="noopener noreferrer"><img src={beian.policeIcon} alt="" width="14" height="14" />{beian.police}</a>}
+  </div>}
+</footer>
