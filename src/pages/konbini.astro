@@ -1,0 +1,15 @@
+---
+import KonbiniDiorama from "@components/features/konbini-diorama/KonbiniDiorama.svelte";
+import { siteConfig } from "@/config";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import "@/styles/pages/konbini.css";
+---
+
+<MainGridLayout title="雨夜便利店街角 · 微缩模型" description="三渲二日式二次元风格：雨夜便利店街角微缩三维景观，可拖拽旋转缩放浏览。" hasOwnH1={true}>
+	<h1 class="sr-only">雨夜便利店街角 · 微缩模型</h1>
+	<div class="konbini-scene-page">
+		<div class="konbini-scene-page__canvas">
+			<KonbiniDiorama client:only="svelte" />
+		</div>
+	</div>
+</MainGridLayout>

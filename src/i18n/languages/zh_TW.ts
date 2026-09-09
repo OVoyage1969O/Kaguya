@@ -461,6 +461,7 @@ export const zh_TW: Translation = {
 	[Key.albumPrefix]: "相簿：",
 	[Key.sponsorChooseMethod]: "選擇你喜歡的支付方式",
 	[Key.sponsorNotAvailable]: "暫不開通",
+	[Key.sponsorLinkOpen]: "點擊進入贊助窗口",
 	[Key.postIntroLabel]: "簡介",
 	[Key.coverImageAltSuffix]: "封面圖",
 

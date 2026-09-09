@@ -440,3 +440,15 @@
 :root.dark .bookshelf-entry__crumb a {
 	color: #9a9a9a;
 }
+
+/* ============================================
+   永远百科 · 背景尘埃上飘特效
+   全屏 fixed、位于内容之下、不可交互
+   ============================================ */
+.bookshelf-dust {
+	position: fixed;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	display: block;
+}

@@ -9,6 +9,7 @@ import { getCollection, render } from "astro:content";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import BookshelfDust from "@components/bookshelf/BookshelfDust.svelte";
 import { url } from "@/utils/url-utils";
 import "@/styles/pages/bookshelf.css";
 import "@/styles/pages/bookshelf-entry.css";
@@ -46,6 +47,7 @@ const bgOpacity = data.background?.opacity ?? 0.15;
 		class:list={["bookshelf-entry", data.background ? "bookshelf-entry--has-bg" : ""]}
 		style={data.background ? `--bk-bg-image: url('${data.background.image}'); --bk-bg-opacity: ${bgOpacity};` : undefined}
 	>
+		<BookshelfDust client:only="svelte" />
 		{data.background && <div class="bookshelf-entry__bg" aria-hidden="true"></div>}
 
 		<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">

@@ -473,6 +473,7 @@ export const en: Translation = {
 	[Key.albumPrefix]: "Album: ",
 	[Key.sponsorChooseMethod]: "Choose your preferred payment method",
 	[Key.sponsorNotAvailable]: "Not available yet",
+	[Key.sponsorLinkOpen]: "Click to enter sponsor page",
 	[Key.postIntroLabel]: "Intro",
 	[Key.coverImageAltSuffix]: " cover image",
 

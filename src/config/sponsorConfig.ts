@@ -29,7 +29,7 @@ export const sponsorConfig: SponsorConfig = {
 			icon: "fa7-brands:alipay",
 			// 收款码图片路径（需要放在 public 目录下）/assets/images/alipay.webp
 			qrCode: "",
-			link: "",
+			link: "https://ovoyage1969o.github.io/",
 			description: "",
 			enabled: true,
 		},

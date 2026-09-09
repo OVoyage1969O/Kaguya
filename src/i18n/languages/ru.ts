@@ -471,6 +471,7 @@ export const ru: Translation = {
 	[Key.albumPrefix]: "Альбом: ",
 	[Key.sponsorChooseMethod]: "Выберите способ оплаты",
 	[Key.sponsorNotAvailable]: "Пока недоступно",
+	[Key.sponsorLinkOpen]: "Перейти к спонсорской странице",
 	[Key.postIntroLabel]: "Вступление",
 	[Key.coverImageAltSuffix]: " — обложка",
 

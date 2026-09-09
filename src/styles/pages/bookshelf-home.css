@@ -1,0 +1,133 @@
+#content-wrapper:has(> .eternal-library) { animation: none; }
+.eternal-library {
+  --el-ink: var(--deep-text, #252723);
+  --el-muted: var(--content-meta, #74766f);
+  --el-paper: var(--page-bg, #fff);
+  --el-line: color-mix(in srgb, var(--el-ink) 16%, transparent);
+  --el-wash: color-mix(in srgb, var(--el-paper) 94%, #8b927c);
+  position: relative; isolation: isolate; color: var(--el-ink); padding: 36px 0 0;
+}
+.eternal-library button, .eternal-library a { -webkit-tap-highlight-color: transparent; }
+.eternal-library button { cursor: pointer; }
+.eternal-library :is(a,button):focus-visible { outline: 2px solid var(--primary); outline-offset: 6px; border-radius: 3px; }
+.el-eyebrow,.el-kicker,.el-section-label,.el-shelf-caption,.el-book__edition,.el-book__footer,.el-book-label,.el-pick__meta,.el-pick__bottom { font-size: 10px; letter-spacing: .12em; }
+.el-eyebrow { display: flex; align-items: center; gap: 9px; color: var(--el-muted); }
+.el-eyebrow>span:last-child { margin-left: auto; }
+.el-status { width: 5px; height: 5px; border-radius: 50%; background: #87977e; }
+.el-title-mask { overflow: hidden; padding: 18px 0 10px; }
+.el-title-mask h1 { font-family: "Noto Serif SC", "Songti SC", SimSun, serif; font-size: clamp(40px, 6vw, 66px); font-weight: 500; line-height: 1.35; letter-spacing: -.045em; margin: 0; }
+.el-title-mask h1>span { display: inline-block; font-family: inherit; font-size: .44em; letter-spacing: .06em; color: var(--el-muted); margin-left: 24px; }
+.el-header__bottom { display: flex; justify-content: space-between; gap: 36px; align-items: center; margin: 10px 0 36px; }
+.el-header__bottom>p { max-width: 590px; font-size: 12px; line-height: 1.95; color: var(--el-muted); }
+.el-stat { display: flex; gap: 13px; align-items: center; flex-shrink: 0; }
+.el-stat strong { font: 42px/1 Georgia, serif; }
+.el-stat span { font-size: 10px; line-height: 1.8; color: var(--el-muted); }
+.el-section-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid var(--el-line); padding: 18px 0; color: var(--el-muted); }
+.el-section-label h2 { color: var(--el-ink); font-size: 12px; font-weight: 500; margin: 0; letter-spacing: .09em; }
+.el-section-label h2>span { color: var(--el-muted); font-size: 9px; margin-left: 12px; }
+.el-shelf-window { border-radius: var(--radius-large); background: var(--el-wash); overflow: hidden; }
+.el-shelf { position: relative; padding: 69px 28px 0; background: radial-gradient(ellipse at 45% 5%, color-mix(in srgb, var(--el-paper) 80%, transparent), transparent 75%); }
+.el-shelf__inscription { position: absolute; top: 15px; left: 30px; font-size: 9px; letter-spacing: .24em; color: var(--el-muted); opacity: .6; }
+.el-books { display: flex; justify-content: center; gap: clamp(8px, 2vw, 24px); position: relative; z-index: 2; }
+.el-book-slot { width: 142px; min-width: 0; position: relative; perspective: 1100px; --binding: #454d43; }
+.el-book { position: relative; display: block; width: 100%; height: 263px; padding: 0; border: 0; background: none; text-align: left; perspective: 1000px; }
+.el-book__object { position: absolute; top: 0; left: 10px; width: 157px; height: 247px; transform-style: preserve-3d; transform: rotateY(48deg) rotateZ(1deg); transform-origin: 32px 100%; transition: transform 1.15s cubic-bezier(.22,.75,.15,1); }
+.el-book:hover .el-book__object { transform: translateY(-18px) rotateY(36deg) rotateZ(0deg); }
+.el-book[aria-expanded="true"] .el-book__object { transform: translateY(-34px) translateZ(38px) rotateY(8deg) rotateZ(-2deg); }
+.eternal-library:not(.is-enhanced) .el-book__object { transform: rotateY(48deg); }
+.el-book__cover { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 16px 15px 12px; color: #eeeade; background: var(--binding); border: 1px solid #ffffff25; border-radius: 1px 4px 4px 1px; box-shadow: inset 5px 0 6px #0003, inset 8px 0 1px #ffffff0b, 9px 14px 15px #0002; backface-visibility: hidden; }
+.el-book-slot:nth-child(2) { --binding: #676057; }
+.el-book-slot:nth-child(3) { --binding: #3e494f; }
+.el-book-slot:nth-child(4) { --binding: #757464; }
+.el-book-slot:nth-child(5) { --binding: #59505c; }
+.el-book__spine { position: absolute; top: 0; left: -28px; width: 28px; height: 247px; transform-origin: right center; transform: rotateY(-90deg); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 15px 0; color: #eeeade; background: var(--binding); border: 1px solid #ffffff1a; font-size: 9px; box-shadow: inset -8px 0 10px #0003; }
+.el-book__spine strong { writing-mode: vertical-rl; font-family: SimSun, serif; font-size: 14px; letter-spacing: .18em; }
+.el-book__spine>span:last-child { writing-mode: vertical-rl; font-size: 8px; }
+.el-book__pages { position: absolute; inset: 3px 0 3px 4px; transform: translateZ(-25px); background: repeating-linear-gradient(90deg,#e4e0d4 0px,#e4e0d4 2px,#bebcad 3px); border-radius: 0 4px 4px 0; box-shadow: 12px 16px 18px #0002; }
+.el-book__pages::after { content: ""; position: absolute; right: 0; width: 25px; height: 100%; background: repeating-linear-gradient(90deg,#ddd9ca 0 2px,#b7b5a9 2px 3px); transform-origin: right; transform: rotateY(-90deg); }
+.el-book__edition { display: flex; justify-content: space-between; font-size: 5px; letter-spacing: .07em; opacity: .7; }
+.el-book__art { position: relative; display: grid; place-items: center; height: 122px; margin: 6px 0 8px; overflow: hidden; }
+.el-book__art i { position: absolute; width: 76px; height: 76px; border: 1px solid #e2ddbd55; border-radius: 50%; }
+.el-book__art i:nth-child(2) { width: 57px; height: 57px; transform: translateX(18px); }
+.el-book__art i:nth-child(3) { width: 1px; height: 108px; border-radius: 0; transform: rotate(36deg); }
+.el-book__art svg { font-size: 24px; opacity: .8; }
+.el-book__art--1 i { border-radius: 0; transform: rotate(45deg); }
+.el-book__art--2 i:nth-child(2) { transform: rotateX(65deg); width: 100px; }
+.el-book__art--3 i { border-radius: 50% 50% 0 0; height: 88px; }
+.el-book__art--4 i { border-radius: 0; transform: rotate(30deg); }
+.el-book__name { font: 19px/1.4 "Noto Serif SC", SimSun, serif; letter-spacing: .05em; white-space: nowrap; }
+.el-book__summary { font-size: 7px; margin-top: 7px; opacity: .65; }
+.el-book__footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 12px; border-top: 1px solid #ffffff30; font-size: 6px; }
+.el-book__footer>span:last-child { font-size: 13px; }
+.el-book-label { display: flex; align-items: center; justify-content: center; gap: 9px; position: relative; padding: 17px 0 19px; color: var(--el-muted); font-size: 9px; white-space: nowrap; letter-spacing: .02em; }
+.el-book-label>span { font-family: Georgia,serif; font-size: 13px; opacity: .6; }
+.el-shelf__edge { position: absolute; bottom: 50px; left: 0; right: 0; height: 13px; background: linear-gradient(var(--el-paper),color-mix(in srgb,var(--el-paper) 83%,#6d6b5a)); border-top: 1px solid var(--el-line); box-shadow: 0 13px 17px #0000000b; }
+.el-shelf-caption { display: flex; justify-content: space-between; gap: 10px; padding: 13px 0 25px; color: var(--el-muted); font-size: 9px; letter-spacing: .07em; }
+.el-reading { border-top: 1px solid var(--el-line); border-bottom: 1px solid var(--el-line); }
+.el-volume { display: grid; grid-template-columns: 32% 1fr; padding: 29px 0; gap: 30px; }
+.el-volume[hidden] { display: none; }
+.el-volume__intro { position: relative; overflow: hidden; min-height: 210px; }
+.el-kicker { color: var(--el-muted); font-size: 9px; }
+.el-volume__intro h2 { font: 27px/1.4 "Noto Serif SC",SimSun,serif; margin: 13px 0 8px; }
+.el-volume__intro p { font-size: 11px; color: var(--el-muted); }
+.el-text-link { display: inline-flex; gap: 27px; font-size: 11px; margin-top: 22px; border-bottom: 1px solid var(--el-line); padding-bottom: 5px; }
+.el-volume__number { display: block; font: 100px/.85 Georgia,serif; color: var(--el-ink); opacity: .06; margin-top: 22px; }
+.el-volume__entries { display: flex; flex-direction: column; }
+.el-entry { display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--el-line); padding: 13px 4px; transition: background .3s, padding .5s; }
+.el-entry:last-child { border: 0; }
+.el-entry:hover { padding-left: 12px; background: var(--el-wash); }
+.el-entry__index { font: 11px Georgia,serif; color: var(--el-muted); }
+.el-entry strong { display: block; font-size: 12px; font-weight: 500; }
+.el-entry small { display: block; font-size: 10px; color: var(--el-muted); margin-top: 4px; line-height: 1.6; }
+.el-entry__arrow { margin-left: auto; font-size: 15px; color: var(--el-muted); }
+.el-featured { margin-top: 42px; }
+.el-featured .el-section-label { border: 0; }
+.el-picks { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.el-pick { position: relative; display: flex; flex-direction: column; min-height: 180px; padding: 18px; border: 1px solid var(--el-line); border-radius: var(--radius-medium); overflow: hidden; transition: background .5s, transform .6s; }
+.el-pick:hover { background: var(--el-wash); transform: translateY(-6px); }
+.el-pick__meta { display: flex; justify-content: space-between; color: var(--el-muted); font-size: 8px; letter-spacing: .04em; }
+.el-pick>strong { font: 20px/1.5 "Noto Serif SC",SimSun,serif; margin-top: 23px; }
+.el-pick>p { font-size: 10px; line-height: 1.8; color: var(--el-muted); margin: 7px 0 20px; }
+.el-pick__bottom { display: flex; justify-content: space-between; margin-top: auto; font-size: 9px; }
+.el-colophon { display: flex; align-items: center; justify-content: space-between; padding: 33px 0 10px; gap: 16px; }
+.el-colophon p { font: 21px/1.5 "Noto Serif SC",SimSun,serif; margin-top: 7px; }
+.el-colophon button { padding: 12px 20px; background: var(--el-ink); color: var(--el-paper); border-radius: 30px; font-size: 11px; }
+.el-colophon button>span { margin-left: 30px; }
+.el-opening { --el-ink: var(--deep-text, #252723); --el-paper: var(--page-bg, #fff); display: none; position: fixed; inset: 0; width: 100vw; height: 100dvh; z-index: 10000; overflow: hidden; pointer-events: none; }
+.el-opening__leaf { position: absolute; top: 0; bottom: 0; width: 50.1%; background: var(--el-ink); }
+.el-opening__leaf:nth-child(2) { right: 0; }
+.el-opening__mark { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; color: var(--el-paper); }
+.el-opening__mark>span { font-size: 10px; letter-spacing: .25em; }
+.el-opening__mark>div { overflow: hidden; }
+.el-opening__mark strong { display: block; font: 54px/1.5 "Noto Serif SC",SimSun,serif; letter-spacing: .15em; }
+@media(min-width: 768px) { .el-volume__entries { min-height: 282px; } }
+@media(max-width: 767px) {
+  .eternal-library { padding-top: 22px; }
+  .el-title-mask h1>span { display: block; margin: 8px 0 0; font-size: 19px; }
+  .el-header__bottom { gap: 18px; margin-bottom: 24px; }
+  .el-header__bottom>p { font-size: 11px; }
+  .el-stat strong { font-size: 30px; }
+  .el-stat { gap: 8px; }
+  .el-stat span { font-size: 8px; }
+  .el-shelf-window { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
+  .el-shelf { min-width: 750px; padding: 63px 25px 0; }
+  .el-books { gap: 15px; }
+  .el-book-slot { width: 125px; flex-shrink: 0; }
+  .el-book__object { width: 144px; }
+  .el-book__name { font-size: 17px; }
+  .el-volume { grid-template-columns: 1fr; gap: 16px; padding: 22px 0; }
+  .el-volume__intro { min-height: 118px; }
+  .el-volume__number { position: absolute; right: 8px; top: 0; font-size: 120px; margin: 0; }
+  .el-text-link { margin-top: 14px; }
+  .el-picks { grid-template-columns: repeat(2,1fr); }
+  .el-hint { font-size: 9px; }
+  .el-section-label h2>span { display: block; margin: 5px 0 0; }
+  .el-shelf-caption>span:last-child { display: none; }
+  .el-colophon p { font-size: 17px; }
+  .el-colophon button { padding: 11px 14px; }
+  .el-colophon button>span { margin-left: 12px; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .eternal-library *, .eternal-library *::before, .eternal-library *::after { transition: none !important; scroll-behavior: auto !important; }
+  .el-opening { display: none !important; }
+}

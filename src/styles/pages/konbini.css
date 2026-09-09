@@ -1,0 +1,77 @@
+/* 雨夜便利店街角 · 微缩模型 —— 独立全屏页，隐藏博客外壳，无 UI */
+
+.konbini-scene-page {
+	position: fixed;
+	inset: 0;
+	z-index: 90;
+	overflow: hidden;
+	background: #0a1230;
+}
+
+/* 隐藏博客外壳元素（顶部导航、侧栏、dock、页脚、进度条等） */
+html:has(.konbini-scene-page) #top-row,
+html:has(.konbini-scene-page) #floating-dock,
+html:has(.konbini-scene-page) .floating-dock,
+html:has(.konbini-scene-page) #nav-menu-panel,
+html:has(.konbini-scene-page) #category-bar-wrapper,
+html:has(.konbini-scene-page) #left-sidebar-dynamic,
+html:has(.konbini-scene-page) #right-sidebar-dynamic,
+html:has(.konbini-scene-page) #progress-bar,
+html:has(.konbini-scene-page) .footer,
+html:has(.konbini-scene-page) #live2d-widget,
+html:has(.konbini-scene-page) #spine-model-container,
+html:has(.konbini-scene-page) #floating-lyrics-container,
+html:has(.konbini-scene-page) .mobile-dock {
+	display: none !important;
+}
+
+/* 内容容器全屏 */
+html:has(.konbini-scene-page) #main-grid-wrapper,
+html:has(.konbini-scene-page) #swup-container {
+	width: 100% !important;
+	max-width: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	min-height: 100vh !important;
+	overflow: hidden !important;
+}
+
+html:has(.konbini-scene-page) #content-wrapper {
+	opacity: 1 !important;
+	transform: none !important;
+	animation: none !important;
+}
+
+html:has(.konbini-scene-page),
+body:has(.konbini-scene-page) {
+	overflow: hidden !important;
+	background: #0a1230 !important;
+}
+
+html:has(.konbini-scene-page).is-leaving #swup-container.transition-swup-main,
+html:has(.konbini-scene-page).is-rendering #swup-container.transition-swup-main {
+	animation: none !important;
+	opacity: 1 !important;
+	transform: none !important;
+}
+
+/* 场景 canvas 容器 */
+.konbini-scene-page__canvas,
+.konbini-canvas {
+	position: fixed;
+	inset: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.konbini-canvas canvas {
+	display: block;
+	width: 100% !important;
+	height: 100% !important;
+	cursor: grab;
+}
+
+.konbini-canvas canvas:active {
+	cursor: grabbing;
+}

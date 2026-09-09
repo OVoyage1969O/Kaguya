@@ -1,178 +1,80 @@
 ---
 import Icon from "@components/common/Icon.astro";
-import PageTitle from "@/components/common/PageTitle.astro";
-import { bookshelfConfig, siteConfig } from "@/config";
-import I18nKey from "@/i18n/i18nKey";
-import { i18n } from "@/i18n/translation";
+import { bookshelfConfig } from "@/config";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { url } from "@/utils/url-utils";
-import "@/styles/pages/bookshelf.css";
+import "@/styles/pages/bookshelf-home.css";
 
 const { name, description, categories, featured = [] } = bookshelfConfig;
-
-// 展平所有词条（含子分组）
-const allEntries = categories.flatMap((cat) => [
-	...cat.entries.map((e) => ({ ...e, categoryId: cat.id, categoryName: cat.name })),
-	...(cat.subgroups ?? []).flatMap((sub) =>
-		sub.entries.map((e) => ({ ...e, categoryId: cat.id, categoryName: cat.name, subgroup: sub.name })),
-	),
-]);
-const featuredEntries = allEntries.filter((e) => featured.includes(e.id));
-const featuredCount = Math.min(featuredEntries.length, 6);
-const bookTotal = allEntries.length;
-
-const wikiTitle = name;
-const wikiDescription = description || "";
+const volumes = categories.map((cat, index) => ({
+  ...cat,
+  number: String(index + 1).padStart(2, "0"),
+  items: [...cat.entries, ...(cat.subgroups ?? []).flatMap(sub => sub.entries)],
+}));
+const entries = volumes.flatMap(cat => cat.items.map(entry => ({ ...entry, category: cat.name, href: url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`) })));
+const selected = entries.filter(entry => featured.includes(entry.id)).slice(0, 4);
 ---
 
-<MainGridLayout title={wikiTitle} description={wikiDescription} hasOwnH1={true}>
-	<div class="bookshelf-page" data-bk-root>
-		{/* 首屏 Opening 幕布（JS 负责揭开） */}
-		<div class="bookshelf-intro" data-bk-intro aria-hidden="true">
-			<div class="bookshelf-intro__panels">
-				<div class="bookshelf-intro__panel bookshelf-intro__panel--left" data-bk-band></div>
-				<div class="bookshelf-intro__panel bookshelf-intro__panel--right" data-bk-band></div>
-			</div>
-			<div class="bookshelf-intro__title">
-				<span class="bookshelf-intro__en" data-bk-intro-en>ETERNAL</span>
-				<span class="bookshelf-intro__zh" data-bk-intro-title>{wikiTitle}</span>
-			</div>
-		</div>
-
-		<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
-			<div class="card-base z-10 px-4 py-6 md:px-9 relative w-full">
-				<header class="bookshelf__header" data-bk-header>
-					<div class="bookshelf__title-row">
-						<Icon name="material-symbols:menu-book-rounded" class="bookshelf__logo" />
-						<PageTitle title={wikiTitle} variant="stacked" />
-					</div>
-					<p class="bookshelf__description">{wikiDescription}</p>
-					<div class="bookshelf__stats">
-						<span>{categories.length} {i18n(I18nKey.bookshelfCategories)}</span>
-						<span class="bookshelf__stats-dot">·</span>
-						<span>{bookTotal} {i18n(I18nKey.bookshelfEntries)}</span>
-					</div>
-				</header>
-
-				{
-					featuredEntries.length > 0 && (
-						<section class="bookshelf__section" data-bk-section>
-							<div class="bookshelf__section-head">
-								<span class="bookshelf__section-en" data-bk-en>FEATURED</span>
-								<h2 class="bookshelf__section-title">
-									<Icon name="material-symbols:star-rounded" />
-									{i18n(I18nKey.bookshelfFeatured)}
-								</h2>
-							</div>
-							<div class="bookshelf__featured" data-bk-cards>
-								{featuredEntries.slice(0, featuredCount).map((entry) => (
-									<a
-										href={url(`/bookshelf/entries/${entry.categoryId}/${encodeURIComponent(entry.title)}/`)}
-										class="bookshelf__featured-card"
-										data-bk-card
-									>
-										<span class="bookshelf__featured-cat">{entry.categoryName}</span>
-										<span class="bookshelf__featured-title">{entry.title}</span>
-										<span class="bookshelf__featured-summary">{entry.summary}</span>
-									</a>
-								))}
-							</div>
-						</section>
-					)
-				}
-
-				<section class="bookshelf__section" data-bk-section>
-					<div class="bookshelf__section-head">
-						<span class="bookshelf__section-en" data-bk-en>THE SHELF</span>
-						<h2 class="bookshelf__section-title">
-							<Icon name="material-symbols:library-books" />
-							{i18n(I18nKey.bookshelfBrowse)}
-						</h2>
-					</div>
-
-					<div class="bookshelf__shelf" data-bk-cards>
-						{categories.map((cat, i) => (
-							<article class="bookshelf__book" data-bk-card style={`--book-index: ${i}`}>
-								<a
-									href={url(`/bookshelf/category/${cat.id}/`)}
-									class="bookshelf__book-cover"
-								>
-									<Icon name={cat.icon} class="bookshelf__book-icon" />
-									<span class="bookshelf__book-title">{cat.name}</span>
-									<span class="bookshelf__book-summary">{cat.summary}</span>
-									<span class="bookshelf__book-count">{allEntries.filter((e) => e.categoryId === cat.id).length}</span>
-								</a>
-
-								<ul class="bookshelf__book-entries">
-									{cat.entries.slice(0, 4).map((entry) => (
-										<li>
-											<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>
-												{entry.title}
-											</a>
-										</li>
-									))}
-									{(cat.subgroups ?? []).map((sub) =>
-										sub.entries.slice(0, 4).map((entry) => (
-											<li class="bookshelf__book-entry--sub" title={sub.name}>
-												<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>
-													{entry.title}
-												</a>
-											</li>
-										)),
-									)}
-									{
-										allEntries.filter((e) => e.categoryId === cat.id).length > 4 && (
-											<li class="bookshelf__book-more">
-												<a href={url(`/bookshelf/category/${cat.id}/`)}>
-													{i18n(I18nKey.more)}… ({allEntries.filter((e) => e.categoryId === cat.id).length})
-												</a>
-											</li>
-										)
-									}
-								</ul>
-							</article>
-						))}
-					</div>
-				</section>
-
-				<section class="bookshelf__section" data-bk-section>
-					<div class="bookshelf__section-head">
-						<span class="bookshelf__section-en" data-bk-en>SURPRISE</span>
-						<button type="button" class="bookshelf__random" data-bookshelf-random>
-							<Icon name="material-symbols:casino" />
-							{i18n(I18nKey.bookshelfRandom)}
-						</button>
-					</div>
-				</section>
-			</div>
-		</div>
-	</div>
-
-	<script>
-		import { mountBookshelfAnimations } from "@/utils/bookshelf-home-animation";
-
-		// 收集所有词条链接
-		document.querySelectorAll("a[href*='/bookshelf/entries/']").forEach((a) => {
-			a.setAttribute("data-bookshelf-entry-url", a.getAttribute("href"));
-		});
-
-		function randomEntry() {
-			const links = document.querySelectorAll("[data-bookshelf-entry-url]");
-			if (links.length === 0) return;
-			const idx = Math.floor(Math.random() * links.length);
-			window.location.href = links[idx].getAttribute("data-bookshelf-entry-url");
-		}
-
-		function boot() {
-			const btn = document.querySelector("[data-bookshelf-random]");
-			if (btn && !btn.dataset.bound) {
-				btn.dataset.bound = "true";
-				btn.addEventListener("click", randomEntry);
-			}
-			mountBookshelfAnimations();
-		}
-
-		boot();
-		document.addEventListener("astro:page-load", boot);
-	</script>
+<MainGridLayout title={name} description={description} hasOwnH1={true}>
+  <div class="eternal-library" data-bk-root>
+    <div class="el-opening" data-bk-intro aria-hidden="true">
+      <div class="el-opening__leaf" data-bk-leaf></div>
+      <div class="el-opening__leaf" data-bk-leaf></div>
+      <div class="el-opening__mark"><span>THE ETERNAL ARCHIVE</span><div><strong data-bk-intro-title>{name}</strong></div><span>世界的切片，收藏于此。</span></div>
+    </div>
+    <header class="el-header">
+      <div class="el-eyebrow" data-bk-heading><span class="el-status"></span> ETERNAL MANSION <span>PRIVATE LIBRARY / 01</span></div>
+      <div class="el-title-mask"><h1 data-bk-title>{name}<span>藏一整个幻想。</span></h1></div>
+      <div class="el-header__bottom" data-bk-heading><p>{description}</p><div class="el-stat"><strong>{String(entries.length).padStart(2, "0")}</strong><span>收录词条<br />{volumes.length} 册幻想档案</span></div></div>
+    </header>
+    <section class="el-collection" aria-labelledby="collection-title">
+      <div class="el-section-label" data-bk-heading><h2 id="collection-title">典藏书架 <span>THE COLLECTION</span></h2><span class="el-hint">选择一册 · 抽取翻阅 ↗</span></div>
+      <div class="el-shelf-window">
+        <div class="el-shelf" data-bk-shelf>
+          <div class="el-shelf__inscription" aria-hidden="true">WORLDS BETWEEN PAGES</div>
+          <div class="el-books" role="group" aria-label="选择分类藏书">
+            {volumes.map((cat, index) => (
+              <div class="el-book-slot" data-bk-slot>
+                <button class="el-book" type="button" data-bk-book={index} aria-expanded="true" aria-controls={`volume-${cat.id}`} aria-label={`抽取${cat.name}，${cat.items.length}个词条`}>
+                  <span class="el-book__object" data-bk-object>
+                    <span class="el-book__pages" aria-hidden="true"></span>
+                    <span class="el-book__spine" aria-hidden="true"><span>{cat.number}</span><strong>{cat.name}</strong><span>永远百科</span></span>
+                    <span class="el-book__cover">
+                      <span class="el-book__edition">ETERNAL ARCHIVE <span>VOL. {cat.number}</span></span>
+                      <span class={`el-book__art el-book__art--${index % 5}`} aria-hidden="true"><i></i><i></i><i></i><Icon name={cat.icon} /></span>
+                      <strong class="el-book__name">{cat.name}</strong>
+                      <span class="el-book__summary">{cat.summary}</span>
+                      <span class="el-book__footer"><span>{String(cat.items.length).padStart(2, "0")} ENTRIES</span><span>↗</span></span>
+                    </span>
+                  </span>
+                </button>
+                <span class="el-book-label"><span>{cat.number}</span>{cat.name}</span>
+              </div>
+            ))}
+          </div>
+          <div class="el-shelf__edge" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="el-shelf-caption"><span>幻想没有边界，书页自有归处。</span><span>EST. ETERNITY — ∞</span></div>
+    </section>
+    <div class="el-reading" data-bk-reading>
+      {volumes.map(cat => (
+        <section class="el-volume" id={`volume-${cat.id}`} data-bk-volume aria-labelledby={`title-${cat.id}`}>
+          <div class="el-volume__intro"><span class="el-kicker">OPEN VOLUME / {cat.number}</span><h2 id={`title-${cat.id}`}>{cat.name}</h2><p>{cat.summary}</p><a class="el-text-link" href={url(`/bookshelf/category/${cat.id}/`)}>进入完整分类 <span>↗</span></a><span class="el-volume__number" aria-hidden="true">{cat.number}</span></div>
+          <div class="el-volume__entries">{cat.items.length ? cat.items.map((entry, index) => (
+            <a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)} class="el-entry"><span class="el-entry__index">{String(index + 1).padStart(2, "0")}</span><span><strong>{entry.title}</strong><small>{entry.summary || "一份等待展开的幻想档案。"}</small></span><span class="el-entry__arrow">↗</span></a>
+          )) : <p>这一册还在编写中，故事即将入藏。</p>}</div>
+        </section>
+      ))}
+    </div>
+    {selected.length > 0 && <section class="el-featured" data-bk-reveal aria-labelledby="featured-title">
+      <div class="el-section-label"><h2 id="featured-title">偶然翻到的一页 <span>CURATOR’S PICKS</span></h2><span>值得停留的故事</span></div>
+      <div class="el-picks">{selected.map((entry, index) => <a href={entry.href} class="el-pick"><span class="el-pick__meta">{entry.category}<span>0{index + 1}</span></span><strong>{entry.title}</strong><p>{entry.summary}</p><span class="el-pick__bottom">翻开此页 <span>↗</span></span></a>)}</div>
+    </section>}
+    <footer class="el-colophon" data-bk-reveal><div><span class="el-kicker">LEAVE IT TO CHANCE</span><p>下一页，会遇见什么？</p></div><button type="button" data-bk-random data-entries={JSON.stringify(entries.map(e => e.href))} disabled={entries.length === 0}>随手抽一页 <span>↗</span></button></footer>
+  </div>
+  <script>
+    import { initBookshelfLifecycle } from "@/utils/bookshelf-home-animation";
+    initBookshelfLifecycle();
+  </script>
 </MainGridLayout>

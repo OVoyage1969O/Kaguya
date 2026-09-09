@@ -471,6 +471,7 @@ export const ja: Translation = {
 	[Key.albumPrefix]: "アルバム：",
 	[Key.sponsorChooseMethod]: "お好みの支払い方法を選択してください",
 	[Key.sponsorNotAvailable]: "現在未対応",
+	[Key.sponsorLinkOpen]: "スポンサーページを開く",
 	[Key.postIntroLabel]: "概要",
 	[Key.coverImageAltSuffix]: "のカバー画像",
 

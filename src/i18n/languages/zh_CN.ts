@@ -461,6 +461,7 @@ export const zh_CN: Translation = {
 	[Key.albumPrefix]: "相册：",
 	[Key.sponsorChooseMethod]: "选择你喜欢的支付方式",
 	[Key.sponsorNotAvailable]: "暂不开通",
+	[Key.sponsorLinkOpen]: "点击进入赞助窗口",
 	[Key.postIntroLabel]: "简介",
 	[Key.coverImageAltSuffix]: "封面图",
 	// ===== AI 搜索 / 留言板（Phase B）=====

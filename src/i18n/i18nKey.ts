@@ -465,6 +465,7 @@ enum I18nKey {
 	albumPrefix = "albumPrefix",
 	sponsorChooseMethod = "sponsorChooseMethod",
 	sponsorNotAvailable = "sponsorNotAvailable",
+	sponsorLinkOpen = "sponsorLinkOpen",
 	postIntroLabel = "postIntroLabel",
 	coverImageAltSuffix = "coverImageAltSuffix",
 

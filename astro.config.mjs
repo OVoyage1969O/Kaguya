@@ -309,6 +309,13 @@ export default defineConfig({
 		}),
 	},
 	vite: {
+		// Keep builds from invalidating dependencies served by a running dev server.
+		cacheDir: process.env.NODE_ENV === "production"
+			? "node_modules/.vite-build"
+			: "node_modules/.vite-dev",
+		optimizeDeps: {
+			include: ["@chenglou/pretext", "three", "three/examples/jsm/controls/OrbitControls.js"],
+		},
 		plugins: [tailwindcss()],
 		server: {
 			watch: {

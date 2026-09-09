@@ -96,6 +96,17 @@ const showSponsorsList = sponsorConfig.showSponsorsList !== false;
                       loading="lazy"
                     />
                   </div>
+                ) : method.link ? (
+                  <div class="sponsor-qr-card__link">
+                    <a
+                      href={method.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="sponsor-qr-card__link-btn"
+                    >
+                      {i18n(I18nKey.sponsorLinkOpen)}
+                    </a>
+                  </div>
                 ) : (
                   <div class="sponsor-qr-card__empty">
                     <Icon name="material-symbols:qr-code-scanner" class="text-[3rem] mb-2 opacity-40" />
