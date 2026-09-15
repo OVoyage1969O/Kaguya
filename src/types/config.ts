@@ -211,6 +211,7 @@ export enum LinkPreset {
 	NavMy = 18,
 	Music = 19,
 	Dynamic = 20,
+	Kuonji = 21,
 }
 
 export type NavBarLink = {

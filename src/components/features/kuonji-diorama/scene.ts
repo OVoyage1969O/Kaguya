@@ -11,7 +11,7 @@ export function mountKuonji(host: HTMLElement) {
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.toneMapping = T.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.25;
-  renderer.domElement.setAttribute('aria-label', '久远寺宅微缩三维模型，可拖拽或方向键旋转，滚轮、双指或加减键缩放；点击正门或按回车进入客厅');
+  renderer.domElement.setAttribute('aria-label', '久远寺宅微缩三维模型，可拖拽或方向键旋转，滚轮、双指或加减键缩放；点击正门或按回车进入门廊');
   renderer.domElement.tabIndex = 0;
   host.append(renderer.domElement);
   const scene = new T.Scene();
@@ -46,12 +46,12 @@ export function mountKuonji(host: HTMLElement) {
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const doorGeo=new T.BoxGeometry(1.24,1.88,.055);
   const doorMat=new T.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false});
-  const entrance=new T.Mesh(doorGeo,doorMat);entrance.position.set(-.56,2.8,1.37);entrance.userData.href=roomUrl();scene.add(entrance);
+  const entrance=new T.Mesh(doorGeo,doorMat);entrance.position.set(-.56,2.8,1.37);entrance.userData.href=roomUrl('hall');scene.add(entrance);
   const unbindDoor=bindDoorNavigation(renderer.domElement,camera,[model.root,entrance],href=>leaveThroughDoor(renderer.domElement,href,reduced.matches));
   let disposed=false,frame=0,last=0,active=true;
   const render=()=>renderer.render(scene,camera);
   const keyboard=(event: KeyboardEvent)=>{
-    if(event.key==='Enter'){event.preventDefault();leaveThroughDoor(renderer.domElement,roomUrl(),reduced.matches);return;}
+    if(event.key==='Enter'){event.preventDefault();leaveThroughDoor(renderer.domElement,roomUrl('hall'),reduced.matches);return;}
     if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-'].includes(event.key))return;
     event.preventDefault();
     if(['+','=','-'].includes(event.key)) {

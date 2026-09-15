@@ -20,7 +20,8 @@ export interface StyledSegment {
 export interface StyledParagraph {
 	segments: StyledSegment[];
 	/** 段落类型 */
-	type: "heading" | "paragraph" | "list-item" | "hr";
+	type: "heading" | "paragraph" | "list-item" | "hr" | "dialogue";
+	dialogueId?: string;
 	/** 段落级间距倍率 */
 	spacingAfter: number;
 }
@@ -49,6 +50,13 @@ export function parseMarkdownToParagraphs(
 
 	for (const token of tokens) {
 		switch (token.type) {
+			case "html": {
+				const match = token.raw.trim().match(/^<!--\s*dialogue:([\w-]+)\s*-->$/);
+				if (match) {
+					result.push({ type: "dialogue", dialogueId: match[1], segments: [], spacingAfter: 1 });
+				}
+				break;
+			}
 			case "heading": {
 				const fontSize =
 					token.depth === 1 ? baseFontSize * 1.6 : baseFontSize * 1.3;

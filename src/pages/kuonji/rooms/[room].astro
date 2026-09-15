@@ -1,6 +1,6 @@
 ---
 import { url } from '@/utils/url-utils';
-export function getStaticPaths(){return [{params:{room:'parlor'},props:{title:'客厅'}},{params:{room:'conservatory'},props:{title:'花房'}},{params:{room:'bedroom'},props:{title:'卧室'}}];}
+export function getStaticPaths(){return [{params:{room:'landing'},props:{title:'二楼走廊'}},{params:{room:'hall'},props:{title:'门廊'}},{params:{room:'parlor'},props:{title:'客厅'}},{params:{room:'conservatory'},props:{title:'花房'}},{params:{room:'bedroom'},props:{title:'卧室'}}];}
 const {room}=Astro.params;
 const {title}=Astro.props;
 ---
@@ -8,14 +8,20 @@ const {title}=Astro.props;
 <html lang="zh-CN" class="kuonji-room-page">
   <head>
     <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#292825" /><title>{title} · 久远寺宅</title>
+    <meta name="theme-color" content="#0b0c0e" /><title>{title} · 久远寺宅</title>
     <meta name="description" content={`久远寺宅${title}，可环顾的三维室内空间。`} />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%239caaa7' d='M5 20 20 5l15 15v16H5z'/%3E%3C/svg%3E" />
   </head>
   <body>
     <main id="kuonji-room" data-room={room} aria-label={`${title}三维场景`}></main>
     <nav class="room-access" aria-label="键盘房间导航">
-      <a href={url('/kuonji/rooms/parlor/')}>前往客厅</a><a href={url('/kuonji/rooms/conservatory/')}>前往花房</a><a href={url('/kuonji/rooms/bedroom/')}>前往卧室</a><a href={url('/kuonji/')}>返回庭院</a>
+      {room==='bedroom' ? <a href={url('/kuonji/rooms/landing/')}>返回二楼走廊</a> : room==='landing' ? <><a href={url('/kuonji/rooms/bedroom/')}>进入卧室</a><a href={url('/kuonji/rooms/hall/')}>下楼返回门廊</a></> : <><a href={url('/kuonji/rooms/hall/')}>前往门廊</a><a href={url('/kuonji/rooms/parlor/')}>前往客厅</a><a href={url('/kuonji/rooms/conservatory/')}>前往花房</a><a href={url('/kuonji/rooms/landing/')}>上楼前往二楼</a><a href={url('/kuonji/')}>返回庭院</a></>}
+
+      {room==='bedroom' && <button data-room-action="theme">床：切换明暗主题</button>}
+      {room==='parlor' && <button data-room-action="github">电视：查看 GitHub 主页</button>}
+      {room==='conservatory' && <button data-room-action="weather">气象牌：查看当地天气</button>}
+      {(room==='hall'||room==='landing') && <button data-room-action="fireplace">壁炉：点亮或熄灭</button>}
+      {(room==='parlor'||room==='conservatory') && <button data-room-action="tea">茶杯：三分钟休息</button>}
     </nav>
     <noscript>请开启 JavaScript 查看房间。</noscript>
     <script>
@@ -28,10 +34,73 @@ const {title}=Astro.props;
   </body>
 </html>
 <style is:global>
-  html.kuonji-room-page,.kuonji-room-page body{margin:0;width:100%;height:100%;overflow:hidden;scrollbar-gutter:auto;background:#292825;}
+  html.kuonji-room-page,.kuonji-room-page body{margin:0;width:100%;height:100%;overflow:hidden;scrollbar-gutter:auto;background:#0b0c0e;}
   #kuonji-room{width:100%;height:100dvh;display:grid;place-items:center;color:#ded4bf;}
   #kuonji-room canvas{display:block;touch-action:none;cursor:grab;outline:none;}
   .kuonji-room-page astro-dev-toolbar{display:none;}
-  .room-access a{position:fixed;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
-  .room-access a:focus{inset:auto auto 20px 20px;width:auto;height:auto;clip-path:none;z-index:5;padding:10px 20px;background:#312820;color:#e7d7ba;outline:1px solid #a08b65;}
+  .room-access :is(a,button){position:fixed;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
+  .room-access :is(a,button):focus{inset:auto auto 20px 20px;width:auto;height:auto;clip-path:none;z-index:5;padding:10px 20px;background:#0b0c0e;color:#e0e1e3;outline:1px solid #8f9399;}
+  #kuonji-room{--room-paper:#101215;--room-ink:#d8dadd;--room-rule:#52565c;}
+  #kuonji-room[data-theme="light"]{--room-paper:#f7f7f5;--room-ink:#25282c;--room-rule:#a8abae;}
+  .room-object-dialog{box-sizing:border-box;background:var(--room-paper);color:var(--room-ink);border:1px solid var(--room-rule);padding:42px;width:min(460px,calc(100vw - 32px));max-height:85dvh;overflow:auto;font-family:Georgia,'Noto Serif SC','Source Han Serif SC',serif;box-shadow:0 24px 100px #0006;}
+  .room-object-dialog::backdrop{background:#0009;}
+  .room-object-dialog h2{font-size:22px;font-weight:400;letter-spacing:.1em;margin:14px 0 28px;}
+  .room-object-dialog p{font-size:14px;line-height:1.9;margin:14px 0;}
+  .room-object-dialog :is(button,a){font:inherit;font-size:13px;color:inherit;background:transparent;border:0;border-bottom:1px solid var(--room-rule);padding:9px 0;cursor:pointer;display:block;width:fit-content;text-decoration:none;margin:8px 0;text-align:left;}
+  .room-object-dialog :is(button,a,input):focus-visible{outline:1px solid currentColor;outline-offset:5px;}
+  .room-object-dialog .room-object-close{margin:0 0 0 auto;font-size:12px;}
+  .room-object-dialog input{width:100%;box-sizing:border-box;background:transparent;border:1px solid var(--room-rule);color:inherit;padding:12px;font:inherit;}
+  @media(max-width:500px){.room-object-dialog{padding:24px;}}
+  .room-object-dialog{position:fixed;inset:0 4vw 0 auto;margin:auto 0;width:min(500px,42vw);max-height:86dvh;padding:32px 38px;box-shadow:none;border:0;border-left:1px solid var(--room-rule);background:var(--room-paper);}
+  .room-object-dialog::before{content:'KUONJI RESIDENCE / 01';display:block;font-family:monospace;font-size:10px;letter-spacing:.18em;color:var(--room-ink);opacity:.55;}
+  .room-object-dialog[data-kind="weather"]::before{content:'CONSERVATORY / 02';}
+  .room-object-dialog[data-kind="tea"]::before{content:'A MOMENT OF STILLNESS / 03';}
+  .room-object-dialog::backdrop{background:linear-gradient(90deg,transparent 0%,#00000012 45%,#00000038 100%);}
+  .room-object-dialog .room-object-close{position:absolute;right:38px;top:20px;font-size:11px;border:0;opacity:.7;}
+  .room-object-dialog h2{font-size:15px;margin:28px 0 34px;letter-spacing:.25em;}
+  .room-object-dialog h3{font-weight:400;font-size:26px;line-height:1.25;margin:0;overflow-wrap:anywhere;}
+  .object-identity{display:flex;align-items:center;gap:22px;margin-bottom:24px;}
+  .object-identity p{font:11px monospace;margin:8px 0 0;opacity:.6;}
+  .object-monogram{display:grid;place-items:center;flex:0 0 68px;height:68px;border:1px solid var(--room-rule);font-size:23px;letter-spacing:.08em;border-radius:50%;}
+  .object-stats{display:grid;grid-template-columns:repeat(3,1fr);padding:24px 0;border-block:1px solid var(--room-rule);margin:26px 0;gap:12px;}
+  .object-stats dd{font-size:30px;margin:0 0 9px;font-weight:400;}
+  .object-stats dt{font:8px monospace;letter-spacing:.1em;opacity:.55;}
+  .object-repositories{margin-top:34px;}
+  .object-repositories h4{font:9px monospace;font-weight:400;letter-spacing:.15em;opacity:.65;}
+  .room-object-dialog .object-repo{display:grid;gap:8px;width:100%;padding:18px 0;}
+  .object-repo strong{font-weight:400;font-size:15px;overflow-wrap:anywhere;}
+  .object-repo span{font-size:12px;line-height:1.7;opacity:.65;}
+  .object-repo small{font:9px monospace;opacity:.5;}
+  .room-object-dialog .weather-location{font-size:22px;letter-spacing:.13em;margin:0;}
+  .weather-hero{display:flex;align-items:center;justify-content:space-between;margin:20px 0;}
+  .weather-hero strong{font-size:100px;font-weight:400;line-height:1;letter-spacing:-.06em;}
+  .weather-hero svg{width:86px;height:86px;}
+  .weather-days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;border-block:1px solid var(--room-rule);padding:24px 0;margin:28px 0;}
+  .weather-days>div{display:grid;justify-items:center;gap:16px;}
+  .weather-days span,.weather-days small{font-size:10px;white-space:nowrap;}
+  .weather-days svg{width:30px;height:30px;}
+  .room-object-dialog .object-caption{font:10px monospace;opacity:.5;line-height:1.8;}
+  .room-object-dialog .tea-clock{font-size:28px;line-height:1.8;margin:48px 0;}
+  @media(max-width:759px){.room-object-dialog{inset:auto 0 0;margin:0;width:100%;max-height:65dvh;padding:26px 24px;border-left:0;border-top:1px solid var(--room-rule);}.room-object-dialog .room-object-close{right:24px;top:16px;}.room-object-dialog h2{margin:24px 0;}.weather-hero strong{font-size:76px;}.object-stats{margin:20px 0;}}
+
+  /* 明暗过场：幕布是目标主题的渐变，上下各带一条渐变软边，因此是"洗"过画面而不是硬切；上面是黑白线稿的日月交替。 */
+  .kuonji-theme-transition{position:fixed;inset:0;z-index:80;pointer-events:none;visibility:hidden;color:var(--kt-ink);}
+  .kuonji-theme-transition[data-to="dark"]{--kt-a:#0b0c0e;--kt-b:#151d25;--kt-ink:#d8dadd;--kt-glow:#cfe0ea;}
+  .kuonji-theme-transition[data-to="light"]{--kt-a:#f7f7f5;--kt-b:#e7e7e2;--kt-ink:#25282c;--kt-glow:#39414a;}
+  .kuonji-theme-transition .kt-slide{position:absolute;inset:0;will-change:transform;background:linear-gradient(180deg,var(--kt-a) 0%,var(--kt-b) 62%,var(--kt-a) 100%);}
+  .kuonji-theme-transition svg{display:block;width:100%;height:100%;}
+  .kuonji-theme-transition :is(line,circle,path){fill:none;stroke:currentColor;stroke-width:2;vector-effect:non-scaling-stroke;}
+  .kuonji-theme-transition .kt-glow{stroke:none;}
+  .kuonji-theme-transition .kt-glow-stop{stop-color:var(--kt-glow);}
+  .kuonji-theme-transition .kt-fine{stroke-width:1.1;opacity:.75;}
+  .kuonji-theme-transition .kt-ray{stroke-width:1.7;stroke-linecap:round;}
+  .kuonji-theme-transition .kt-halo{stroke-width:1;opacity:.3;}
+  .kuonji-theme-transition .kt-horizon{stroke-dasharray:1;}
+  .kuonji-theme-transition .kt-ticks{opacity:.45;}
+  .kuonji-theme-transition .kt-rule{opacity:.3;}
+  .kuonji-theme-transition .kt-stars{opacity:0;}
+  .kuonji-theme-transition .kt-label{fill:currentColor;stroke:none;text-anchor:middle;font:400 20px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.34em;opacity:.55;}
+  .kuonji-theme-transition .kt-edge{position:absolute;left:0;right:0;height:10vh;pointer-events:none;}
+  .kuonji-theme-transition .kt-edge--head{bottom:100%;background:linear-gradient(to top,var(--kt-a) 0%,transparent 100%);}
+  .kuonji-theme-transition .kt-edge--tail{top:100%;background:linear-gradient(to bottom,var(--kt-a) 0%,transparent 100%);}
 </style>

@@ -4,82 +4,91 @@ import { bookshelfConfig } from "@/config";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { url } from "@/utils/url-utils";
 import "@/styles/pages/bookshelf-home.css";
-
 const { name, description, categories, featured = [] } = bookshelfConfig;
-const volumes = categories.map((cat, index) => ({
-  ...cat,
-  number: String(index + 1).padStart(2, "0"),
-  items: [...cat.entries, ...(cat.subgroups ?? []).flatMap(sub => sub.entries)],
-}));
-const entries = volumes.flatMap(cat => cat.items.map(entry => ({ ...entry, category: cat.name, href: url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`) })));
-const selected = entries.filter(entry => featured.includes(entry.id)).slice(0, 4);
+const englishNames: Record<string, string> = { typemoon: "TYPE-MOON", touhou: "TOUHOU PROJECT", magic: "MAGIC & MYSTERY", places: "PLACES & SPACES", trivia: "TRIVIA" };
+const volumes = categories.map(cat => ({ ...cat, items: [...cat.entries, ...(cat.subgroups ?? []).flatMap(sub => sub.entries)] }));
+const entries = volumes.flatMap(cat => cat.items.map(entry => ({ ...entry, category: cat.name, cover: cat.cover, href: url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`) })));
+const selected = featured.flatMap(id => { const entry = entries.find(e => e.id === id); return entry ? [entry] : []; });
+const portrait = url("/assets/images/ALI.jpg");
+const mansion = url("/assets/images/LW.jpg");
 ---
-
 <MainGridLayout title={name} description={description} hasOwnH1={true}>
   <div class="eternal-library" data-bk-root>
-    <div class="el-opening" data-bk-intro aria-hidden="true">
-      <div class="el-opening__leaf" data-bk-leaf></div>
-      <div class="el-opening__leaf" data-bk-leaf></div>
-      <div class="el-opening__mark"><span>THE ETERNAL ARCHIVE</span><div><strong data-bk-intro-title>{name}</strong></div><span>世界的切片，收藏于此。</span></div>
-    </div>
-    <header class="el-header">
-      <div class="el-eyebrow" data-bk-heading><span class="el-status"></span> ETERNAL MANSION <span>PRIVATE LIBRARY / 01</span></div>
-      <div class="el-title-mask"><h1 data-bk-title>{name}<span>藏一整个幻想。</span></h1></div>
-      <div class="el-header__bottom" data-bk-heading><p>{description}</p><div class="el-stat"><strong>{String(entries.length).padStart(2, "0")}</strong><span>收录词条<br />{volumes.length} 册幻想档案</span></div></div>
-    </header>
-    <section class="el-collection" aria-labelledby="collection-title">
-      <div class="el-section-label" data-bk-heading><h2 id="collection-title">典藏书架 <span>THE COLLECTION</span></h2><span class="el-hint">选择一册 · 抽取翻阅 ↗</span></div>
-      <div class="el-shelf-window">
-        <div class="el-shelf" data-bk-shelf>
-          <div class="el-shelf__frame" aria-hidden="true"><i class="el-shelf__crown"></i><i class="el-shelf__side el-shelf__side--left"></i><i class="el-shelf__side el-shelf__side--right"></i></div>
-          <div class="el-shelf__inscription" aria-hidden="true">WORLDS BETWEEN PAGES</div>
-          <div class="el-books" role="group" aria-label="选择分类藏书">
-            {volumes.map((cat, index) => (
-              <div class="el-book-slot" data-bk-slot>
-                <button class="el-book" type="button" data-bk-book={index} aria-expanded="false" aria-controls={`volume-${cat.id}`} aria-label={`抽取${cat.name}，${cat.items.length}个词条`}>
-                  <span class="el-book__object" data-bk-object>
-                    <span class="el-book__pages" aria-hidden="true"></span>
-                    <span class="el-book__spine" aria-hidden="true"><span>{cat.number}</span><strong>{cat.name}</strong><span>永远百科</span></span>
-                    <span class="el-book__cover">
-                      <span class="el-book__edition">ETERNAL ARCHIVE <span>VOL. {cat.number}</span></span>
-                      {cat.cover ? (
-                        <span class="el-book__art el-book__art--cover" aria-hidden="true">
-                          <span class={`el-book__art-fallback el-book__art--${index % 5}`}><Icon name={cat.icon} /></span>
-                          <img class="el-book__cover-img" src={cat.cover} alt="" loading="lazy" decoding="async" onerror="this.closest(&apos;.el-book__art--cover&apos;).classList.add(&apos;is-failed&apos;)" />
-                        </span>
-                      ) : (
-                        <span class={`el-book__art el-book__art--${index % 5}`} aria-hidden="true"><i></i><i></i><i></i><Icon name={cat.icon} /></span>
-                      )}
-                      <strong class="el-book__name">{cat.name}</strong>
-                      <span class="el-book__summary">{cat.summary}</span>
-                      <span class="el-book__footer"><span>{String(cat.items.length).padStart(2, "0")} ENTRIES</span><span>↗</span></span>
-                    </span>
-                  </span>
-                </button>
-                <span class="el-book-label"><span>{cat.number}</span>{cat.name}</span>
-              </div>
-            ))}
-          </div>
-          <div class="el-shelf__edge" aria-hidden="true"></div>
-        </div>
+    <div class="el-opening" data-bk-intro hidden>
+      <div class="el-opening__curtain el-opening__curtain--top" data-bk-curtain></div>
+      <div class="el-opening__curtain el-opening__curtain--bottom" data-bk-curtain></div>
+      <div class="el-opening__identity" aria-hidden="true">
+        <div class="el-opening__mask"><span data-bk-intro-word>ETERNAL</span></div>
+        <div class="el-opening__mask"><span data-bk-intro-word>ARCHIVE</span></div>
+        <p>永远百科 <span>让幻想，有迹可循。</span></p>
       </div>
-      <div class="el-shelf-caption"><span>幻想没有边界，书页自有归处。</span><span>EST. ETERNITY — ∞</span></div>
-    </section>
-    <div class="el-reading" data-bk-reading>
-      {volumes.map(cat => (
-        <section class="el-volume" id={`volume-${cat.id}`} data-bk-volume hidden aria-labelledby={`title-${cat.id}`}>
-          <div class="el-volume__intro"><span class="el-kicker">OPEN VOLUME / {cat.number}</span><h2 id={`title-${cat.id}`}>{cat.name}</h2><p>{cat.summary}</p><a class="el-text-link" href={url(`/bookshelf/category/${cat.id}/`)}>进入完整分类 <span>↗</span></a><span class="el-volume__number" aria-hidden="true">{cat.number}</span></div>
-          <div class="el-volume__entries">{cat.items.length ? cat.items.map((entry, index) => (
-            <a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)} class="el-entry"><span class="el-entry__index">{String(index + 1).padStart(2, "0")}</span><span><strong>{entry.title}</strong><small>{entry.summary || "一份等待展开的幻想档案。"}</small></span><span class="el-entry__arrow">↗</span></a>
-          )) : <p>这一册还在编写中，故事即将入藏。</p>}</div>
-        </section>
-      ))}
+      <button class="el-opening__skip" type="button" data-bk-skip>跳过开场 <Icon name="material-symbols:arrow-forward-rounded" /></button>
+      <div class="el-opening__rule" aria-hidden="true"><i data-bk-intro-line></i></div>
     </div>
-    {selected.length > 0 && <section class="el-featured" data-bk-reveal aria-labelledby="featured-title">
-      <div class="el-section-label"><h2 id="featured-title">偶然翻到的一页 <span>CURATOR’S PICKS</span></h2><span>值得停留的故事</span></div>
-      <div class="el-picks">{selected.map((entry, index) => <a href={entry.href} class="el-pick"><span class="el-pick__meta">{entry.category}<span>0{index + 1}</span></span><strong>{entry.title}</strong><p>{entry.summary}</p><span class="el-pick__bottom">翻开此页 <span>↗</span></span></a>)}</div>
+    <header class="el-hero" id="archive-top">
+      <div class="el-hero__top" data-bk-hero-detail>
+        <h1>{name}<span>ETERNAL MANSION</span></h1>
+        <a href="#worlds" class="el-index-link">浏览全部世界 <Icon name="material-symbols:arrow-downward-rounded" /></a>
+      </div>
+      <div class="el-hero__composition">
+        <div class="el-hero__type" aria-hidden="true">
+          <div class="el-type-mask"><span data-bk-title>ETERNAL</span></div>
+          <div class="el-type-mask"><span data-bk-title>ARCHIVE<span class="el-type-dot">.</span></span></div>
+        </div>
+        <a class="el-hero__scene" href={url("/bookshelf/entries/places/永远邸/")} aria-label="阅读永远邸词条" data-bk-hero-image>
+          <div class="el-hero__scene-media" data-bk-parallax-frame><img src={mansion} alt="久远寺邸的玻璃花房，窗外是冬日树林" width="1280" height="640" fetchpriority="high" decoding="async" data-bk-parallax /></div>
+          <span class="el-image-label">永远邸 / 一切幻想的居所 <Icon name="material-symbols:arrow-outward-rounded" /></span>
+        </a>
+        <a class="el-hero__portrait" href={url("/bookshelf/entries/typemoon/久远寺有珠/")} aria-label="阅读久远寺有珠词条" data-bk-hero-image>
+          <div class="el-hero__portrait-media"><img src={portrait} alt="久远寺有珠的角色肖像" width="1152" height="2048" decoding="async" /></div>
+          <span>久远寺有珠 <Icon name="material-symbols:arrow-outward-rounded" /></span>
+        </a>
+        <div class="el-hero__note" data-bk-hero-detail><p>世界的切片，<br />收藏于此。</p><span>WORLDS, KEPT WITHIN.</span></div>
+      </div>
+      <div class="el-hero__bottom" data-bk-hero-detail>
+        <p>收录「永远邸」及其所承载的世界观、角色与设定。<br class="el-desktop-break" />从型月、东方到魔法与神秘，沿着一页，走进另一个世界。</p>
+        <a class="el-round-link" href="#worlds"><span>进入档案</span><Icon name="material-symbols:arrow-downward-rounded" /></a>
+      </div>
+    </header>
+    <section class="el-worlds" id="worlds" aria-labelledby="worlds-title">
+      <div class="el-section-heading" data-bk-section-heading><h2 id="worlds-title">选择一个世界<span>Explore the worlds.</span></h2><p>{volumes.length} 个分类 · {entries.length} 个词条<br />展开目录，开始翻阅。</p></div>
+      <div class="el-volumes">
+        {volumes.map((cat, index) => (
+          <details class="el-volume" data-bk-volume open={index === 0} id={`world-${cat.id}`}>
+            <summary class="el-volume__toggle"><span class="el-volume__name">{cat.name}</span><span class="el-volume__english">{englishNames[cat.id] || cat.id.toUpperCase()}</span><span class="el-volume__count">{String(cat.items.length).padStart(2, "0")} 词条</span><span class="el-volume__toggle-icon"><Icon name="material-symbols:add-rounded" /></span></summary>
+            <div class="el-volume__body" data-bk-volume-body>
+              <div class="el-volume__visual">
+                <a class="el-volume__picture" href={url(`/bookshelf/category/${cat.id}/`)} aria-label={`浏览${cat.name}完整分类`} data-bk-parallax-frame>
+                  {cat.cover ? <img src={cat.cover} alt={`${cat.name}分类封面`} loading="lazy" decoding="async" width="720" height="540" data-bk-parallax /> : <Icon name={cat.icon} />}
+                  <span class="el-picture-shutter" data-bk-shutter aria-hidden="true"></span>
+                </a>
+                <p>{cat.summary}</p><a class="el-text-link" href={url(`/bookshelf/category/${cat.id}/`)}>浏览完整分类 <Icon name="material-symbols:arrow-outward-rounded" /></a>
+              </div>
+              <div class="el-volume__entries">{cat.items.length ? cat.items.map(entry => (
+                <a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)} class="el-entry"><span><strong>{entry.title}</strong>{entry.summary && <small>{entry.summary}</small>}</span><Icon name="material-symbols:arrow-outward-rounded" /></a>
+              )) : <p class="el-empty">这一册还在编写中，故事即将入藏。</p>}</div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+    {selected.length > 0 && <section class="el-featured" id="selected" aria-labelledby="featured-title">
+      <div class="el-section-heading" data-bk-section-heading><h2 id="featured-title">偶然翻到的一页<span>A few pages to stay.</span></h2><p>循着故事的线索，<br />把陌生的世界慢慢读懂。</p></div>
+      <div class="el-picks">{selected.map(entry => (
+        <a href={entry.href} class:list={["el-pick", { "el-pick--portrait": entry.id === "alice" }]}>
+          <div class="el-pick__image" data-bk-parallax-frame data-bk-image-reveal>
+            <img src={entry.id === "alice" ? portrait : entry.cover || mansion} alt={entry.id === "alice" ? "久远寺有珠" : `${entry.category}的档案图像`} loading="lazy" decoding="async" width="900" height={entry.id === "alice" ? "1200" : "675"} data-bk-parallax />
+            <span class="el-picture-shutter" data-bk-shutter aria-hidden="true"></span><span class="el-pick__open"><Icon name="material-symbols:arrow-outward-rounded" /></span>
+          </div>
+          <div class="el-pick__caption"><div><span>{entry.category}</span><h3>{entry.title}</h3></div><span class="el-pick__read">翻开此页 <Icon name="material-symbols:arrow-outward-rounded" /></span></div><p>{entry.summary}</p>
+        </a>
+      ))}</div>
     </section>}
-    <footer class="el-colophon" data-bk-reveal><div><span class="el-kicker">LEAVE IT TO CHANCE</span><p>下一页，会遇见什么？</p></div><button type="button" data-bk-random data-entries={JSON.stringify(entries.map(e => e.href))} disabled={entries.length === 0}>随手抽一页 <span>↗</span></button></footer>
+    <footer class="el-colophon" data-bk-finale>
+      <div class="el-colophon__text"><p>下一页，<br /><span data-bk-finale-text>会遇见什么？</span></p></div>
+      <div class="el-colophon__action"><p>不必先有目的地。<br />让偶然，替你翻开一页。</p><button type="button" data-bk-random data-entries={JSON.stringify(entries.map(e => e.href))} disabled={entries.length === 0}>随手抽一页 <Icon name="material-symbols:arrow-outward-rounded" /></button></div>
+      <div class="el-colophon__bottom"><span>永远百科 · 世界仍在续写</span><a href="#archive-top">返回开篇 <Icon name="material-symbols:arrow-upward-rounded" /></a></div>
+    </footer>
   </div>
   <script>
     import { initBookshelfLifecycle } from "@/utils/bookshelf-home-animation";

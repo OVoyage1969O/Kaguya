@@ -26,3 +26,48 @@
 .about-canvas-wrap canvas.is-dragging {
 	cursor: grabbing;
 }
+
+.about-dialogue {
+	position: absolute;
+	left: 24px;
+	right: 24px;
+	z-index: 1;
+	display: flex;
+	align-items: flex-end;
+	gap: 20px;
+	pointer-events: none;
+}
+
+.about-dialogue--right { flex-direction: row-reverse; }
+
+.about-dialogue__avatar {
+	width: 80px;
+	height: 80px;
+	flex: 0 0 auto;
+	border: 3px solid #d3d3d3;
+	border-radius: 50%;
+	object-fit: cover;
+	background: #191919;
+}
+
+.about-dialogue__bubble {
+	flex: 1;
+	min-width: 0;
+	padding: 22px 28px;
+	border: 3px solid #d3d3d3;
+	border-radius: 24px 24px 24px 7px;
+	background: #111;
+	color: #eee;
+	pointer-events: auto;
+}
+
+.about-dialogue--right .about-dialogue__bubble { border-radius: 24px 24px 7px 24px; }
+.about-dialogue__name { margin: 0 0 12px; color: var(--dialogue-name-color); font-size: 1rem; font-weight: 700; }
+.about-dialogue__content { margin: 0; font-size: 1.125rem; line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+@media (max-width: 600px) {
+	.about-dialogue { left: 12px; right: 12px; gap: 10px; }
+	.about-dialogue__avatar { width: 48px; height: 48px; border-width: 2px; }
+	.about-dialogue__bubble { padding: 16px; border-width: 2px; }
+	.about-dialogue__content { font-size: 1rem; }
+}

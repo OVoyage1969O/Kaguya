@@ -71,17 +71,17 @@ export const homeConfig: HomeConfig = {
 			alt: "黑猫角色贴纸",
 			eye: {
 				xPercent: 41.1,
-				yPercent: 48.2,
+				yPercent: 50,
 				travelXPercent: 1.4,
 				travelYPercent: 1,
 			},
 			rightEye: {
 				xPercent: 64.1,
-				yPercent: 44.7,
+				yPercent: 50,
 			},
 			mouth: {
 				xPercent: 53.4,
-				yPercent: 50.7,
+				yPercent: 55.5,
 				widthPercent: 7.2,
 				heightPercent: 1.9,
 				rotation: -6,

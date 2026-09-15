@@ -109,4 +109,10 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		url: "/dynamic/",
 		icon: "material-symbols:dynamic-feed-rounded",
 	},
+	// 久远寺宅三维微缩庭院，名称固定为中文的“入宅”
+	[LinkPreset.Kuonji]: {
+		name: "入宅",
+		url: "/kuonji/",
+		icon: "material-symbols:door-front",
+	},
 };

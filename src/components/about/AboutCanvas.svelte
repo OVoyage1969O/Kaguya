@@ -9,6 +9,7 @@ import {
 } from "@chenglou/pretext";
 import { onDestroy, onMount } from "svelte";
 import { homeConfig } from "@/config";
+import { aboutDialogues } from "@/config/aboutDialogueConfig";
 import {
 	hitTestLink,
 	type LinkHitArea,
@@ -32,6 +33,23 @@ let { text = "" } = $props<{ text: string }>();
 let canvas = $state<HTMLCanvasElement | null>(null);
 let container = $state<HTMLDivElement | null>(null);
 let rafId = 0;
+let dialoguePlacements = $state<{ key: number; id: string; top: number }[]>([]);
+const dialogueHeights = new Map<number, number>();
+
+function measureDialogue(node: HTMLElement) {
+	const observer = new ResizeObserver(() => {
+		dialogueHeights.set(Number(node.dataset.dialogueKey), node.getBoundingClientRect().height);
+		const savedBall = ball;
+		onResize();
+		ball = savedBall;
+	});
+	observer.observe(node);
+	return { destroy() { observer.disconnect(); } };
+}
+
+function dialogueHeight(index: number) {
+	return ((dialogueHeights.get(index) ?? 160) + PADDING * 2) * dpr;
+}
 
 // ===== 渲染参数 =====
 let dpr = 1;
@@ -57,9 +75,7 @@ let paraLayouts: ParagraphLayout[] = [];
 let ball: BallState = createBall(40, 800, 600);
 let drag: DragState = createDragState();
 
-// ===== 3D 倾斜 =====
-let tiltX = 0;
-let tiltY = 0;
+let suppressBallClick = false;
 
 // ===== 图片 =====
 let ballImg: HTMLImageElement | null = null;
@@ -197,6 +213,7 @@ function onPointerDown(e: PointerEvent) {
 	const mx = (e.clientX - rect.left) * dpr;
 	const my = (e.clientY - rect.top) * dpr;
 	if (!hitTest(mx, my)) return;
+	suppressBallClick = true;
 
 	// 阻止触摸时的页面滚动
 	e.preventDefault();
@@ -250,6 +267,10 @@ function onPointerUp(_e: PointerEvent) {
 
 function onClick(e: MouseEvent) {
 	if (!canvas) return;
+	if (suppressBallClick) {
+		suppressBallClick = false;
+		return;
+	}
 	const rect = canvas.getBoundingClientRect();
 	const mx = (e.clientX - rect.left) * dpr;
 	const my = (e.clientY - rect.top) * dpr;
@@ -339,7 +360,17 @@ function render() {
 	let currentLine = 0;
 	let y = padding;
 
-	for (const pl of paraLayouts) {
+	const placements: { key: number; id: string; top: number }[] = [];
+	for (const [index, pl] of paraLayouts.entries()) {
+		if (pl.para.type === "dialogue") {
+			const id = pl.para.dialogueId ?? "";
+			if (aboutDialogues[id]) {
+				placements.push({ key: index, id, top: y / dpr });
+				y += dialogueHeight(index);
+				currentLine = Math.ceil(y / lineHeight);
+			}
+			continue;
+		}
 		// 水平线
 		if (pl.para.type === "hr") {
 			if (y < h) {
@@ -380,6 +411,10 @@ function render() {
 		currentLine = endLine;
 	}
 
+	if (JSON.stringify(placements) !== JSON.stringify(dialoguePlacements)) {
+		dialoguePlacements = placements;
+	}
+
 	// 5. 绘制球
 	if (imgLoaded && ballImg) {
 		ctx.save();
@@ -407,15 +442,6 @@ function render() {
 		ctx.fill();
 	}
 
-	// 6. 3D 容器倾斜
-	const normX = (ball.x / w - 0.5) * 2;
-	const normY = (ball.y / h - 0.5) * 2;
-	tiltX += (normX * 3 - tiltX) * 0.06;
-	tiltY += (normY * 2 - tiltY) * 0.06;
-	if (container) {
-		container.style.transform = `perspective(1000px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
-	}
-
 	rafId = requestAnimationFrame(render);
 }
 
@@ -427,7 +453,14 @@ function calcContentHeight(): number {
 	let y = padding;
 	let currentLine = 0;
 
-	for (const pl of paraLayouts) {
+	for (const [index, pl] of paraLayouts.entries()) {
+		if (pl.para.type === "dialogue") {
+			if (aboutDialogues[pl.para.dialogueId ?? ""]) {
+				y += dialogueHeight(index);
+				currentLine = Math.ceil(y / lineHeight);
+			}
+			continue;
+		}
 		if (pl.para.type === "hr") {
 			y += lineHeight * pl.para.spacingAfter;
 			currentLine = Math.ceil(y / lineHeight);
@@ -517,6 +550,24 @@ onDestroy(() => {
 </script>
 
 <div class="about-canvas-wrap" bind:this={container}>
+	{#each dialoguePlacements as placement (placement.key)}
+		{@const dialogue = aboutDialogues[placement.id]}
+		<aside
+			class="about-dialogue"
+			class:about-dialogue--right={dialogue.side === "right"}
+			style:top={`${placement.top}px`}
+			style:--dialogue-name-color={dialogue.color ?? "#00d5dd"}
+			data-dialogue-key={placement.key}
+			use:measureDialogue
+			aria-label={`${dialogue.name}的对话`}
+		>
+			<img class="about-dialogue__avatar" src={dialogue.avatar} alt="" width="80" height="80" />
+			<div class="about-dialogue__bubble">
+				<p class="about-dialogue__name">{dialogue.name}</p>
+				<p class="about-dialogue__content">{dialogue.content}</p>
+			</div>
+		</aside>
+	{/each}
 	<canvas
 		bind:this={canvas}
 		onpointerdown={onPointerDown}

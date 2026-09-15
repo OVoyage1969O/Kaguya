@@ -61,9 +61,10 @@ const buildNavBarConfig = (): NavBarConfig => {
 		children: myChildren,
 	};
 
-	// 4. 统一组装导航栏链接（顺序：主页 → 个人主站 → 工具导航 → 文章 → 联系我 → 我的）
+	// 4. 统一组装导航栏链接（顺序：主页 → 入宅 → 个人主站 → 工具导航 → 文章 → 联系我 → 我的）
 	const links: (NavBarLink | LinkPreset)[] = [
 		LinkPreset.Home,
+		LinkPreset.Kuonji,
 		LinkPreset.Feibichi,
 		...(siteConfig.pages.collections ? [LinkPreset.Collections] : []),
 		postsNav,
