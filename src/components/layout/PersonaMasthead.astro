@@ -1,0 +1,15 @@
+---
+const { path } = Astro.props;
+const route = path.replace(import.meta.env.BASE_URL, "").split("/")[0];
+const labels: Record<string, string> = {
+  archive: "ARCHIVE", categories: "INDEX", posts: "READING", collections: "TOOLBOX",
+  friends: "CONNECT", guestbook: "DIALOGUE", dynamic: "MOMENTS", calendar: "CALENDAR",
+  gallery: "GALLERY", music: "PLAYLIST", list: "COLLECTION", rss: "SUBSCRIBE",
+  sponsor: "SUPPORT", search: "DISCOVER", konbini: "KONBINI", "404": "LOST & FOUND",
+};
+const label = labels[route];
+---
+{label && <div class="p3-masthead" aria-hidden="true" data-p3-masthead>
+  <div class="p3-masthead__mask"><span data-p3-masthead-type>{label}</span></div>
+  <span class="p3-masthead__slash"></span>
+</div>}

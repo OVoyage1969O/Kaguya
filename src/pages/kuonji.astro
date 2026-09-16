@@ -70,16 +70,16 @@
 
   /* 入宅开屏：与「进入书架」同源的开幕幕布 —— 两扇门叶合拢，标题自门缝升起，随后向两侧开启。 */
   .kuonji-opening {position:fixed;inset:0;z-index:60;overflow:hidden;pointer-events:none;}
-  .kuonji-opening__leaf {position:absolute;top:0;bottom:0;left:0;width:50.15%;background:linear-gradient(180deg,#0d141a 0%,#18222a 58%,#1e2831 100%);will-change:transform;}
+  .kuonji-opening__leaf {position:absolute;top:0;bottom:0;left:0;width:50.15%;background:#124cfa;will-change:transform;}
   .kuonji-opening__leaf:nth-of-type(2) {left:auto;right:0;}
   .kuonji-opening__leaf:nth-of-type(1) {box-shadow:1px 0 0 rgba(196,216,228,.14),26px 0 60px rgba(0,0,0,.45);}
   .kuonji-opening__leaf:nth-of-type(2) {box-shadow:-1px 0 0 rgba(196,216,228,.14),-26px 0 60px rgba(0,0,0,.45);}
   .kuonji-opening__mark {position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;color:#dbe6ec;}
   .kuonji-opening__kicker,.kuonji-opening__sub {font-size:10px;letter-spacing:.34em;text-indent:.34em;}
   .kuonji-opening__kicker {opacity:0;animation:ko-fade 1s ease .25s forwards;}
-  .kuonji-opening__sub {opacity:0;color:#e2bc85;letter-spacing:.28em;text-indent:.28em;}
+  .kuonji-opening__sub {opacity:0;color:#a9f4ff;letter-spacing:.28em;text-indent:.28em;}
   .kuonji-opening__mask {display:block;overflow:hidden;padding:0 .1em;}
-  .kuonji-opening__mask strong {display:block;font:600 clamp(34px,9vw,60px)/1.42 "Noto Serif SC","Songti SC",SimSun,serif;letter-spacing:.16em;text-indent:.16em;transform:translateY(118%) scaleY(.58);transform-origin:bottom center;will-change:transform;}
+  .kuonji-opening__mask strong {display:block;font:800 clamp(34px,9vw,60px)/1.42 "Noto Sans SC","Microsoft YaHei",sans-serif;letter-spacing:.1em;text-indent:.1em;transform:translateY(118%) scaleY(.58);transform-origin:bottom center;will-change:transform;}
   .kuonji-opening__hint {position:absolute;bottom:15%;left:0;right:0;text-align:center;font-size:10px;letter-spacing:.3em;color:#93a7b4;opacity:0;animation:ko-pulse 2.2s ease-in-out .6s infinite;transition:opacity .3s ease;}
 
   /* 开幕由脚本在场景就绪后触发：html.is-kuonji-open */

@@ -1,0 +1,361 @@
+22:14:00 [content] Syncing content
+22:14:00 [content] Synced content
+22:14:00 [types] Generated 1.43s
+22:14:00 [check] Getting diagnostics for Astro files in D:\1\my-blog-master...
+[96msrc/components/bookshelf/Navbox.astro[0m:[93m105[0m:[93m6[0m - [91merror[0m[90m ts(2339): [0mProperty 'click' does not exist on type 'Element'.
+
+[7m105[0m   el.click();
+[7m   [0m [91m     ~~~~~[0m
+
+[96msrc/components/features/konbini-diorama/buildDiorama.ts[0m:[93m3[0m:[93m19[0m - [93mwarning[0m[90m ts(6133): [0m'C' is declared but its value is never read.
+
+[7m3[0m import { PALETTE, C, toon, glow, flat } from "./materials";
+[7m [0m [93m                  ~[0m
+
+[96msrc/components/features/konbini-diorama/buildGround.ts[0m:[93m22[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'baseTop' is declared but its value is never read.
+
+[7m22[0m  const baseTop = 0;
+[7m  [0m [93m       ~~~~~~~[0m
+[96msrc/components/features/konbini-diorama/buildGround.ts[0m:[93m4[0m:[93m22[0m - [93mwarning[0m[90m ts(6133): [0m'toon' is declared but its value is never read.
+
+[7m4[0m import { PALETTE, C, toon, flat, glow } from "./materials";
+[7m [0m [93m                     ~~~~[0m
+[96msrc/components/features/konbini-diorama/buildGround.ts[0m:[93m4[0m:[93m19[0m - [93mwarning[0m[90m ts(6133): [0m'C' is declared but its value is never read.
+
+[7m4[0m import { PALETTE, C, toon, flat, glow } from "./materials";
+[7m [0m [93m                  ~[0m
+
+[96msrc/components/features/konbini-diorama/buildStore.ts[0m:[93m57[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'frameMat' is declared but its value is never read.
+
+[7m57[0m  const frameMat = toon(0xf5efe2);
+[7m  [0m [93m       ~~~~~~~~[0m
+[96msrc/components/features/konbini-diorama/buildStore.ts[0m:[93m3[0m:[93m19[0m - [93mwarning[0m[90m ts(6133): [0m'C' is declared but its value is never read.
+
+[7m3[0m import { PALETTE, C, toon, glow, flat, makeTextTexture } from "./materials";
+[7m [0m [93m                  ~[0m
+
+[96msrc/components/features/konbini-diorama/buildStreetElements.ts[0m:[93m131[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'len' is declared but its value is never read.
+
+[7m131[0m  const len = Math.max(1, Math.hypot(dx, dz));
+[7m   [0m [93m       ~~~[0m
+[96msrc/components/features/konbini-diorama/buildStreetElements.ts[0m:[93m4[0m:[93m19[0m - [93mwarning[0m[90m ts(6133): [0m'C' is declared but its value is never read.
+
+[7m4[0m import { PALETTE, C, toon, glow, flat, makeTextTexture } from "./materials";
+[7m [0m [93m                  ~[0m
+
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m74[0m:[93m496[0m - [91merror[0m[90m ts(18046): [0m'place' is of type 'unknown'.
+
+[7m74[0m     try{if(!navigator.geolocation)throw new Error('No geolocation');const pos=await new Promise<GeolocationPosition>((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:false,timeout:10000,maximumAge:300000}));if(!valid(id))return;const {latitude,longitude}=pos.coords;let city='当前位置';try{const place=await json(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=zh`);city=place.city||place.locality||city;}catch{/* Weather remains usable when locality lookup fails. */}if(valid(id))await forecast(latitude,longitude,city,id);
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m74[0m:[93m484[0m - [91merror[0m[90m ts(18046): [0m'place' is of type 'unknown'.
+
+[7m74[0m     try{if(!navigator.geolocation)throw new Error('No geolocation');const pos=await new Promise<GeolocationPosition>((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:false,timeout:10000,maximumAge:300000}));if(!valid(id))return;const {latitude,longitude}=pos.coords;let city='当前位置';try{const place=await json(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=zh`);city=place.city||place.locality||city;}catch{/* Weather remains usable when locality lookup fails. */}if(valid(id))await forecast(latitude,longitude,city,id);
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m71[0m:[93m788[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLButtonElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+  Type 'HTMLButtonElement' is missing the following properties from type 'Response': headers, ok, redirected, status, and 13 more.
+
+[7m71[0m     form.addEventListener('submit',async e=>{e.preventDefault();const query=input.value.trim();if(!query)return;submit.disabled=true;results.textContent='正在查找 …';try{const data=await json(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=zh&format=json`);if(!valid(id))return;results.replaceChildren();if(!Array.isArray(data.results)||!data.results.length)results.textContent='没有找到城市，可以尝试拼音或英文名称。';else for(const place of data.results){const b=document.createElement('button');b.textContent=[place.name,place.admin1,place.country].filter(Boolean).join(' · ');b.addEventListener('click',()=>{const next=++sequence;body.replaceChildren();paragraph('正在读取天气 …');void forecast(place.latitude,place.longitude,place.name,next);});results.append(b);}}catch{if(valid(id))results.textContent='城市查询暂不可用，请稍后再试。';}finally{submit.disabled=false;}});
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m71[0m:[93m472[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m71[0m     form.addEventListener('submit',async e=>{e.preventDefault();const query=input.value.trim();if(!query)return;submit.disabled=true;results.textContent='正在查找 …';try{const data=await json(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=zh&format=json`);if(!valid(id))return;results.replaceChildren();if(!Array.isArray(data.results)||!data.results.length)results.textContent='没有找到城市，可以尝试拼音或英文名称。';else for(const place of data.results){const b=document.createElement('button');b.textContent=[place.name,place.admin1,place.country].filter(Boolean).join(' · ');b.addEventListener('click',()=>{const next=++sequence;body.replaceChildren();paragraph('正在读取天气 …');void forecast(place.latitude,place.longitude,place.name,next);});results.append(b);}}catch{if(valid(id))results.textContent='城市查询暂不可用，请稍后再试。';}finally{submit.disabled=false;}});
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m71[0m:[93m386[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m71[0m     form.addEventListener('submit',async e=>{e.preventDefault();const query=input.value.trim();if(!query)return;submit.disabled=true;results.textContent='正在查找 …';try{const data=await json(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=zh&format=json`);if(!valid(id))return;results.replaceChildren();if(!Array.isArray(data.results)||!data.results.length)results.textContent='没有找到城市，可以尝试拼音或英文名称。';else for(const place of data.results){const b=document.createElement('button');b.textContent=[place.name,place.admin1,place.country].filter(Boolean).join(' · ');b.addEventListener('click',()=>{const next=++sequence;body.replaceChildren();paragraph('正在读取天气 …');void forecast(place.latitude,place.longitude,place.name,next);});results.append(b);}}catch{if(valid(id))results.textContent='城市查询暂不可用，请稍后再试。';}finally{submit.disabled=false;}});
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                 ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m71[0m:[93m370[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m71[0m     form.addEventListener('submit',async e=>{e.preventDefault();const query=input.value.trim();if(!query)return;submit.disabled=true;results.textContent='正在查找 …';try{const data=await json(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=zh&format=json`);if(!valid(id))return;results.replaceChildren();if(!Array.isArray(data.results)||!data.results.length)results.textContent='没有找到城市，可以尝试拼音或英文名称。';else for(const place of data.results){const b=document.createElement('button');b.textContent=[place.name,place.admin1,place.country].filter(Boolean).join(' · ');b.addEventListener('click',()=>{const next=++sequence;body.replaceChildren();paragraph('正在读取天气 …');void forecast(place.latitude,place.longitude,place.name,next);});results.append(b);}}catch{if(valid(id))results.textContent='城市查询暂不可用，请稍后再试。';}finally{submit.disabled=false;}});
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                 ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m70[0m:[93m362[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLFormElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+  Type 'HTMLFormElement' is missing the following properties from type 'Response': headers, ok, redirected, status, and 14 more.
+
+[7m70[0m     const form=document.createElement('form'),input=document.createElement('input'),submit=document.createElement('button'),results=document.createElement('div');input.placeholder='例如：上海 / Shanghai';input.setAttribute('aria-label','城市名称');input.required=true;input.maxLength=80;submit.textContent='查找';submit.type='submit';form.append(input,submit);body.append(form,results);input.focus();
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                         ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m70[0m:[93m336[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLInputElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+  Type 'HTMLInputElement' is missing the following properties from type 'Response': headers, ok, redirected, status, and 13 more.
+
+[7m70[0m     const form=document.createElement('form'),input=document.createElement('input'),submit=document.createElement('button'),results=document.createElement('div');input.placeholder='例如：上海 / Shanghai';input.setAttribute('aria-label','城市名称');input.required=true;input.maxLength=80;submit.textContent='查找';submit.type='submit';form.append(input,submit);body.append(form,results);input.focus();
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                               ~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m63[0m:[93m603[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDivElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m63[0m       const daily=data.daily;if(daily?.time){const days=document.createElement('div');days.className='weather-days';daily.time.slice(0,5).forEach((date:string,i:number)=>{const day=document.createElement('div'),label=document.createElement('span'),range=document.createElement('small');label.textContent=i===0?'今天':new Intl.DateTimeFormat('zh-CN',{weekday:'short'}).format(new Date(date+'T12:00:00'));range.textContent=`${Math.round(daily.temperature_2m_min[i])}° / ${Math.round(daily.temperature_2m_max[i])}°`;day.append(label,weatherIcon(daily.weather_code[i]),range);days.append(day);});body.append(days);}
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m63[0m:[93m583[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDivElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m63[0m       const daily=data.daily;if(daily?.time){const days=document.createElement('div');days.className='weather-days';daily.time.slice(0,5).forEach((date:string,i:number)=>{const day=document.createElement('div'),label=document.createElement('span'),range=document.createElement('small');label.textContent=i===0?'今天':new Intl.DateTimeFormat('zh-CN',{weekday:'short'}).format(new Date(date+'T12:00:00'));range.textContent=`${Math.round(daily.temperature_2m_min[i])}° / ${Math.round(daily.temperature_2m_max[i])}°`;day.append(label,weatherIcon(daily.weather_code[i]),range);days.append(day);});body.append(days);}
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m63[0m:[93m564[0m - [91merror[0m[90m ts(2554): [0mExpected 1-2 arguments, but got 3.
+
+[7m63[0m       const daily=data.daily;if(daily?.time){const days=document.createElement('div');days.className='weather-days';daily.time.slice(0,5).forEach((date:string,i:number)=>{const day=document.createElement('div'),label=document.createElement('span'),range=document.createElement('small');label.textContent=i===0?'今天':new Intl.DateTimeFormat('zh-CN',{weekday:'short'}).format(new Date(date+'T12:00:00'));range.textContent=`${Math.round(daily.temperature_2m_min[i])}° / ${Math.round(daily.temperature_2m_max[i])}°`;day.append(label,weatherIcon(daily.weather_code[i]),range);days.append(day);});body.append(days);}
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m63[0m:[93m19[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m63[0m       const daily=data.daily;if(daily?.time){const days=document.createElement('div');days.className='weather-days';daily.time.slice(0,5).forEach((date:string,i:number)=>{const day=document.createElement('div'),label=document.createElement('span'),range=document.createElement('small');label.textContent=i===0?'今天':new Intl.DateTimeFormat('zh-CN',{weekday:'short'}).format(new Date(date+'T12:00:00'));range.textContent=`${Math.round(daily.temperature_2m_min[i])}° / ${Math.round(daily.temperature_2m_max[i])}°`;day.append(label,weatherIcon(daily.weather_code[i]),range);days.append(day);});body.append(days);}
+[7m  [0m [91m                  ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m61[0m:[93m253[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDivElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m61[0m       const hero=document.createElement('div');hero.className='weather-hero';const temperature=document.createElement('strong');temperature.textContent=`${Math.round(c.temperature_2m)}°`;hero.append(temperature,weatherIcon(c.weather_code));body.append(hero);
+[7m  [0m [91m                                                                                                                                                                                                                                                            ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m61[0m:[93m200[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m61[0m       const hero=document.createElement('div');hero.className='weather-hero';const temperature=document.createElement('strong');temperature.textContent=`${Math.round(c.temperature_2m)}°`;hero.append(temperature,weatherIcon(c.weather_code));body.append(hero);
+[7m  [0m [91m                                                                                                                                                                                                       ~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m59[0m:[93m294[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m59[0m     try{const data=await json(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=5&timezone=auto`);if(!valid(id))return;const c=data.current;if(!c||!Number.isFinite(c.temperature_2m)||!Number.isFinite(c.weather_code))throw new Error('Invalid weather');body.replaceChildren();
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                     ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m55[0m:[93m705[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLAnchorElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+  Type 'HTMLAnchorElement' is missing the following properties from type 'Response': headers, ok, redirected, status, and 12 more.
+
+[7m55[0m       try{const repos=await json('https://api.github.com/users/OVoyage1969O/repos?sort=updated&per_page=3&type=owner');if(!valid(id))return;if(!Array.isArray(repos))throw new Error('Invalid repositories');for(const repo of repos){const a=document.createElement('a');a.className='object-repo';a.href=PROFILE+'/'+encodeURIComponent(repo.name);a.target='_blank';a.rel='noopener noreferrer';const strong=document.createElement('strong'),desc=document.createElement('span'),meta=document.createElement('small');strong.textContent=repo.name+' ↗';desc.textContent=repo.description||'查看项目';meta.textContent=`${repo.language||'PROJECT'}   /   ☆ ${repo.stargazers_count}`;a.append(strong,desc,meta);section.append(a);}if(!repos.length)section.append('尚无公开仓库。');}catch{if(valid(id))section.append('项目列表暂不可用，仍可访问个人主页。');}
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m55[0m:[93m684[0m - [91merror[0m[90m ts(2554): [0mExpected 1-2 arguments, but got 3.
+
+[7m55[0m       try{const repos=await json('https://api.github.com/users/OVoyage1969O/repos?sort=updated&per_page=3&type=owner');if(!valid(id))return;if(!Array.isArray(repos))throw new Error('Invalid repositories');for(const repo of repos){const a=document.createElement('a');a.className='object-repo';a.href=PROFILE+'/'+encodeURIComponent(repo.name);a.target='_blank';a.rel='noopener noreferrer';const strong=document.createElement('strong'),desc=document.createElement('span'),meta=document.createElement('small');strong.textContent=repo.name+' ↗';desc.textContent=repo.description||'查看项目';meta.textContent=`${repo.language||'PROJECT'}   /   ☆ ${repo.stargazers_count}`;a.append(strong,desc,meta);section.append(a);}if(!repos.length)section.append('尚无公开仓库。');}catch{if(valid(id))section.append('项目列表暂不可用，仍可访问个人主页。');}
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m54[0m:[93m215[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m54[0m       const section=document.createElement('section');section.className='object-repositories';const caption=document.createElement('h4');caption.textContent='RECENT WORK / 最近更新';section.append(caption);body.append(section);
+[7m  [0m [91m                                                                                                                                                                                                                      ~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m54[0m:[93m194[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLHeadingElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m54[0m       const section=document.createElement('section');section.className='object-repositories';const caption=document.createElement('h4');caption.textContent='RECENT WORK / 最近更新';section.append(caption);body.append(section);
+[7m  [0m [91m                                                                                                                                                                                                 ~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m53[0m:[93m127[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m53[0m       link('访问 GitHub 个人主页 ↗',PROFILE);screen('github-screen',['GITHUB',data.name||data.login,`${data.public_repos} REPOS / ${data.followers} FOLLOWERS`]);
+[7m  [0m [91m                                                                                                                              ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m53[0m:[93m98[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m53[0m       link('访问 GitHub 个人主页 ↗',PROFILE);screen('github-screen',['GITHUB',data.name||data.login,`${data.public_repos} REPOS / ${data.followers} FOLLOWERS`]);
+[7m  [0m [91m                                                                                                 ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m53[0m:[93m84[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m53[0m       link('访问 GitHub 个人主页 ↗',PROFILE);screen('github-screen',['GITHUB',data.name||data.login,`${data.public_repos} REPOS / ${data.followers} FOLLOWERS`]);
+[7m  [0m [91m                                                                                   ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m53[0m:[93m73[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m53[0m       link('访问 GitHub 个人主页 ↗',PROFILE);screen('github-screen',['GITHUB',data.name||data.login,`${data.public_repos} REPOS / ${data.followers} FOLLOWERS`]);
+[7m  [0m [91m                                                                        ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m52[0m:[93m421[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDListElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m52[0m       const stats=document.createElement('dl');stats.className='object-stats';for(const [label,value] of [['REPOSITORIES',data.public_repos],['FOLLOWERS',data.followers],['FOLLOWING',data.following]]){const item=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=String(label);dd.textContent=String(value??'—');item.append(dd,dt);stats.append(item);}body.append(stats);
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                    ~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m52[0m:[93m402[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDivElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m52[0m       const stats=document.createElement('dl');stats.className='object-stats';for(const [label,value] of [['REPOSITORIES',data.public_repos],['FOLLOWERS',data.followers],['FOLLOWING',data.following]]){const item=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=String(label);dd.textContent=String(value??'—');item.append(dd,dt);stats.append(item);}body.append(stats);
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                 ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m52[0m:[93m382[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m52[0m       const stats=document.createElement('dl');stats.className='object-stats';for(const [label,value] of [['REPOSITORIES',data.public_repos],['FOLLOWERS',data.followers],['FOLLOWING',data.following]]){const item=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=String(label);dd.textContent=String(value??'—');item.append(dd,dt);stats.append(item);}body.append(stats);
+[7m  [0m [91m                                                                                                                                                                                                                                                                                                                                                                                             ~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m52[0m:[93m184[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m52[0m       const stats=document.createElement('dl');stats.className='object-stats';for(const [label,value] of [['REPOSITORIES',data.public_repos],['FOLLOWERS',data.followers],['FOLLOWING',data.following]]){const item=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=String(label);dd.textContent=String(value??'—');item.append(dd,dt);stats.append(item);}body.append(stats);
+[7m  [0m [91m                                                                                                                                                                                       ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m52[0m:[93m155[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m52[0m       const stats=document.createElement('dl');stats.className='object-stats';for(const [label,value] of [['REPOSITORIES',data.public_repos],['FOLLOWERS',data.followers],['FOLLOWING',data.following]]){const item=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=String(label);dd.textContent=String(value??'—');item.append(dd,dt);stats.append(item);}body.append(stats);
+[7m  [0m [91m                                                                                                                                                          ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m52[0m:[93m123[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m52[0m       const stats=document.createElement('dl');stats.className='object-stats';for(const [label,value] of [['REPOSITORIES',data.public_repos],['FOLLOWERS',data.followers],['FOLLOWING',data.following]]){const item=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=String(label);dd.textContent=String(value??'—');item.append(dd,dt);stats.append(item);}body.append(stats);
+[7m  [0m [91m                                                                                                                          ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m51[0m:[93m17[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m51[0m       paragraph(data.bio||'技术、学习与日常的公开记录。');
+[7m  [0m [91m                ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m50[0m:[93m267[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDivElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m50[0m       const heading=document.createElement('div'),name=document.createElement('h3'),handle=document.createElement('p');name.textContent=data.name||data.login;handle.textContent='@'+data.login;heading.append(name,handle);identity.append(monogram,heading);body.append(identity);
+[7m  [0m [91m                                                                                                                                                                                                                                                                          ~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m50[0m:[93m237[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLSpanElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m50[0m       const heading=document.createElement('div'),name=document.createElement('h3'),handle=document.createElement('p');name.textContent=data.name||data.login;handle.textContent='@'+data.login;heading.append(name,handle);identity.append(monogram,heading);body.append(identity);
+[7m  [0m [91m                                                                                                                                                                                                                                            ~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m50[0m:[93m208[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLHeadingElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m50[0m       const heading=document.createElement('div'),name=document.createElement('h3'),handle=document.createElement('p');name.textContent=data.name||data.login;handle.textContent='@'+data.login;heading.append(name,handle);identity.append(monogram,heading);body.append(identity);
+[7m  [0m [91m                                                                                                                                                                                                               ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m50[0m:[93m182[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m50[0m       const heading=document.createElement('div'),name=document.createElement('h3'),handle=document.createElement('p');name.textContent=data.name||data.login;handle.textContent='@'+data.login;heading.append(name,handle);identity.append(monogram,heading);body.append(identity);
+[7m  [0m [91m                                                                                                                                                                                     ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m50[0m:[93m148[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m50[0m       const heading=document.createElement('div'),name=document.createElement('h3'),handle=document.createElement('p');name.textContent=data.name||data.login;handle.textContent='@'+data.login;heading.append(name,handle);identity.append(monogram,heading);body.append(identity);
+[7m  [0m [91m                                                                                                                                                   ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m50[0m:[93m137[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m50[0m       const heading=document.createElement('div'),name=document.createElement('h3'),handle=document.createElement('p');name.textContent=data.name||data.login;handle.textContent='@'+data.login;heading.append(name,handle);identity.append(monogram,heading);body.append(identity);
+[7m  [0m [91m                                                                                                                                        ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m47[0m:[93m105[0m - [91merror[0m[90m ts(18046): [0m'data' is of type 'unknown'.
+
+[7m47[0m       const data=await json('https://api.github.com/users/OVoyage1969O');if(!valid(id))return;if(typeof data.login!=='string')throw new Error('Invalid profile');
+[7m  [0m [91m                                                                                                        ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m39[0m:[93m169[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLAnchorElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+  Type 'HTMLAnchorElement' is missing the following properties from type 'Response': headers, ok, redirected, status, and 12 more.
+
+[7m39[0m   const link=(label:string,href:string)=>{const a=document.createElement('a');a.textContent=label;a.href=href;a.target='_blank';a.rel='noopener noreferrer';body.append(a);};
+[7m  [0m [91m                                                                                                                                                                        ~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m38[0m:[93m149[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLButtonElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+  Type 'HTMLButtonElement' is missing the following properties from type 'Response': headers, ok, redirected, status, and 13 more.
+
+[7m38[0m   const button=(label:string,fn:()=>void)=>{const b=document.createElement('button');b.textContent=label;b.addEventListener('click',fn);body.append(b);return b;};
+[7m  [0m [91m                                                                                                                                                    ~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m37[0m:[93m102[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLParagraphElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m37[0m   const paragraph=(text:string)=>{const p=document.createElement('p');p.textContent=text;body.append(p);return p;};
+[7m  [0m [91m                                                                                                     ~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m35[0m:[93m47[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDialogElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m35[0m   dialog.append(close,title,body);host.append(dialog);
+[7m  [0m [91m                                              ~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m35[0m:[93m29[0m - [91merror[0m[90m ts(2554): [0mExpected 1-2 arguments, but got 3.
+
+[7m35[0m   dialog.append(close,title,body);host.append(dialog);
+[7m  [0m [91m                            ~~~~[0m
+[96msrc/components/features/kuonji-diorama/room-interactions.ts[0m:[93m6[0m:[93m432[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'Element' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m6[0m   const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d',code===0?'M32 5v7m0 40v7M5 32h7m40 0h7M13 13l5 5m28 28 5 5M13 51l5-5m28-28 5-5M45 32a13 13 0 1 1-26 0 13 13 0 1 1 26 0':code<=3?'M16 43h32a10 10 0 0 0 0-20 15 15 0 0 0-29-2 11 11 0 0 0-3 22':code<=48?'M10 20h44M6 30h45M14 40h44M8 50h39':'M16 37h32a10 10 0 0 0 0-20 15 15 0 0 0-29-2 11 11 0 0 0-3 22M20 44l-4 11m17-11-4 11m17-11-4 11');svg.append(path);return svg;
+[7m [0m [91m                                                                                                                                                                                                                                                                                                                                                                                                                                               ~~~~[0m
+
+[96msrc/components/features/kuonji-diorama/room-scene.ts[0m:[93m14[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLCanvasElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m14[0m   host.append(renderer.domElement);const canvas=renderer.domElement;canvas.tabIndex=0;
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/features/kuonji-diorama/rooms.ts[0m:[93m97[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'exterior' is declared but its value is never read.
+
+[7m97[0m   const exterior=`${import.meta.env.BASE_URL.replace(/\/$/,'')}/kuonji/`;
+[7m  [0m [93m        ~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/rooms.ts[0m:[93m50[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'carpet' is declared but its value is never read.
+
+[7m50[0m   const carpet=box(name==='bedroom'?.5:0,.035,.2,name==='conservatory'?8.6:7.8,.035,6.6,rug);
+[7m  [0m [93m        ~~~~~~[0m
+
+[96msrc/components/features/kuonji-diorama/scene.ts[0m:[93m16[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLCanvasElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m16[0m   host.append(renderer.domElement);
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m83[0m:[93m72[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDivElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m83[0m   slide.append(svg,head,tail);panel.append(slide);document.body.append(panel);
+[7m  [0m [91m                                                                       ~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m83[0m:[93m44[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'HTMLDivElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m83[0m   slide.append(svg,head,tail);panel.append(slide);document.body.append(panel);
+[7m  [0m [91m                                           ~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m83[0m:[93m25[0m - [91merror[0m[90m ts(2554): [0mExpected 1-2 arguments, but got 3.
+
+[7m83[0m   slide.append(svg,head,tail);panel.append(slide);document.body.append(panel);
+[7m  [0m [91m                        ~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m80[0m:[93m23[0m - [91merror[0m[90m ts(2554): [0mExpected 1-2 arguments, but got 7.
+
+[7m80[0m   svg.append(defs,sky,horizon,echo,ticks,rule,label);
+[7m  [0m [91m                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m76[0m:[93m52[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGLineElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m76[0m   for(let i=0;i<=41;i++){const x=i*30;ticks.append(node('line',{x1:x,y1:HORIZON,x2:x,y2:HORIZON+(i%5===0?34:15)}));}
+[7m  [0m [91m                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m70[0m:[93m76[0m - [91merror[0m[90m ts(2554): [0mExpected 1-2 arguments, but got 3.
+
+[7m70[0m   const sky=node('g',{'clip-path':`url(#${clipId})`});sky.append(stars,sun,moon);
+[7m  [0m [91m                                                                           ~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m68[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGCircleElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m68[0m   moon.append(node('circle',{class:'kt-halo',cx:MOON.x,cy:MOON.y,r:70}));
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m67[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGCircleElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m67[0m   moon.append(node('circle',{class:'kt-fine',cx:MOON.x-40,cy:MOON.y+22,r:2.6}));
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m66[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGCircleElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m66[0m   moon.append(node('circle',{class:'kt-fine',cx:MOON.x-41,cy:MOON.y-4,r:4}));
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m65[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGPathElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m65[0m   moon.append(node('path',{d:`M${MOON.x} ${MOON.y-MOON_R}A${MOON_R} ${MOON_R} 0 1 0 ${MOON.x} ${MOON.y+MOON_R}A${MOON_INNER} ${MOON_INNER} 0 0 1 ${MOON.x} ${MOON.y-MOON_R}Z`}));
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m64[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGCircleElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m64[0m   moon.append(halo(MOON.x,MOON.y,112));
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m60[0m:[93m14[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGGElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m60[0m   sun.append(rays);
+[7m  [0m [91m             ~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m58[0m:[93m17[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGLineElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m58[0m     rays.append(node('line',{class:'kt-ray',x1:SUN.x+cos*68,y1:SUN.y+sin*68,x2:SUN.x+cos*outer,y2:SUN.y+sin*outer}));
+[7m  [0m [91m                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m51[0m:[93m14[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGCircleElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m51[0m   sun.append(node('circle',{class:'kt-fine',cx:SUN.x,cy:SUN.y,r:55,'stroke-dasharray':'3 9'}));
+[7m  [0m [91m             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m50[0m:[93m14[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGCircleElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m50[0m   sun.append(node('circle',{cx:SUN.x,cy:SUN.y,r:40}));
+[7m  [0m [91m             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m49[0m:[93m14[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGCircleElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m49[0m   sun.append(halo(SUN.x,SUN.y,120));
+[7m  [0m [91m             ~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m45[0m:[93m46[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGPathElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m45[0m   for(const [x,y,r] of SPARKLES)stars.append(node('path',{class:'kt-fine',d:`M${x} ${y-r}Q${x} ${y} ${x+r} ${y}Q${x} ${y} ${x} ${y+r}Q${x} ${y} ${x-r} ${y}Q${x} ${y} ${x} ${y-r}Z`}));
+[7m  [0m [91m                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m40[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGClipPathElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m40[0m   defs.append(clip,glow);
+[7m  [0m [91m              ~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m39[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGStopElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m39[0m   glow.append(node('stop',{class:'kt-glow-stop',offset:'0%','stop-opacity':'.24'}),node('stop',{class:'kt-glow-stop',offset:'100%','stop-opacity':'0'}));
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/features/kuonji-diorama/theme-transition.ts[0m:[93m37[0m:[93m55[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'SVGRectElement' is not assignable to parameter of type 'string | Response | ReadableStream<any>'.
+
+[7m37[0m   const clip=node('clipPath',{id:clipId});clip.append(node('rect',{x:-600,y:-600,width:2400,height:HORIZON+600}));
+[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/pages/dynamic/MomentCard.astro[0m:[93m157[0m:[93m19[0m - [91merror[0m[90m ts(2339): [0mProperty 'style' does not exist on type 'Element'.
+
+[7m157[0m    if (more) more.style.display = expanded ? "none" : "";
+[7m   [0m [91m                  ~~~~~[0m
+[96msrc/components/pages/dynamic/MomentCard.astro[0m:[93m156[0m:[93m4[0m - [91merror[0m[90m ts(18047): [0m'toggleBtn' is possibly 'null'.
+
+[7m156[0m    toggleBtn.setAttribute("aria-expanded", String(expanded));
+[7m   [0m [91m   ~~~~~~~~~[0m
+
+[96msrc/pages/dynamic.astro[0m:[93m56[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'totalPages' is declared but its value is never read.
+
+[7m56[0m const totalPages = Math.max(1, Math.ceil(allMoments.length / pageSize));
+[7m  [0m [93m      ~~~~~~~~~~[0m
+
+[96msrc/pages/konbini.astro[0m:[93m3[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'siteConfig' is declared but its value is never read.
+
+[7m3[0m import { siteConfig } from "@/config";
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/bookshelf/entries/[category]/[id].astro[0m:[93m88[0m:[93m8[0m - [91merror[0m[90m ts(2322): [0mType '{ fields: { label: string; value: string; }[]; title?: string | undefined; }[]' is not assignable to type 'BookshelfInfoboxGroup[]'.
+  Type '{ fields: { label: string; value: string; }[]; title?: string | undefined; }' is not assignable to type 'BookshelfInfoboxGroup'.
+    Types of property 'title' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+
+[7m88[0m        groups={data.infobox.groups}
+[7m  [0m [91m       ~~~~~~[0m
+[96msrc/pages/bookshelf/entries/[category]/[id].astro[0m:[93m23[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'id' is declared but its value is never read.
+
+[7m23[0m   const id = entry.data.title;
+[7m  [0m [93m        ~~[0m
+
+Result (219 files): 
+- 69 errors
+- 0 warnings
+- 13 hints
+

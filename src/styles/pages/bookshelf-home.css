@@ -139,7 +139,7 @@
   .el-index-link { font-size: 11px; gap: 10px; }
   .el-index-link svg { width: 17px; height: 17px; }
   .el-hero__composition { margin-top: 30px; min-height: 390px; }
-  .el-type-mask > span { font-size: clamp(44px,11.9vw,70px); line-height: .95; }
+  .el-type-mask > span { font-size: clamp(48px,16vw,86px); line-height: .95; }
   .el-type-mask:nth-child(2) { margin-left: 5%; }
   .el-hero__scene { top: 37%; width: 78%; }
   .el-hero__scene-media { aspect-ratio: 1.35; }
@@ -147,7 +147,7 @@
   .el-hero__portrait > span { font-size: 9px; }
   .el-hero__note { top: 31%; left: 0; right: auto; width: auto; }
   .el-hero__note p { font-size: 11px; writing-mode: vertical-rl; line-height: 1.7; }
-  .el-image-label { font-size: 8px; gap: 4px; }
+  .el-image-label { font-size: 9px; gap: 4px; padding-left: 22px; }
   .el-hero__bottom { padding: 20px 0 28px; align-items: end; gap: 18px; }
   .el-hero__bottom > p { font-size: 12px; max-width: 27ch; }
   .el-desktop-break { display: none; }

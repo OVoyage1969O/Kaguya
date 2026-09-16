@@ -1,0 +1,119 @@
+22:16:10 [content] Syncing content
+22:16:10 [content] Synced content
+22:16:10 [types] Generated 632ms
+22:16:10 [build] output: "static"
+22:16:10 [build] mode: "static"
+22:16:10 [build] directory: D:\1\my-blog-master\dist\
+22:16:10 [build] Collecting build info...
+22:16:10 [build] ✓ Completed in 797ms.
+22:16:11 [build] Building static entrypoints...
+22:16:11 [WARN] [vite] 
+/Kaguya/fonts/archivo/archivo-latin.ttf referenced in /Kaguya/fonts/archivo/archivo-latin.ttf didn't resolve at build time, it will remain unchanged to be resolved at runtime
+22:16:11 [WARN] [vite] 
+/Kaguya/fonts/AaZongYiYuan/AaZongYiYuan-2.woff2 referenced in /Kaguya/fonts/AaZongYiYuan/AaZongYiYuan-2.woff2 didn't resolve at build time, it will remain unchanged to be resolved at runtime
+22:16:15 [vite] ✓ built in 4.12s
+22:16:18 [WARN] [vite] [plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+22:16:18 [vite] ✓ built in 3.48s
+22:16:18 [build] Rearranging server assets...
+
+ generating static routes 
+22:16:20   ├─ /404.html (+82ms) 
+22:16:20   ├─ /about/index.html (+15ms) 
+22:16:20   ├─ /api/allPostMeta.json (+4ms) 
+22:16:20   ├─ /api/holidays.json (+690ms) 
+22:16:20   ├─ /archive/index.html (+16ms) 
+22:16:20   ├─ /bookshelf/category/typemoon/index.html (+10ms) 
+22:16:20   ├─ /bookshelf/category/touhou/index.html (+8ms) 
+22:16:20   ├─ /bookshelf/category/magic/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/category/places/index.html (+8ms) 
+22:16:20   ├─ /bookshelf/category/trivia/index.html (+8ms) 
+22:16:20   ├─ /bookshelf/entries/typemoon/苍崎青子/index.html (+13ms) 
+22:16:20   ├─ /bookshelf/entries/typemoon/久远寺有珠/index.html (+8ms) 
+22:16:20   ├─ /bookshelf/entries/typemoon/两仪式/index.html (+8ms) 
+22:16:20   ├─ /bookshelf/entries/magic/魔法/index.html (+8ms) 
+22:16:20   ├─ /bookshelf/entries/magic/魔术/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/magic/魔术礼装/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/places/三咲町/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/places/神野市/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/places/永远邸/index.html (+6ms) 
+22:16:20   ├─ /bookshelf/entries/touhou/符卡规则/index.html (+12ms) 
+22:16:20   ├─ /bookshelf/entries/touhou/幻想乡/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/touhou/异变/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/trivia/狄普·桑姆博/index.html (+9ms) 
+22:16:20   ├─ /bookshelf/entries/trivia/维塔·萨普里/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/typemoon/魔法·根源/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/typemoon/魔术回路/index.html (+7ms) 
+22:16:20   ├─ /bookshelf/entries/typemoon/圣杯战争/index.html (+24ms) 
+22:16:21   ├─ /bookshelf/index.html (+11ms) 
+22:16:21   ├─ /calendar/index.html (+936ms) 
+22:16:21   ├─ /categories/index.html (+9ms) 
+22:16:21   ├─ /collections/index.html (+9ms) 
+22:16:21   ├─ /dynamic/index.html (+40ms) 
+22:16:22   ├─ /friends/index.html (+10ms) 
+22:16:22   ├─ /gallery/FGO/index.html (+9ms) 
+22:16:22   ├─ /gallery/index.html (+10ms) 
+22:16:22   ├─ /guestbook/index.html (+8ms) 
+22:16:22   ├─ /konbini/index.html (+7ms) 
+22:16:22   ├─ /kuonji/rooms/landing/index.html (+3ms) 
+22:16:22   ├─ /kuonji/rooms/hall/index.html (+2ms) 
+22:16:22   ├─ /kuonji/rooms/parlor/index.html (+2ms) 
+22:16:22   ├─ /kuonji/rooms/conservatory/index.html (+2ms) 
+22:16:22   ├─ /kuonji/rooms/bedroom/index.html (+2ms) 
+22:16:22   ├─ /kuonji/index.html (+3ms) 
+22:16:22   ├─ /list/index.html (+13ms) 
+22:16:22   ├─ /llms.txt (+3ms) 
+22:16:22   ├─ /music/index.html (+8ms) 
+22:16:22   ├─ /posts/GY/index.html (+11ms) 
+22:16:22   ├─ /posts/PROB6/index.html (+8ms) 
+22:16:22   ├─ /posts/PROB7/index.html (+7ms) 
+22:16:22   ├─ /posts/PROB8/index.html (+7ms) 
+22:16:22   ├─ /posts/PROB2/index.html (+7ms) 
+22:16:22   ├─ /posts/PROB3/index.html (+7ms) 
+22:16:22   ├─ /posts/PROB4/index.html (+8ms) 
+22:16:22   ├─ /posts/PROB5/index.html (+9ms) 
+22:16:22   ├─ /posts/PROB0/index.html (+14ms) 
+22:16:22   ├─ /posts/PROB1/index.html (+8ms) 
+22:16:22   ├─ /posts/LIN8/index.html (+7ms) 
+22:16:22   ├─ /posts/LIN4.2/index.html (+8ms) 
+22:16:22   ├─ /posts/LIN7/index.html (+11ms) 
+22:16:22   ├─ /posts/TMHAHAHA/index.html (+7ms) 
+22:16:22   ├─ /posts/LIN6/index.html (+9ms) 
+22:16:22   ├─ /posts/SB3/index.html (+9ms) 
+22:16:22   ├─ /posts/LIN5/index.html (+9ms) 
+22:16:22   ├─ /posts/LIN3/index.html (+8ms) 
+22:16:22   ├─ /posts/LIN4.1/index.html (+11ms) 
+22:16:22   ├─ /posts/LIN2/index.html (+7ms) 
+22:16:22   ├─ /posts/TMFate/index.html (+7ms) 
+22:16:22   ├─ /posts/TMJI/index.html (+8ms) 
+22:16:22   ├─ /posts/LIN1/index.html (+7ms) 
+22:16:22   ├─ /posts/TM1/index.html (+8ms) 
+22:16:22   ├─ /posts/SB2/index.html (+10ms) 
+22:16:22   ├─ /posts/SB1/index.html (+7ms) 
+22:16:22   ├─ /robots.txt (+9ms) 
+22:16:22   ├─ /rss/index.html (+10ms) 
+22:16:22   ├─ /rss.xml (+141ms) 
+22:16:22   ├─ /search/index.html (+14ms) 
+22:16:22   ├─ /sponsor/index.html (+6ms) 
+22:16:22   ├─ /index.html (+21ms) 
+22:16:22 ✓ Completed in 3.00s.
+
+ generating optimized images 
+22:16:22   ▶ /_astro/ReimuR.DJfvDb8N_Z2fCc7C.webp (reused cache entry) (+10ms) (1/9)
+22:16:22   ▶ /_astro/Alice.hR07uRpE_2hfhYO.webp (reused cache entry) (+10ms) (2/9)
+22:16:22   ▶ /_astro/Alice.hR07uRpE_KG9W2.webp (reused cache entry) (+1ms) (3/9)
+22:16:22   ▶ /_astro/ReimuR.DJfvDb8N_Z1dhpVv.webp (reused cache entry) (+2ms) (4/9)
+22:16:22   ▶ /_astro/Alice.hR07uRpE_ZT8VIL.webp (reused cache entry) (+2ms) (5/9)
+22:16:22   ▶ /_astro/ReimuR.DJfvDb8N_1VE4yg.webp (reused cache entry) (+2ms) (6/9)
+22:16:22   ▶ /_astro/Alice.hR07uRpE_hyrXo.webp (reused cache entry) (+1ms) (7/9)
+22:16:22   ▶ /_astro/ReimuR.DJfvDb8N_Z1gq3Cc.webp (reused cache entry) (+1ms) (8/9)
+22:16:22   ▶ /_astro/ReimuR.DJfvDb8N_1kbFgX.webp (reused cache entry) (+1ms) (9/9)
+22:16:22 ✓ Completed in 17ms.
+
+22:16:22 [build] ✓ Completed in 11.55s.
+22:16:22 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+22:16:22 [build] 73 page(s) built in 12.52s
+22:16:22 [build] Complete!

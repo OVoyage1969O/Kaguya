@@ -415,6 +415,10 @@ export function mountHomeHero() {
 		});
 
 		timeline.to({}, { duration: 1 });
+		const personaLettering = hero.querySelector(".p3-home-lettering");
+		if (personaLettering) {
+			timeline.to(personaLettering, { xPercent: 110, duration: 0.13, ease: "power3.inOut" }, 0);
+		}
 		timeline.to(
 			title,
 			{

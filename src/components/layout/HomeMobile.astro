@@ -73,6 +73,7 @@ const statsShareId = umamiConfig?.shareId ?? "";
 >
 	{/* 第一层：个人信息区 */}
 	<section class="home-mobile-hero">
+		<div class="p3-mobile-word" aria-hidden="true">KAGUYA</div>
 		<div class="home-mobile-hero__main">
 			<div class="home-mobile-hero__avatar">
 				{avatarImg ? (
@@ -580,7 +581,7 @@ const statsShareId = umamiConfig?.shareId ?? "";
 						scale: 1,
 						opacity: 1,
 						duration: 0.7,
-						ease: "back.out(1.7)",
+						ease: "power3.out",
 						stagger: 0.06,
 					},
 					1.0,

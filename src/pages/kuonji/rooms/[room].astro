@@ -40,9 +40,9 @@ const {title}=Astro.props;
   .kuonji-room-page astro-dev-toolbar{display:none;}
   .room-access :is(a,button){position:fixed;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
   .room-access :is(a,button):focus{inset:auto auto 20px 20px;width:auto;height:auto;clip-path:none;z-index:5;padding:10px 20px;background:#0b0c0e;color:#e0e1e3;outline:1px solid #8f9399;}
-  #kuonji-room{--room-paper:#101215;--room-ink:#d8dadd;--room-rule:#52565c;}
-  #kuonji-room[data-theme="light"]{--room-paper:#f7f7f5;--room-ink:#25282c;--room-rule:#a8abae;}
-  .room-object-dialog{box-sizing:border-box;background:var(--room-paper);color:var(--room-ink);border:1px solid var(--room-rule);padding:42px;width:min(460px,calc(100vw - 32px));max-height:85dvh;overflow:auto;font-family:Georgia,'Noto Serif SC','Source Han Serif SC',serif;box-shadow:0 24px 100px #0006;}
+  #kuonji-room{--room-paper:#07172f;--room-ink:#eaf4ff;--room-rule:#345478;}
+  #kuonji-room[data-theme="light"]{--room-paper:#edf3fc;--room-ink:#0a2453;--room-rule:#a4bfdf;}
+  .room-object-dialog{box-sizing:border-box;background:var(--room-paper);color:var(--room-ink);border:1px solid var(--room-rule);padding:42px;width:min(460px,calc(100vw - 32px));max-height:85dvh;overflow:auto;font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;box-shadow:0 24px 100px #0006;}
   .room-object-dialog::backdrop{background:#0009;}
   .room-object-dialog h2{font-size:22px;font-weight:400;letter-spacing:.1em;margin:14px 0 28px;}
   .room-object-dialog p{font-size:14px;line-height:1.9;margin:14px 0;}

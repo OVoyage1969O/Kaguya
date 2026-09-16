@@ -1,0 +1,282 @@
+src\utils\persona-motion.ts format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     5   5 │   /** A persistent curtain, with all route-local animation reverted before replacement. */
+     6   6 │   export function initPersonaMotion() {
+     7     │ - ··if·(initialized)·return;
+     8     │ - ··initialized·=·true;
+     9     │ - ··const·wipe·=·document.querySelector<HTMLElement>("[data-p3-wipe]");
+    10     │ - ··if·(!wipe)·return;
+    11     │ - ··const·planes·=·wipe.querySelectorAll("[data-p3-wipe-plane]");
+    12     │ - ··const·word·=·wipe.querySelector(".p3-route-wipe__word");
+    13     │ - ··const·reduced·=·window.matchMedia("(prefers-reduced-motion:·reduce)");
+    14     │ - ··let·media:·gsap.MatchMedia·|·undefined;
+    15     │ - ··let·curtain:·gsap.core.Timeline·|·undefined;
+    16     │ - ··let·fallback:·ReturnType<typeof·setTimeout>·|·undefined;
+    17     │ - ··let·finishOut:·(()·=>·void)·|·undefined;
+    18     │ - ··let·current:·Element·|·null·=·null;
+         7 │ + → if·(initialized)·return;
+         8 │ + → initialized·=·true;
+         9 │ + → const·wipe·=·document.querySelector<HTMLElement>("[data-p3-wipe]");
+        10 │ + → if·(!wipe)·return;
+        11 │ + → const·planes·=·wipe.querySelectorAll("[data-p3-wipe-plane]");
+        12 │ + → const·word·=·wipe.querySelector(".p3-route-wipe__word");
+        13 │ + → const·reduced·=·window.matchMedia("(prefers-reduced-motion:·reduce)");
+        14 │ + → let·media:·gsap.MatchMedia·|·undefined;
+        15 │ + → let·curtain:·gsap.core.Timeline·|·undefined;
+        16 │ + → let·fallback:·ReturnType<typeof·setTimeout>·|·undefined;
+        17 │ + → let·finishOut:·(()·=>·void)·|·undefined;
+        18 │ + → let·current:·Element·|·null·=·null;
+    19  19 │   
+    20     │ - ··const·reset·=·()·=>·{
+    21     │ - ····curtain?.kill();
+    22     │ - ····clearTimeout(fallback);
+    23     │ - ····wipe.hidden·=·true;
+    24     │ - ····gsap.set(word,·{·visibility:·"hidden"·});
+    25     │ - ····finishOut?.();
+    26     │ - ····finishOut·=·undefined;
+    27     │ - ··};
+    28     │ - ··const·cleanup·=·()·=>·{
+    29     │ - ····media?.revert();
+    30     │ - ····media·=·undefined;
+    31     │ - ····current·=·null;
+    32     │ - ··};
+    33     │ - ··const·mount·=·()·=>·{
+    34     │ - ····const·page·=·document.getElementById("swup-container");
+    35     │ - ····if·(page·===·current)·return;
+    36     │ - ····cleanup();
+    37     │ - ····current·=·page;
+    38     │ - ····if·(!page)·return;
+    39     │ - ····media·=·gsap.matchMedia();
+    40     │ - ····media.add("(prefers-reduced-motion:·no-preference)",·()·=>·{
+    41     │ - ······const·type·=·page.querySelector("[data-p3-masthead-type]");
+    42     │ - ······if·(type)·gsap.from(type,·{·yPercent:·115,·scaleY:·.55,·duration:·1.25,·delay:·wipe.hidden·?·.08·:·.3,·ease:·"expo.out",·clearProps:·"transform"·});
+    43     │ - ····});
+    44     │ - ····if·(!wipe.hidden)·{
+    45     │ - ······curtain?.kill();
+    46     │ - ······curtain·=·gsap.timeline({·onComplete:·reset·})
+    47     │ - ········.set(word,·{·visibility:·"hidden"·})
+    48     │ - ········.to(planes,·{·xPercent:·115,·duration:·.85,·stagger:·.08,·ease:·"expo.inOut"·});
+    49     │ - ····}
+    50     │ - ··};
+    51     │ - ··const·cover·=·()·=>·{
+    52     │ - ····reset();
+    53     │ - ····if·(reduced.matches)·return;
+    54     │ - ····wipe.hidden·=·false;
+    55     │ - ····fallback·=·setTimeout(reset,·4500);
+    56     │ - ····return·new·Promise<void>((resolve)·=>·{
+    57     │ - ······finishOut·=·resolve;
+    58     │ - ······curtain·=·gsap.timeline({·onComplete:·()·=>·{·finishOut·=·undefined;·resolve();·}·})
+    59     │ - ········.set(planes,·{·x:·0,·xPercent:·-110,·skewX:·-15·})
+    60     │ - ········.to(planes,·{·xPercent:·0,·duration:·.62,·stagger:·.06,·ease:·"power3.inOut"·})
+    61     │ - ········.set(word,·{·visibility:·"visible"·});
+    62     │ - ····});
+    63     │ - ··};
+    64     │ - ··let·bound·=·false;
+    65     │ - ··const·bind·=·()·=>·{
+    66     │ - ····if·(bound·||·!window.swup?.hooks)·return;
+    67     │ - ····bound·=·true;
+    68     │ - ····window.swup.hooks.on("animation:out:await",·cover);
+    69     │ - ····window.swup.hooks.before("content:replace",·cleanup);
+    70     │ - ····window.swup.hooks.on("page:view",·mount);
+    71     │ - ··};
+    72     │ - ··reduced.addEventListener("change",·()·=>·{·if·(reduced.matches)·reset();·});
+    73     │ - ··window.addEventListener("pagehide",·reset);
+    74     │ - ··document.addEventListener("swup:enable",·bind);
+    75     │ - ··document.addEventListener("astro:before-swap",·cleanup);
+    76     │ - ··document.addEventListener("astro:page-load",·mount);
+    77     │ - ··bind();
+    78     │ - ··mount();
+        20 │ + → const·reset·=·()·=>·{
+        21 │ + → → curtain?.kill();
+        22 │ + → → clearTimeout(fallback);
+        23 │ + → → wipe.hidden·=·true;
+        24 │ + → → gsap.set(word,·{·visibility:·"hidden"·});
+        25 │ + → → finishOut?.();
+        26 │ + → → finishOut·=·undefined;
+        27 │ + → };
+        28 │ + → const·cleanup·=·()·=>·{
+        29 │ + → → media?.revert();
+        30 │ + → → media·=·undefined;
+        31 │ + → → current·=·null;
+        32 │ + → };
+        33 │ + → const·mount·=·()·=>·{
+        34 │ + → → const·page·=·document.getElementById("swup-container");
+        35 │ + → → if·(page·===·current)·return;
+        36 │ + → → cleanup();
+        37 │ + → → current·=·page;
+        38 │ + → → if·(!page)·return;
+        39 │ + → → media·=·gsap.matchMedia();
+        40 │ + → → media.add("(prefers-reduced-motion:·no-preference)",·()·=>·{
+        41 │ + → → → const·type·=·page.querySelector("[data-p3-masthead-type]");
+        42 │ + → → → if·(type)
+        43 │ + → → → → gsap.from(type,·{
+        44 │ + → → → → → yPercent:·115,
+        45 │ + → → → → → scaleY:·0.55,
+        46 │ + → → → → → duration:·1.25,
+        47 │ + → → → → → delay:·wipe.hidden·?·0.08·:·0.3,
+        48 │ + → → → → → ease:·"expo.out",
+        49 │ + → → → → → clearProps:·"transform",
+        50 │ + → → → → });
+        51 │ + → → });
+        52 │ + → → if·(!wipe.hidden)·{
+        53 │ + → → → curtain?.kill();
+        54 │ + → → → curtain·=·gsap
+        55 │ + → → → → .timeline({·onComplete:·reset·})
+        56 │ + → → → → .set(word,·{·visibility:·"hidden"·})
+        57 │ + → → → → .to(planes,·{
+        58 │ + → → → → → xPercent:·115,
+        59 │ + → → → → → duration:·0.85,
+        60 │ + → → → → → stagger:·0.08,
+        61 │ + → → → → → ease:·"expo.inOut",
+        62 │ + → → → → });
+        63 │ + → → }
+        64 │ + → };
+        65 │ + → const·cover·=·()·=>·{
+        66 │ + → → reset();
+        67 │ + → → if·(reduced.matches)·return;
+        68 │ + → → wipe.hidden·=·false;
+        69 │ + → → fallback·=·setTimeout(reset,·4500);
+        70 │ + → → return·new·Promise<void>((resolve)·=>·{
+        71 │ + → → → finishOut·=·resolve;
+        72 │ + → → → curtain·=·gsap
+        73 │ + → → → → .timeline({
+        74 │ + → → → → → onComplete:·()·=>·{
+        75 │ + → → → → → → finishOut·=·undefined;
+        76 │ + → → → → → → resolve();
+        77 │ + → → → → → },
+        78 │ + → → → → })
+        79 │ + → → → → .set(planes,·{·x:·0,·xPercent:·-110,·skewX:·-15·})
+        80 │ + → → → → .to(planes,·{
+        81 │ + → → → → → xPercent:·0,
+        82 │ + → → → → → duration:·0.62,
+        83 │ + → → → → → stagger:·0.06,
+  24 more lines truncated
+  
+
+src\utils\study-motion.ts format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     1    │ - import·{·gsap·}·from·"gsap";␍
+     2    │ - import·{·ScrollTrigger·}·from·"gsap/ScrollTrigger";␍
+     3    │ - ␍
+     4    │ - gsap.registerPlugin(ScrollTrigger);␍
+     5    │ - let·initialized·=·false;␍
+     6    │ - ␍
+     7    │ - /**·Only·animate·the·shared·shell;·page-specific·openings·keep·their·own·timelines.·*/␍
+     8    │ - export·function·initStudyMotion()·{␍
+     9    │ - ··if·(initialized)·return;␍
+    10    │ - ··initialized·=·true;␍
+    11    │ - ··let·mounted:·HTMLElement·|·null·=·null;␍
+    12    │ - ··let·media:·gsap.MatchMedia·|·undefined;␍
+    13    │ - ··const·cleanup·=·()·=>·{␍
+    14    │ - ····media?.revert();␍
+    15    │ - ····media·=·undefined;␍
+    16    │ - ····mounted·=·null;␍
+    17    │ - ··};␍
+    18    │ - ··const·mount·=·()·=>·{␍
+    19    │ - ····const·page·=·document.getElementById("swup-container");
+    20    │ - ····if·(page·===·mounted)·return;␍
+    21    │ - ····cleanup();␍
+    22    │ - ····if·(!page)·return;␍
+    23    │ - ····mounted·=·page;␍
+    24    │ - ····media·=·gsap.matchMedia();␍
+    25    │ - ····media.add("(prefers-reduced-motion:·no-preference)",·()·=>·{␍
+    26    │ - ······const·footer·=·page.querySelector<HTMLElement>("[data-study-footer]");␍
+    27    │ - ······if·(footer)·{␍
+    28    │ - ········const·timeline·=·gsap.timeline({·scrollTrigger:·{·trigger:·footer,·start:·"top·92%",·once:·true·}·});␍
+    29    │ - ········timeline.from(footer.querySelector("[data-study-footer-line]"),·{·scaleX:·0,·transformOrigin:·"0·50%",·duration:·1.5,·ease:·"power3.inOut"·})␍
+    30    │ - ··········.from(footer.querySelectorAll("[data-study-footer-item]"),·{·y:·38,·clipPath:·"inset(0·0·100%·0)",·duration:·1.25,·stagger:·.13,·ease:·"power3.out",·clearProps:·"transform,clipPath"·},·.2);
+    31    │ - ······}␍
+    32    │ - ····});␍
+    33    │ - ··};␍
+    34    │ - ··let·bound·=·false;␍
+    35    │ - ··const·bind·=·()·=>·{␍
+    36    │ - ····if·(bound·||·!window.swup?.hooks)·return;␍
+    37    │ - ····bound·=·true;␍
+    38    │ - ····window.swup.hooks.before("content:replace",·cleanup);␍
+    39    │ - ····window.swup.hooks.on("page:view",·mount);␍
+    40    │ - ··};␍
+    41    │ - ··bind();␍
+    42    │ - ··document.addEventListener("swup:enable",·bind);␍
+    43    │ - ··document.addEventListener("astro:before-swap",·cleanup);␍
+    44    │ - ··document.addEventListener("astro:page-load",·mount);␍
+    45    │ - ··mount();␍
+    46    │ - }␍
+        1 │ + import·{·gsap·}·from·"gsap";
+        2 │ + import·{·ScrollTrigger·}·from·"gsap/ScrollTrigger";
+        3 │ + 
+        4 │ + gsap.registerPlugin(ScrollTrigger);
+        5 │ + let·initialized·=·false;
+        6 │ + 
+        7 │ + /**·Only·animate·the·shared·shell;·page-specific·openings·keep·their·own·timelines.·*/
+        8 │ + export·function·initStudyMotion()·{
+        9 │ + → if·(initialized)·return;
+       10 │ + → initialized·=·true;
+       11 │ + → let·mounted:·HTMLElement·|·null·=·null;
+       12 │ + → let·media:·gsap.MatchMedia·|·undefined;
+       13 │ + → const·cleanup·=·()·=>·{
+       14 │ + → → media?.revert();
+       15 │ + → → media·=·undefined;
+       16 │ + → → mounted·=·null;
+       17 │ + → };
+       18 │ + → const·mount·=·()·=>·{
+       19 │ + → → const·page·=·document.getElementById("swup-container");
+       20 │ + → → if·(page·===·mounted)·return;
+       21 │ + → → cleanup();
+       22 │ + → → if·(!page)·return;
+       23 │ + → → mounted·=·page;
+       24 │ + → → media·=·gsap.matchMedia();
+       25 │ + → → media.add("(prefers-reduced-motion:·no-preference)",·()·=>·{
+       26 │ + → → → const·footer·=·page.querySelector<HTMLElement>("[data-study-footer]");
+       27 │ + → → → if·(footer)·{
+       28 │ + → → → → const·timeline·=·gsap.timeline({
+       29 │ + → → → → → scrollTrigger:·{·trigger:·footer,·start:·"top·92%",·once:·true·},
+       30 │ + → → → → });
+       31 │ + → → → → timeline
+       32 │ + → → → → → .from(footer.querySelector("[data-study-footer-line]"),·{
+       33 │ + → → → → → → scaleX:·0,
+       34 │ + → → → → → → transformOrigin:·"0·50%",
+       35 │ + → → → → → → duration:·1.5,
+       36 │ + → → → → → → ease:·"power3.inOut",
+       37 │ + → → → → → })
+       38 │ + → → → → → .from(
+       39 │ + → → → → → → footer.querySelectorAll("[data-study-footer-item]"),
+       40 │ + → → → → → → {
+       41 │ + → → → → → → → y:·38,
+       42 │ + → → → → → → → clipPath:·"inset(0·0·100%·0)",
+       43 │ + → → → → → → → duration:·1.25,
+       44 │ + → → → → → → → stagger:·0.13,
+       45 │ + → → → → → → → ease:·"power3.out",
+       46 │ + → → → → → → → clearProps:·"transform,clipPath",
+       47 │ + → → → → → → },
+       48 │ + → → → → → → 0.2,
+       49 │ + → → → → → );
+       50 │ + → → → }
+       51 │ + → → });
+       52 │ + → };
+       53 │ + → let·bound·=·false;
+       54 │ + → const·bind·=·()·=>·{
+       55 │ + → → if·(bound·||·!window.swup?.hooks)·return;
+       56 │ + → → bound·=·true;
+       57 │ + → → window.swup.hooks.before("content:replace",·cleanup);
+       58 │ + → → window.swup.hooks.on("page:view",·mount);
+       59 │ + → };
+       60 │ + → bind();
+       61 │ + → document.addEventListener("swup:enable",·bind);
+       62 │ + → document.addEventListener("astro:before-swap",·cleanup);
+       63 │ + → document.addEventListener("astro:page-load",·mount);
+       64 │ + → mount();
+       65 │ + }
+    47 66 │   
+  
+
+Checked 2 files in 66ms. No fixes applied.
+Found 2 errors.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+

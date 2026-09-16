@@ -80,13 +80,13 @@ export const bookshelfConfig: BookshelfConfig = {
 			summary: "零散的趣闻与杂项",
 			cover: "/Kaguya/assets/images/AOO.jpg",
 			entries: [],
-			// 子分组：人物（先放维塔·萨普里、迪普·桑姆博）
+			// 子分组：人物（先放维塔·萨普里、狄普·桑姆博）
 			subgroups: [
 				{
 					name: "人物",
 					entries: [
 						{ id: "vita-sapri", title: "维塔·萨普里", summary: "" },
-						{ id: "deep-sambo", title: "迪普·桑姆博", summary: "" },
+						{ id: "deep-sambo", title: "狄普·桑姆博", summary: "" },
 					],
 				},
 			],
