@@ -1,4 +1,58 @@
-﻿# impeccable detect — 九维雷达图相关文件
-# targets: src/components/bookshelf/StatRadar.astro, src/styles/components/bookshelf-stat-radar.css, src/components/bookshelf/Infobox.astro, src/pages/bookshelf/entries/[category]/[id].astro
+﻿# impeccable detect — 过场动画与首页字组修正
+# targets: src/utils/persona-motion.ts, src/styles/persona-theme.css
 # exit code: 0
 
+System.Management.Automation.RemoteException
+D:\1\my-blog-master\src\styles\persona-theme.css
+  line 84: [border-accent-on-rounded] border-bottom: 3px solid
+    → Thick accent border on a rounded card — the border clashes with the rounded corners. Remove the border or the border-radius.
+  line 96: [border-accent-on-rounded] border-top: 3px solid
+    → Thick accent border on a rounded card — the border clashes with the rounded corners. Remove the border or the border-radius.
+  line 190: [border-accent-on-rounded] border-top: 5px solid
+    → Thick accent border on a rounded card — the border clashes with the rounded corners. Remove the border or the border-radius.
+System.Management.Automation.RemoteException
+3 anti-patterns found.
+System.Management.Automation.RemoteException
+── Advisory (not counted as failures) ──
+System.Management.Automation.RemoteException
+D:\1\my-blog-master\src\styles\persona-theme.css
+  line 87: [design-system-color] Undocumented color #2750a0 is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 90: [design-system-color] Undocumented color #b8d4ff is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 94: [design-system-color] Undocumented color #c5edff is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 94: [design-system-color] Undocumented color #355a87 is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 117: [design-system-color] Undocumented color #fff is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 119: [design-system-color] Undocumented color #234dcc is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 129: [design-system-color] Undocumented color #062764 is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 133: [design-system-font-size] font-size: clamp(80px,9vw,130px) has fluid endpoints 80px and 130px off the DESIGN.md type ramp
+    → A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.
+  line 138: [design-system-color] Undocumented color #c1deff is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 138: [design-system-font-size] font-size: clamp(17px,1.7vw,25px) has fluid endpoint 25px off the DESIGN.md type ramp
+    → A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.
+  line 140: [design-system-color] Undocumented color #6489ba is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 152: [design-system-font-size] font-size: clamp(44px,14vw,68px) has fluid endpoints 44px and 68px off the DESIGN.md type ramp
+    → A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.
+  line 153: [design-system-color] Undocumented color #c3dcff is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 154: [design-system-font-size] font-size: 12px is off the DESIGN.md type ramp
+    → A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.
+  line 158: [design-system-color] Undocumented color #b9d2f6 is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 160: [design-system-color] Undocumented color #12346e is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 199: [design-system-color] Undocumented color #fff is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 200: [design-system-color] Undocumented color #0f3fd6 is outside DESIGN.md colors
+    → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
+  line 221: [design-system-font-size] font-size: clamp(32px,10.7vw,64px) has fluid endpoints 32px and 64px off the DESIGN.md type ramp
+    → A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.
+System.Management.Automation.RemoteException
+19 advisory notes. Suppress with --no-advisory.

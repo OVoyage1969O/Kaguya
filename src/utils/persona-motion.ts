@@ -21,7 +21,7 @@ export function initPersonaMotion() {
 		curtain?.kill();
 		clearTimeout(fallback);
 		wipe.hidden = true;
-		gsap.set(word, { visibility: "hidden" });
+		gsap.set(word, { visibility: "hidden", opacity: 0, yPercent: 0 });
 		finishOut?.();
 		finishOut = undefined;
 	};
@@ -51,15 +51,22 @@ export function initPersonaMotion() {
 		});
 		if (!wipe.hidden) {
 			curtain?.kill();
+			// 幕布合拢期间标题一直停留在画面里，拉帘时让它先退场再开帘。
+			// 之前这里是一帧就 set 成 hidden，白字只闪了一下才显得刺眼。
 			curtain = gsap
 				.timeline({ onComplete: reset })
-				.set(word, { visibility: "hidden" })
-				.to(planes, {
-					xPercent: 115,
-					duration: 0.85,
-					stagger: 0.08,
-					ease: "expo.inOut",
-				});
+				.to(
+					planes,
+					{
+						xPercent: 115,
+						duration: 0.85,
+						stagger: 0.08,
+						ease: "expo.inOut",
+					},
+					0,
+				)
+				// 标题跟着帘子一起退，而不是先退完留下一段空蓝。
+				.to(word, { yPercent: -120, opacity: 0, duration: 0.55, ease: "power2.in" }, 0.15);
 		}
 	};
 	const cover = () => {
@@ -77,13 +84,19 @@ export function initPersonaMotion() {
 					},
 				})
 				.set(planes, { x: 0, xPercent: -110, skewX: -15 })
-				.to(planes, {
-					xPercent: 0,
-					duration: 0.62,
-					stagger: 0.06,
-					ease: "power3.inOut",
-				})
-				.set(word, { visibility: "visible" });
+				.set(word, { visibility: "visible", opacity: 0, yPercent: 0 })
+				.to(
+					planes,
+					{
+						xPercent: 0,
+						duration: 0.62,
+						stagger: 0.06,
+						ease: "power3.inOut",
+					},
+					0,
+				)
+				// 幕布即将合拢时标题淡入，而不是在最后一帧突然出现。
+				.to(word, { opacity: 1, duration: 0.28, ease: "power2.out" }, 0.42);
 		});
 	};
 	let bound = false;

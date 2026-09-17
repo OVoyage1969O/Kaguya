@@ -38,3 +38,14 @@ Trivia character entries gained a nine-axis ability chart, requested for 维塔�
 - Verification sweep: 26 routes x desktop 1440x900 and mobile 390x844 x light and dark — 104 captures, all HTTP 200, zero horizontal overflow.
 - Production build: 73 pages, unchanged; the entries without a `stats` block are unaffected.
 - Not claimed: screen-reader output was not captured; the hidden list was verified by computed clip-path only.
+
+## Route curtain and home lettering (two reported defects)
+
+Two defects reported after the close-out were traced and fixed.
+
+- **The white KAGUYA only flashed.** `cover()` revealed the curtain word in its final `.set`, and `mount()` hid it again on the first frame of the reveal, so the word existed only across the content swap — a few frames. The word now fades in as the curtain closes (0.42s offset into the cover), holds while the curtain is fully closed, and lifts away on the same timeline that opens it, starting at 0.15s so the curtain leads and no blank blue gap is left. A 50ms sampler across a real `swup.navigate` recorded the word at opacity 1.00 for the full hold and a gradual exit from 1.00 to 0.00 over roughly half a second, instead of an instant hide.
+- **The home caption was cut by the blue plane.** The caption span was stretched to the full row width by the column flex container, so `rotate(-8deg)` sank its bottom-left corner further as the viewport grew, while the `clip-path` bottom edge stayed put. Measured clearance at the caption's lowest rotated corner was +10.7px at 1440 and +21.5px at 1280, but **-1.5px at 1680 and -8.7px at 1920** — clipped on wide screens. The span is now `align-self: flex-start` with `transform-origin: 0 100%`, so its box hugs the text (a constant 197x39) and the rotation no longer depends on viewport width. Clearance is now positive and stable at every width tested: 48px at 1024, 30.3px at 1440, 23.8px at 1920.
+- Detector: `impeccable detect` over the two changed files reports no findings on the changed lines. Its three anti-patterns are the house three-and-five-pixel blue top rules at lines 84, 96 and 190, which predate this change (84 and 96 shipped in the earlier passes; 190 is the dialog panel from the close-out) and are the same accent motif the Persona navigation and dock already use.
+- Verification sweep: 26 routes x desktop 1440x900 and mobile 390x844 x light and dark — 104 captures, all HTTP 200, zero horizontal overflow.
+- Production build: 73 pages; the lettering rule and the reveal tween are both present in the built CSS and JS.
+- Not claimed: the frame captures were taken against the dev server, where the content swap between cover and reveal is slower than a production build; the production hold will be shorter than the ~840ms measured.

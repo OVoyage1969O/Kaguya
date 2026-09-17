@@ -129,7 +129,7 @@
 .p3-theme .home-hero__shade { background: #062764; opacity: .68; }
 .p3-home-lettering { position: absolute; pointer-events: none; top: 0; right: -1px; z-index: 2; width: 49%; height: 47%; padding: 115px 4vw 36px 7vw; background: var(--p3-blue); clip-path: polygon(23% 0,100% 0,100% 100%,0 80%); display: flex; flex-direction: column; justify-content: center; }
 .p3-home-lettering>span:first-child { font: 850 clamp(60px,8vw,126px)/.9 var(--p3-display); color: var(--p3-cyan); letter-spacing: -.04em; transform: rotate(-8deg) skewX(-9deg); }
-.p3-home-lettering>span:last-child { margin: 25px 0 0 10px; font: 600 11px var(--p3-display); color: white; letter-spacing: .09em; transform: rotate(-8deg); }
+.p3-home-lettering>span:last-child { align-self: flex-start; transform-origin: 0 100%; margin: 36px 0 0 56px; font: 600 11px var(--p3-display); color: white; letter-spacing: .09em; transform: rotate(-8deg); }
 .p3-theme .home-hero__title { font-size: clamp(80px,9vw,130px); font-weight: 850; }
 .p3-theme .home-hero__title>span:first-child,
 .p3-theme .home-hero__fly-char,
