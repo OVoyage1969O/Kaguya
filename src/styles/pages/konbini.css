@@ -75,3 +75,175 @@ html:has(.konbini-scene-page).is-rendering #swup-container.transition-swup-main 
 .konbini-canvas canvas:active {
 	cursor: grabbing;
 }
+
+/* 开屏幕布：与「久远寺宅」同源 —— 两扇门叶合拢，标题自门缝升起，随后向两侧开启。
+   层次要高于 .konbini-scene-page（z-index: 90），否则会被场景盖住。 */
+.konbini-opening {
+	position: fixed;
+	inset: 0;
+	z-index: 95;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.konbini-opening__leaf {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 50.15%;
+	background: var(--p3-blue, #124cfa);
+	will-change: transform;
+}
+
+.konbini-opening__leaf:nth-of-type(2) {
+	left: auto;
+	right: 0;
+}
+
+.konbini-opening__leaf:nth-of-type(1) {
+	box-shadow: 1px 0 0 rgba(196, 216, 228, 0.14), 26px 0 60px rgba(0, 0, 0, 0.45);
+}
+
+.konbini-opening__leaf:nth-of-type(2) {
+	box-shadow: -1px 0 0 rgba(196, 216, 228, 0.14), -26px 0 60px rgba(0, 0, 0, 0.45);
+}
+
+.konbini-opening__mark {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 22px;
+	text-align: center;
+	color: #dbe6ec;
+}
+
+.konbini-opening__kicker,
+.konbini-opening__sub {
+	font-size: 10px;
+	letter-spacing: 0.34em;
+	text-indent: 0.34em;
+}
+
+.konbini-opening__kicker {
+	opacity: 0;
+	animation: kob-fade 1s ease 0.25s forwards;
+}
+
+.konbini-opening__sub {
+	opacity: 0;
+	color: var(--p3-cyan, #4de5f5);
+	letter-spacing: 0.28em;
+	text-indent: 0.28em;
+}
+
+.konbini-opening__mask {
+	display: block;
+	overflow: hidden;
+	padding: 0 0.1em;
+}
+
+.konbini-opening__mask strong {
+	display: block;
+	font: 800 clamp(34px, 9vw, 60px) / 1.42 "Noto Sans SC", "Microsoft YaHei", sans-serif;
+	letter-spacing: 0.1em;
+	text-indent: 0.1em;
+	transform: translateY(118%) scaleY(0.58);
+	transform-origin: bottom center;
+	will-change: transform;
+}
+
+.konbini-opening__hint {
+	position: absolute;
+	bottom: 15%;
+	left: 0;
+	right: 0;
+	text-align: center;
+	font-size: 10px;
+	letter-spacing: 0.3em;
+	color: #93a7b4;
+	opacity: 0;
+	animation: kob-pulse 2.2s ease-in-out 0.6s infinite;
+	transition: opacity 0.3s ease;
+}
+
+/* 开幕由脚本在场景就绪后触发：html.is-konbini-open */
+html.is-konbini-open .konbini-opening {
+	animation: kob-curtain-hide 0.01s linear 3.2s forwards;
+}
+
+html.is-konbini-open .konbini-opening__hint {
+	animation: none;
+	opacity: 0;
+}
+
+html.is-konbini-open .konbini-opening__mask strong {
+	animation: kob-title 1.15s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+html.is-konbini-open .konbini-opening__sub {
+	animation: kob-fade 1s ease 0.95s both;
+}
+
+html.is-konbini-open .konbini-opening__mark {
+	animation: kob-mark-out 0.95s cubic-bezier(0.76, 0, 0.24, 1) 1.3s forwards;
+}
+
+html.is-konbini-open .konbini-opening__leaf:nth-of-type(1) {
+	animation: kob-leaf-left 1.5s cubic-bezier(0.76, 0, 0.24, 1) 1.55s forwards;
+}
+
+html.is-konbini-open .konbini-opening__leaf:nth-of-type(2) {
+	animation: kob-leaf-right 1.5s cubic-bezier(0.76, 0, 0.24, 1) 1.55s forwards;
+}
+
+html.is-konbini-open .konbini-scene-page__canvas {
+	animation: kob-scene-in 2.4s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
+}
+
+@keyframes kob-fade {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes kob-title {
+	from { transform: translateY(118%) scaleY(0.58); }
+	to { transform: translateY(0) scaleY(1); }
+}
+
+@keyframes kob-mark-out {
+	to { clip-path: inset(0 0 100% 0); transform: translateY(-26px); }
+}
+
+@keyframes kob-leaf-left {
+	to { transform: translateX(-101%); }
+}
+
+@keyframes kob-leaf-right {
+	to { transform: translateX(101%); }
+}
+
+@keyframes kob-scene-in {
+	from { transform: scale(1.06); }
+	to { transform: scale(1); }
+}
+
+@keyframes kob-curtain-hide {
+	to { visibility: hidden; }
+}
+
+@keyframes kob-pulse {
+	0%, 100% { opacity: 0.22; }
+	50% { opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.konbini-opening { display: none !important; }
+	html.is-konbini-open .konbini-scene-page__canvas { animation: none; }
+}
+
+/* 与「久远寺宅」一致：全屏场景页不显示开发工具栏，避免压住展品。 */
+astro-dev-toolbar { display: none; }

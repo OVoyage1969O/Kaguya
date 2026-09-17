@@ -12,4 +12,39 @@ import "@/styles/pages/konbini.css";
 			<KonbiniDiorama client:only="svelte" />
 		</div>
 	</div>
+	<div class="konbini-opening" data-konbini-intro aria-hidden="true">
+		<span class="konbini-opening__leaf"></span>
+		<span class="konbini-opening__leaf"></span>
+		<div class="konbini-opening__mark">
+			<span class="konbini-opening__kicker">THE RAINY CORNER</span>
+			<span class="konbini-opening__mask"><strong>雨夜便利店</strong></span>
+			<span class="konbini-opening__sub">街角 · 微缩模型</span>
+		</div>
+		<span class="konbini-opening__hint">推开门扉 · 请稍候</span>
+	</div>
+	<noscript><style>.konbini-opening{display:none !important}</style></noscript>
+	<script>
+		// 与「久远寺宅」同源的开幕：等场景首帧就绪后再拉帘，避免提前露出空屏。
+		let intro = document.querySelector<HTMLElement>("[data-konbini-intro]");
+		const openedAt = performance.now();
+		const openIntro = () => {
+			if (document.documentElement.classList.contains("is-konbini-open")) return;
+			document.documentElement.classList.add("is-konbini-open");
+			window.setTimeout(() => intro?.remove(), 3800);
+		};
+		const revealScene = () => {
+			window.setTimeout(openIntro, Math.max(0, 650 - (performance.now() - openedAt)));
+		};
+		window.addEventListener("konbini:ready", revealScene, { once: true });
+		// 组件可能已先于本脚本完成挂载，错过事件时用标志位补一次。
+		if (document.documentElement.dataset.konbiniReady === "1") revealScene();
+		// 场景模块加载失败或迟迟未就绪时也要开门，避免幕布卡住页面。
+		window.setTimeout(openIntro, 7000);
+		// 幕布状态挂在 <html> 上，路由切换时要清掉，避免影响后续页面。
+		document.addEventListener("astro:before-swap", () => {
+			document.documentElement.classList.remove("is-konbini-open");
+			delete document.documentElement.dataset.konbiniReady;
+			intro = null;
+		});
+	</script>
 </MainGridLayout>

@@ -185,6 +185,29 @@
 /* Swup awaits the authored timeline; never transform ancestors of pinned content. */
 html.p3-theme:is(.is-leaving,.is-rendering) .transition-swup-main { animation: none !important; transform: none !important; opacity: 1 !important; }
 
+/* Shared dialogs: the legacy grey card becomes a flat Persona panel. */
+:root.p3-theme.p3-theme .privacy-overlay { background: color-mix(in oklch, var(--p3-night) 74%, transparent); backdrop-filter: none; -webkit-backdrop-filter: none; }
+:root.p3-theme.p3-theme .privacy-panel { background: var(--float-panel-bg); border: 1px solid var(--line-divider); border-top: 5px solid var(--p3-blue); border-radius: 3px; box-shadow: none; }
+:root.p3-theme.p3-theme .privacy-header { border-bottom-color: var(--line-divider); }
+:root.p3-theme.p3-theme .privacy-title { display: flex; align-items: center; gap: 12px; color: var(--deep-text); font-family: var(--study-serif); font-weight: 750; letter-spacing: .015em; }
+:root.p3-theme.p3-theme .privacy-title::before { content: ""; flex: 0 0 auto; width: 9px; height: 22px; background: var(--p3-cyan); transform: skewX(-14deg); }
+:root.p3-theme.p3-theme .privacy-close { color: var(--content-meta); border-radius: 2px; }
+:root.p3-theme.p3-theme .privacy-close:hover { background: var(--btn-plain-bg-hover); color: var(--deep-text); }
+:root.p3-theme.p3-theme .privacy-body { color: var(--deep-text); }
+:root.p3-theme.p3-theme .privacy-body :is(h2,h3,strong) { color: var(--deep-text); }
+:root.p3-theme.p3-theme .privacy-footer { border-top-color: var(--line-divider); }
+:root.p3-theme.p3-theme .privacy-confirm-btn { background: var(--p3-blue); color: #fff; border-radius: 2px; font-weight: 500; }
+:root.p3-theme.p3-theme .privacy-confirm-btn:hover { background: #0f3fd6; opacity: 1; }
+
+/* About dialogue: the legacy black bubble becomes a navy command panel carrying the
+   same skewed cyan marker as the masthead — a detached bar, not a side-tab border. */
+.p3-theme .about-canvas-container { border-radius: 3px; }
+.p3-theme .about-dialogue__bubble { position: relative; background: var(--p3-night); border: 0; border-radius: 3px; color: #eaf4ff; box-shadow: none; padding-left: 46px; }
+.p3-theme .about-dialogue--right .about-dialogue__bubble { padding-left: 28px; padding-right: 46px; }
+.p3-theme .about-dialogue__bubble::before { content: ""; position: absolute; left: 22px; top: 20px; bottom: 20px; width: 9px; background: var(--p3-cyan); transform: skewX(-22deg); }
+.p3-theme .about-dialogue--right .about-dialogue__bubble::before { left: auto; right: 22px; }
+.p3-theme .about-dialogue__avatar { border: 2px solid var(--p3-cyan); background: var(--p3-night); }
+
 @media (max-width: 1023px) {
   .p3-world-frame { display: none; }
   .p3-world-frame__rail { display: none; }

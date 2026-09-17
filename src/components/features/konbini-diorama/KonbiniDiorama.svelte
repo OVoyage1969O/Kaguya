@@ -166,6 +166,13 @@
 	onMount(() => {
 		init();
 		animate();
+		// 首帧渲染后通知页面：Persona 开屏幕布可以拉起了。场景起不来时由页面的
+		// 兜底计时器开门，不会把页面卡在幕布后面。标志位 + 事件一起给，
+		// 因为本组件晚于页面脚本挂载时事件可能先于监听器注册。
+		requestAnimationFrame(() => {
+			document.documentElement.dataset.konbiniReady = "1";
+			window.dispatchEvent(new CustomEvent("konbini:ready"));
+		});
 	});
 
 	onDestroy(cleanup);

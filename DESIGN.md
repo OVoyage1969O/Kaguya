@@ -148,9 +148,17 @@ The global shell sets caret and focus colors. [SearchModal.svelte](src/component
 
 Navy command segments carry pale labels, with electric blue on the identity segment and a cyan baseline under the center segment. Drawers use the current panel and divider colors. The skip link appears on keyboard focus. Existing search, theme controls and mobile menu behavior remain available.
 
+### Shared dialogs
+
+[privacy-modal.css](src/styles/components/privacy-modal.css) still ships its original greyscale panel, so the Persona layer overrides it in [persona-theme.css](src/styles/persona-theme.css): the panel surface and divider replace the grey pair, the 1rem radius becomes the card radius, and the drop shadow and backdrop blur are removed. A 5px electric-blue top rule addresses the panel, and a skewed cyan bar precedes the title. This covers the privacy/user-agreement dialog and the guestbook announcement dialog, which share the same `privacy-*` classes.
+
+The author dialogue in [AboutCanvas.svelte](src/components/about/AboutCanvas.svelte) loses its hardcoded black bubble, grey outline and 24px radius. It becomes a navy panel at the card radius carrying a detached skewed cyan bar — the masthead's marker, deliberately not a side-tab border — with a cyan-edged avatar. The per-dialogue name color stays configuration-driven; its default `#00d5dd` sits inside the cyan family.
+
 ### Masthead, curtain and colophon
 
 The decorative masthead is hidden from accessibility APIs; page content retains the semantic heading. [PersonaFrame](src/components/layout/PersonaFrame.astro) owns a persistent, pointer-transparent route curtain. [persona-motion.ts](src/utils/persona-motion.ts) covers before route replacement and reveals afterward, reverts route-local animation, bypasses reduced motion and resets after a 4.5-second fallback.
+
+Standalone 3D scenes keep their artwork but open behind a matching curtain. [kuonji.astro](src/pages/kuonji.astro) serves the mansion and [konbini.css](src/styles/pages/konbini.css) the corner store, both built from the same two-leaf electric-blue reveal, mask-risen title and cyan subtitle. Each waits for its scene — konbini is signalled by [KonbiniDiorama.svelte](src/components/features/konbini-diorama/KonbiniDiorama.svelte) after its first frame — and fails open after seven seconds. The konbini curtain sits above its scene layer and both pages hide the development toolbar.
 
 [StudyFooter](src/components/layout/StudyFooter.astro) combines large clipped lettering with plain navigation headings and real icon components. [study-motion.ts](src/utils/study-motion.ts) reveals its rule and sections once, clears temporary transforms and reverts before replacement. Motion uses controlled easing, not bounce; exact timings live in the sidecar. Screenshot and verification scope are recorded in [.impeccable/review/persona-validation.md](.impeccable/review/persona-validation.md).
 

@@ -11,3 +11,17 @@
 - Screenshots are real browser captures in this directory, names starting persona-. Most desktop captures are 1440x1000; article-light is a tall live desktop viewport. Phone captures are 390x844. Astro dev toolbar is not part of the production build.
 - Original photography/character assets and local Archivo font are reused. User concurrently edited encyclopedia content/config and added BG1.png/Deep.png; those changes are preserved.
 - Source palette contrast calculation: light body 13.54:1, light metadata 5.12:1, dark body 16.10:1, dark metadata 8.51:1, navigation labels 15.56:1, dark tool descriptions 7.14:1. These values cover the named token pairs, not every legacy widget.
+
+## Persona finish pass (close-out)
+
+The surfaces still carrying their pre-Persona styling were harmonised: the shared privacy/announcement dialog, the about author dialogue, and the konbini standalone scene. The music visualiser was deliberately left as shipped, at the user's direction.
+
+- Impeccable engine: the auxiliary binary download that failed in the first pass completed, and its release checksum verified (SHA256 `477e544f…b531c71`), so `impeccable context` and the mechanical detector both ran this session.
+- Detector: `impeccable detect` over the changed files exits 0 with 27 advisory notes and no primary findings (outputs/persona-detector.log). The one primary-tell finding raised against this pass — a `side-tab` thick one-sided border on the about bubble — was removed by rebuilding that accent as the masthead's detached skewed bar; the rule no longer reports. The remaining advisories are undocumented colour and size literals the incumbent Persona code already uses (the kuonji curtain's exact palette and 10px kickers, `#fff` on active controls) plus the house accent rule on slightly rounded surfaces.
+- Shared dialogs: the Persona layer overrides the legacy `privacy-*` panel, so the privacy/user-agreement and guestbook announcement dialogs now use the semantic panel and divider, the card radius, no drop shadow and no backdrop blur, addressed by a blue top rule and a skewed cyan bar before the title.
+- About dialogue: the hardcoded `#111` bubble, `#d3d3d3` outline and 24px radius are replaced by a navy panel at the card radius with a detached skewed cyan bar. The configuration-driven name colour is preserved.
+- Konbini curtain: the corner-store scene now opens behind the same two-leaf electric-blue curtain as the mansion, signalled after its first rendered frame and failing open after seven seconds. A 1440x900 probe found the curtain present and covering through ~1.5s, opening thereafter and ~93% open by 6.5s; persona-desktop-konbini-curtain.png records the covered state.
+- Verification sweep: 24 routes x desktop 1440x900 and mobile 390x844 x light and dark — 96 captures, every route HTTP 200 (the intentional 404 route included), zero horizontal overflow.
+- Production build: 73 pages; Pagefind 67 pages / 9,902 words — both unchanged from the first pass.
+- Reduced motion: the konbini curtain is `display:none` and its scene entrance animation is removed under `prefers-reduced-motion: reduce`.
+- Not claimed: frame rate or perceived motion smoothness from stills, and no OS-level reduced-motion run.
