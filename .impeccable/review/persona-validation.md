@@ -10,3 +10,4 @@
 - Reading paragraphs remain unskewed; masthead typography and decorative layers carry the angular treatment. Reduced-motion guards are implemented in GSAP matchMedia and CSS; OS-level reduced-motion was not changed during this verification.
 - Screenshots are real browser captures in this directory, names starting persona-. Most desktop captures are 1440x1000; article-light is a tall live desktop viewport. Phone captures are 390x844. Astro dev toolbar is not part of the production build.
 - Original photography/character assets and local Archivo font are reused. User concurrently edited encyclopedia content/config and added BG1.png/Deep.png; those changes are preserved.
+- Source palette contrast calculation: light body 13.54:1, light metadata 5.12:1, dark body 16.10:1, dark metadata 8.51:1, navigation labels 15.56:1, dark tool descriptions 7.14:1. These values cover the named token pairs, not every legacy widget.

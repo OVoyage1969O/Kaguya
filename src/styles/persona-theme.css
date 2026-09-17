@@ -173,6 +173,8 @@
 .p3-theme .study-eyebrow { display: none; }
 .p3-theme .study-footer__body { gap: 38px; }
 .p3-theme .study-footer__closing>svg { display: none; }
+.study-footer__arrow { width: 14px; height: 14px; flex-shrink: 0; }
+.study-footer__rss { display: inline-flex; align-items: center; gap: 5px; }
 .p3-footer-word { overflow: hidden; color: var(--primary); font: 850 clamp(64px,15.3vw,200px)/.8 var(--p3-display); letter-spacing: -.04em; margin-bottom: 40px; padding: .08em .08em 0 0; transform: skewX(-8deg); transform-origin: 0 100%; }
 
 .p3-route-wipe { position: fixed; inset: 0; z-index: 9998; pointer-events: none; overflow: hidden; }

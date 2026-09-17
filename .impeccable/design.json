@@ -1,0 +1,405 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-17T01:35:03.951Z",
+  "title": "Design System: 永远邸 / Kaguya",
+  "extensions": {
+    "colorMeta": {
+      "p3-blue": {
+        "role": "primary",
+        "displayName": "p3-blue",
+        "tonalRamp": [
+          "oklch(0.15 0.2617 264.16)",
+          "oklch(0.264 0.2617 264.16)",
+          "oklch(0.379 0.2617 264.16)",
+          "oklch(0.493 0.2617 264.16)",
+          "oklch(0.607 0.2617 264.16)",
+          "oklch(0.721 0.2617 264.16)",
+          "oklch(0.836 0.2617 264.16)",
+          "oklch(0.95 0.2617 264.16)"
+        ]
+      },
+      "p3-cyan": {
+        "role": "secondary",
+        "displayName": "p3-cyan",
+        "tonalRamp": [
+          "oklch(0.15 0.1264 205.25)",
+          "oklch(0.264 0.1264 205.25)",
+          "oklch(0.379 0.1264 205.25)",
+          "oklch(0.493 0.1264 205.25)",
+          "oklch(0.607 0.1264 205.25)",
+          "oklch(0.721 0.1264 205.25)",
+          "oklch(0.836 0.1264 205.25)",
+          "oklch(0.95 0.1264 205.25)"
+        ]
+      },
+      "p3-night": {
+        "role": "neutral",
+        "displayName": "p3-night",
+        "tonalRamp": [
+          "oklch(0.15 0.0902 262.69)",
+          "oklch(0.264 0.0902 262.69)",
+          "oklch(0.379 0.0902 262.69)",
+          "oklch(0.493 0.0902 262.69)",
+          "oklch(0.607 0.0902 262.69)",
+          "oklch(0.721 0.0902 262.69)",
+          "oklch(0.836 0.0902 262.69)",
+          "oklch(0.95 0.0902 262.69)"
+        ]
+      },
+      "page-bg-light": {
+        "role": "neutral",
+        "displayName": "page-bg-light",
+        "tonalRamp": [
+          "oklch(0.15 0.0137 258.34)",
+          "oklch(0.264 0.0137 258.34)",
+          "oklch(0.379 0.0137 258.34)",
+          "oklch(0.493 0.0137 258.34)",
+          "oklch(0.607 0.0137 258.34)",
+          "oklch(0.721 0.0137 258.34)",
+          "oklch(0.836 0.0137 258.34)",
+          "oklch(0.95 0.0137 258.34)"
+        ]
+      },
+      "deep-text-light": {
+        "role": "neutral",
+        "displayName": "deep-text-light",
+        "tonalRamp": [
+          "oklch(0.15 0.0917 261.10)",
+          "oklch(0.264 0.0917 261.10)",
+          "oklch(0.379 0.0917 261.10)",
+          "oklch(0.493 0.0917 261.10)",
+          "oklch(0.607 0.0917 261.10)",
+          "oklch(0.721 0.0917 261.10)",
+          "oklch(0.836 0.0917 261.10)",
+          "oklch(0.95 0.0917 261.10)"
+        ]
+      },
+      "primary-light": {
+        "role": "primary",
+        "displayName": "primary-light",
+        "tonalRamp": [
+          "oklch(0.15 0.2080 263.52)",
+          "oklch(0.264 0.2080 263.52)",
+          "oklch(0.379 0.2080 263.52)",
+          "oklch(0.493 0.2080 263.52)",
+          "oklch(0.607 0.2080 263.52)",
+          "oklch(0.721 0.2080 263.52)",
+          "oklch(0.836 0.2080 263.52)",
+          "oklch(0.95 0.2080 263.52)"
+        ]
+      },
+      "content-meta-light": {
+        "role": "neutral",
+        "displayName": "content-meta-light",
+        "tonalRamp": [
+          "oklch(0.15 0.0534 255.51)",
+          "oklch(0.264 0.0534 255.51)",
+          "oklch(0.379 0.0534 255.51)",
+          "oklch(0.493 0.0534 255.51)",
+          "oklch(0.607 0.0534 255.51)",
+          "oklch(0.721 0.0534 255.51)",
+          "oklch(0.836 0.0534 255.51)",
+          "oklch(0.95 0.0534 255.51)"
+        ]
+      },
+      "line-divider-light": {
+        "role": "neutral",
+        "displayName": "line-divider-light",
+        "tonalRamp": [
+          "oklch(0.15 0.0342 259.42)",
+          "oklch(0.264 0.0342 259.42)",
+          "oklch(0.379 0.0342 259.42)",
+          "oklch(0.493 0.0342 259.42)",
+          "oklch(0.607 0.0342 259.42)",
+          "oklch(0.721 0.0342 259.42)",
+          "oklch(0.836 0.0342 259.42)",
+          "oklch(0.95 0.0342 259.42)"
+        ]
+      },
+      "float-panel-bg-light": {
+        "role": "neutral",
+        "displayName": "float-panel-bg-light",
+        "tonalRamp": [
+          "oklch(0.15 0.0099 267.36)",
+          "oklch(0.264 0.0099 267.36)",
+          "oklch(0.379 0.0099 267.36)",
+          "oklch(0.493 0.0099 267.36)",
+          "oklch(0.607 0.0099 267.36)",
+          "oklch(0.721 0.0099 267.36)",
+          "oklch(0.836 0.0099 267.36)",
+          "oklch(0.95 0.0099 267.36)"
+        ]
+      },
+      "hover-light": {
+        "role": "neutral",
+        "displayName": "hover-light",
+        "tonalRamp": [
+          "oklch(0.15 0.0373 262.14)",
+          "oklch(0.264 0.0373 262.14)",
+          "oklch(0.379 0.0373 262.14)",
+          "oklch(0.493 0.0373 262.14)",
+          "oklch(0.607 0.0373 262.14)",
+          "oklch(0.721 0.0373 262.14)",
+          "oklch(0.836 0.0373 262.14)",
+          "oklch(0.95 0.0373 262.14)"
+        ]
+      },
+      "page-bg-dark": {
+        "role": "neutral",
+        "displayName": "page-bg-dark",
+        "tonalRamp": [
+          "oklch(0.15 0.0527 258.12)",
+          "oklch(0.264 0.0527 258.12)",
+          "oklch(0.379 0.0527 258.12)",
+          "oklch(0.493 0.0527 258.12)",
+          "oklch(0.607 0.0527 258.12)",
+          "oklch(0.721 0.0527 258.12)",
+          "oklch(0.836 0.0527 258.12)",
+          "oklch(0.95 0.0527 258.12)"
+        ]
+      },
+      "deep-text-dark": {
+        "role": "neutral",
+        "displayName": "deep-text-dark",
+        "tonalRamp": [
+          "oklch(0.15 0.0182 250.59)",
+          "oklch(0.264 0.0182 250.59)",
+          "oklch(0.379 0.0182 250.59)",
+          "oklch(0.493 0.0182 250.59)",
+          "oklch(0.607 0.0182 250.59)",
+          "oklch(0.721 0.0182 250.59)",
+          "oklch(0.836 0.0182 250.59)",
+          "oklch(0.95 0.0182 250.59)"
+        ]
+      },
+      "primary-dark": {
+        "role": "primary",
+        "displayName": "primary-dark",
+        "tonalRamp": [
+          "oklch(0.15 0.1133 220.29)",
+          "oklch(0.264 0.1133 220.29)",
+          "oklch(0.379 0.1133 220.29)",
+          "oklch(0.493 0.1133 220.29)",
+          "oklch(0.607 0.1133 220.29)",
+          "oklch(0.721 0.1133 220.29)",
+          "oklch(0.836 0.1133 220.29)",
+          "oklch(0.95 0.1133 220.29)"
+        ]
+      },
+      "content-meta-dark": {
+        "role": "neutral",
+        "displayName": "content-meta-dark",
+        "tonalRamp": [
+          "oklch(0.15 0.0476 253.47)",
+          "oklch(0.264 0.0476 253.47)",
+          "oklch(0.379 0.0476 253.47)",
+          "oklch(0.493 0.0476 253.47)",
+          "oklch(0.607 0.0476 253.47)",
+          "oklch(0.721 0.0476 253.47)",
+          "oklch(0.836 0.0476 253.47)",
+          "oklch(0.95 0.0476 253.47)"
+        ]
+      },
+      "line-divider-dark": {
+        "role": "neutral",
+        "displayName": "line-divider-dark",
+        "tonalRamp": [
+          "oklch(0.15 0.0625 253.65)",
+          "oklch(0.264 0.0625 253.65)",
+          "oklch(0.379 0.0625 253.65)",
+          "oklch(0.493 0.0625 253.65)",
+          "oklch(0.607 0.0625 253.65)",
+          "oklch(0.721 0.0625 253.65)",
+          "oklch(0.836 0.0625 253.65)",
+          "oklch(0.95 0.0625 253.65)"
+        ]
+      },
+      "float-panel-bg-dark": {
+        "role": "neutral",
+        "displayName": "float-panel-bg-dark",
+        "tonalRamp": [
+          "oklch(0.15 0.0631 255.98)",
+          "oklch(0.264 0.0631 255.98)",
+          "oklch(0.379 0.0631 255.98)",
+          "oklch(0.493 0.0631 255.98)",
+          "oklch(0.607 0.0631 255.98)",
+          "oklch(0.721 0.0631 255.98)",
+          "oklch(0.836 0.0631 255.98)",
+          "oklch(0.95 0.0631 255.98)"
+        ]
+      },
+      "hover-dark": {
+        "role": "neutral",
+        "displayName": "hover-dark",
+        "tonalRamp": [
+          "oklch(0.15 0.0697 251.29)",
+          "oklch(0.264 0.0697 251.29)",
+          "oklch(0.379 0.0697 251.29)",
+          "oklch(0.493 0.0697 251.29)",
+          "oklch(0.607 0.0697 251.29)",
+          "oklch(0.721 0.0697 251.29)",
+          "oklch(0.836 0.0697 251.29)",
+          "oklch(0.95 0.0697 251.29)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Section display",
+        "purpose": "Decorative masked masthead lettering; local Archivo."
+      },
+      "title": {
+        "displayName": "Chinese title",
+        "purpose": "Upright page headings."
+      },
+      "reading": {
+        "displayName": "Reading rhythm",
+        "purpose": "Article paragraph leading; preserves existing body family."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "masthead-enter",
+        "value": "1.25s expo.out; yPercent 115; scaleY 0.55; delay 0.08s or 0.3s",
+        "purpose": "Reveal section lettering, then clear transform."
+      },
+      {
+        "name": "route-cover",
+        "value": "0.62s power3.inOut; stagger 0.06s",
+        "purpose": "Cover before replacement; pointer-transparent with 4500ms fail-open reset."
+      },
+      {
+        "name": "route-reveal",
+        "value": "0.85s expo.inOut; stagger 0.08s",
+        "purpose": "Reveal new route and hide curtain."
+      },
+      {
+        "name": "footer-rule",
+        "value": "1.5s power3.inOut",
+        "purpose": "Once at top 92% viewport."
+      },
+      {
+        "name": "footer-content",
+        "value": "1.25s power3.out; stagger 0.13s; y 38px; inset(0 0 100% 0)",
+        "purpose": "Start at 0.2s; clear transform and clipPath. All shell timelines bypass reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-masthead",
+        "value": "600px"
+      },
+      {
+        "name": "single-tool-column",
+        "value": "640px"
+      },
+      {
+        "name": "compact-footer",
+        "value": "767px"
+      },
+      {
+        "name": "hide-world-frame",
+        "value": "1023px"
+      },
+      {
+        "name": "two-tool-columns",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Tool tab",
+      "kind": "button",
+      "refersTo": "tool-tab",
+      "description": "Inactive tool filter; the application manages selection.",
+      "html": "<button class=\"ds-tab\">全部工具</button>",
+      "css": ".ds-tab{background:transparent;color:var(--deep-text,#0a2453);border:0;border-radius:2px;min-height:40px;padding:.375rem .875rem;font-size:.8125rem;font-weight:500;cursor:pointer;transition:color .2s}.ds-tab:hover{opacity:.7}.ds-tab:focus-visible{outline:2px solid var(--primary,#174cce);outline-offset:5px}"
+    },
+    {
+      "name": "Active tool tab",
+      "kind": "button",
+      "refersTo": "tool-tab-active",
+      "description": "Selected filter; preview combines the separate sliding indicator and button.",
+      "html": "<button class=\"ds-active\" aria-pressed=\"true\">全部工具</button>",
+      "css": ".ds-active{background:var(--p3-blue,#124cfa);color:#fff;border:0;border-radius:2px;min-height:40px;padding:.375rem .875rem;font-size:.8125rem;font-weight:500;cursor:default}.ds-active:focus-visible{outline:2px solid var(--primary,#174cce);outline-offset:5px}"
+    },
+    {
+      "name": "Command navigation",
+      "kind": "nav",
+      "refersTo": "command-navigation",
+      "description": "Center command strip; links retain upright text.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"示例导航\"><a href=\"#archive\">归档</a><a href=\"#tools\">工具</a></nav>",
+      "css": ".ds-nav{display:flex;gap:18px;background:var(--p3-night,#061b49);color:#f1f8ff;padding:7px 18px;border-radius:2px;border-bottom:3px solid var(--p3-cyan,#4de5f5)}.ds-nav a{color:inherit;text-decoration:none}.ds-nav a:hover{background:#2750a0}.ds-nav a:focus-visible{outline:2px solid var(--primary,#174cce);outline-offset:5px}"
+    },
+    {
+      "name": "Tool card",
+      "kind": "card",
+      "refersTo": "tool-card-light",
+      "description": "Theme-bound link card; dark appearance uses the same runtime semantic properties.",
+      "html": "<a class=\"ds-card\" href=\"#tool\"><strong>工具名称</strong><p>用于日常学习和创作的工具。</p></a>",
+      "css": ".ds-card{display:flex;flex-direction:column;padding:1.25rem;border:1px solid var(--line-divider,#c3d1e7);border-radius:3px;background:var(--float-panel-bg,#f5f8ff);color:var(--deep-text,#0a2453);text-decoration:none;transition:border-color 300ms ease,transform 300ms ease,background-color 300ms ease}.ds-card p{color:var(--content-meta,#526885);font-size:.875rem;line-height:1.7}.ds-card:hover{border-color:var(--primary,#174cce);background:var(--btn-plain-bg-hover,#d8e6ff);transform:translateY(-3px);box-shadow:none}.ds-card:focus-visible{outline:2px solid var(--primary,#174cce);outline-offset:5px}@media(prefers-reduced-motion:reduce){.ds-card:hover{transform:none}}"
+    },
+    {
+      "name": "Tool count badge",
+      "kind": "chip",
+      "description": "Existing compact, non-interactive filter count; not a general card silhouette.",
+      "html": "<span class=\"ds-count\">5</span>",
+      "css": ".ds-count{font-size:.65rem;padding:.0625rem .375rem;border-radius:9999px;background:var(--btn-plain-bg-hover,#d8e6ff);color:var(--content-meta,#526885);line-height:1.4}"
+    },
+    {
+      "name": "Existing search field (legacy exception)",
+      "kind": "input",
+      "description": "Extracted light-mode search input. Pill and ambient shadow are inherited drift, not normative Persona tokens.",
+      "html": "<label class=\"ds-search\"><input type=\"search\" aria-label=\"搜索\" placeholder=\"搜索文章\" /></label>",
+      "css": ".ds-search{display:block;position:relative;height:3.5rem;border-radius:9999px;overflow:hidden;background:#fff;box-shadow:0px 2px 3px -1px rgba(0,0,0,.1),0px 1px 0px 0px rgba(25,28,33,.02),0px 0px 0px 1px rgba(25,28,33,.08);transition:background-color .2s}.ds-search input{box-sizing:border-box;width:100%;height:100%;border:0;background:transparent;font-size:1rem;color:#000;padding:0 3rem 0 1.5rem;caret-color:var(--primary,#174cce)}.ds-search input:focus-visible{outline:2px solid var(--primary,#174cce);outline-offset:5px}"
+    },
+    {
+      "name": "Section masthead",
+      "kind": "custom",
+      "description": "Decorative section lettering; a semantic page heading remains in the content.",
+      "html": "<div class=\"ds-mask\" aria-hidden=\"true\"><span>ARCHIVE</span></div>",
+      "css": ".ds-mask{overflow:hidden;padding-right:.1em}.ds-mask span{display:block;font:850 clamp(48px,8.7vw,112px)/.88 var(--p3-display,\"Archive Display\",\"Noto Sans SC\",sans-serif);font-stretch:80%;letter-spacing:-.035em;color:var(--primary,#174cce);transform:skewX(-9deg);transform-origin:0 100%;padding:.06em .15em .08em 0}@media(max-width:600px){.ds-mask span{font-size:clamp(32px,10.7vw,64px)}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Persona-inspired personal universe",
+    "overview": "Electric blue planes, cyan cuts and compressed display typography give the archive a cinematic identity. Original artwork remains central; the visual language borrows energy and geometry without copying game logos. The confirmed direction lives in [PRODUCT.md](PRODUCT.md) and [the framework contract](docs/persona-framework.md).\n\nExperience surfaces use expressive masks and spatial movement; reading surfaces keep Chinese text upright and stable; tool surfaces favor clear controls. This is an extraction of the shipped implementation, not a generated design seed. The auxiliary engine was unavailable, and no detector pass is claimed.",
+    "keyCharacteristics": [
+      "Electric blue, cyan and navy with paired light and dark reading papers.",
+      "Heavy oblique display lettering alongside upright Chinese reading text.",
+      "Flat command strips, fine dividers and nearly square controls.",
+      "Deliberate mask reveals and translation, with reduced-motion bypass and fail-open navigation."
+    ],
+    "rules": [
+      {
+        "name": "The Paired Paper Rule",
+        "body": "Change paper, text, metadata and dividers together through the theme properties; do not mix light-paper text with dark-paper surfaces.",
+        "section": "colors"
+      },
+      {
+        "name": "The Upright Reading Rule",
+        "body": "Apply oblique geometry to display lettering and decorative planes; never skew or transform the reading container as a whole.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Command Rule",
+        "body": "Keep shared command strips and tool surfaces free of glass blur, glow and offset shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use the paired semantic theme colors for reading surfaces.",
+      "**Do** keep Chinese reading text upright and use the local display face for expressive Latin lettering.",
+      "**Do** make focus visible, preserve the skip link and bypass cinematic motion when reduced motion is requested.",
+      "**Do** preserve original artwork, meaningful headings and existing navigation content."
+    ],
+    "donts": [
+      "**Don't** introduce glass blur, glow or game-logo copies into the Persona shell.",
+      "**Don't** add bounce to the mask and translation motion language.",
+      "**Don't** hide reading content behind a curtain that can intercept pointers or remain indefinitely.",
+      "**Don't** promote legacy search-modal styling, decorative numbering or glyph icons into new system rules."
+    ]
+  }
+}

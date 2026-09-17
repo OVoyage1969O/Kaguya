@@ -25,15 +25,15 @@ const indexLinks = [
       <span class="study-eyebrow">{siteConfig.navbar.title || siteConfig.title} · PERSONAL ARCHIVE</span>
       <p class="study-footer__heading">知识有迹，<br />长夜有光<span>。</span></p>
       <p class="study-footer__description">在技术与数学之间，在思考与日常之间。<br />把尚未想明白的事，慢慢写成答案。</p>
-      <a class="study-footer__home" href={url("/")}>返回扉页 <span aria-hidden="true">↗</span></a>
+      <a class="study-footer__home" href={url("/")}>返回扉页 <Icon name="material-symbols:arrow-outward-rounded" class="study-footer__arrow" /></a>
     </div>
     <nav class="study-footer__index" aria-label="站点索引" data-study-footer-item>
-      <h2>01 / 阅读索引</h2>
+      <h2>阅读索引</h2>
       {indexLinks.map(link => <a href={url(link.href)}><span>{link.label}</span><small>{link.english}</small></a>)}
-      <a href={url("rss/")}><span>订阅更新</span><small>RSS ↗</small></a>
+      <a href={url("rss/")}><span>订阅更新</span><small class="study-footer__rss">RSS <Icon name="material-symbols:arrow-outward-rounded" class="study-footer__arrow" /></small></a>
     </nav>
     <nav class="study-footer__social" aria-label="联系与社交" data-study-footer-item>
-      <h2>02 / 保持联络</h2>
+      <h2>保持联络</h2>
       {socialLinks.map(link => <a href={link.href} target={/^https?:/.test(link.href) ? "_blank" : undefined} rel={/^https?:/.test(link.href) ? "noopener noreferrer" : undefined}><span>{link.label}</span><Icon name={link.icon} /></a>)}
     </nav>
   </div>
