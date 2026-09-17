@@ -38,6 +38,14 @@ typography:
   tool-label:
     fontSize: "0.8125rem"
     fontWeight: 500
+  chart-title:
+    fontSize: "0.9375rem"
+    fontWeight: 750
+  chart-axis:
+    fontSize: "17px"
+    fontWeight: 700
+  chart-value:
+    fontSize: "15px"
 rounded:
   command: "2px"
   card: "3px"
@@ -139,6 +147,14 @@ Compact, sharp controls. Tool tabs use the recorded padding and label role, with
 ### Cards and count badges
 
 Tool cards have a one-pixel semantic divider border, a themed panel fill, and the recorded card radius/padding. Hover changes to the semantic hover fill, accents the border and translates upward by 3px; reduced motion removes that translation. Count badges use a compact rounded capsule with themed metadata colors; the active state becomes white on blue. See [collections.css](src/styles/collections.css) and its Persona overrides.
+
+### Stat radar
+
+Encyclopedia character entries may carry a nine-axis ability chart in their frontmatter. [StatRadar.astro](src/components/bookshelf/StatRadar.astro) draws it as a build-time inline SVG — no runtime dependency — with the axes running clockwise from the top, square vertices, and a visually hidden list repeating the numbers for assistive technology. Axis labels use the chart-axis step and their values the chart-value step with tabular numerals.
+
+The chart renders as a section of the entry's right sidebar: [Infobox.astro](src/components/bookshelf/Infobox.astro) takes it as `stats`, and the chart adopts that panel's ink, muted and divider tokens so it reads as a sibling of the information groups, with the data area as the panel's only colour. An entry with stats but no infobox falls back to a standalone card in the article. Configure it with a `stats` block in the entry frontmatter: `title`, `max`, and the ordered `values`.
+
+Its styles are scoped under `.custom-md` because the markdown body's `figure` margins outrank a bare component selector, and the hidden list avoids the markdown table rules for the same reason.
 
 ### Inputs
 

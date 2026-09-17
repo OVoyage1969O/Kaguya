@@ -1,0 +1,109 @@
+---
+import type { BookshelfStatValue } from "@/types/config";
+
+interface Props {
+	title?: string;
+	max?: number;
+	values: BookshelfStatValue[];
+}
+
+const { title = "能力值", max = 100, values = [] } = Astro.props;
+
+// 少于三根轴围不成面，直接不渲染。
+const usable = values.length >= 3 && max > 0;
+const count = values.length;
+
+const SIZE = 380;
+const CX = SIZE / 2;
+const CY = SIZE / 2;
+const R = 118; // 满量程环半径
+const RINGS = [0.2, 0.4, 0.6, 0.8, 1];
+
+const round = (n: number) => Math.round(n * 100) / 100;
+
+/** 第 i 根轴、半径 r 处的坐标：从正上方开始顺时针均分。 */
+const pointAt = (i: number, r: number): [number, number] => {
+	const angle = ((-90 + (360 / count) * i) * Math.PI) / 180;
+	return [CX + r * Math.cos(angle), CY + r * Math.sin(angle)];
+};
+
+const polyAt = (r: number) =>
+	values.map((_, i) => pointAt(i, r).map(round).join(",")).join(" ");
+
+const ringPolys = RINGS.map((k) => polyAt(R * k));
+
+const spokes = values.map((_, i) => {
+	const [x, y] = pointAt(i, R);
+	return { x: round(x), y: round(y) };
+});
+
+const ratio = (value: number) => Math.min(1, Math.max(0, value / max));
+
+const dataPoly = values
+	.map((v, i) => pointAt(i, R * ratio(v.value)).map(round).join(","))
+	.join(" ");
+
+const vertices = values.map((v, i) => {
+	const [x, y] = pointAt(i, R * ratio(v.value));
+	return { x: round(x), y: round(y) };
+});
+
+// 轴标签放在满量程环外侧：字符串按所在方位对齐，避免与图体重叠。
+const labels = values.map((v, i) => {
+	const [x, y] = pointAt(i, R + 26);
+	const dx = x - CX;
+	const anchor = Math.abs(dx) < 6 ? "middle" : dx > 0 ? "start" : "end";
+	return { x: round(x), y: round(y), anchor, ...v };
+});
+---
+
+{
+	usable && (
+		<figure class="stat-radar">
+			<figcaption class="stat-radar__title">{title}</figcaption>
+			<svg
+				class="stat-radar__chart"
+				viewBox={`0 0 ${SIZE} ${SIZE}`}
+				role="img"
+				aria-label={`${title}九维雷达图`}
+			>
+				<title>{title}</title>
+				<g class="stat-radar__grid">
+					{ringPolys.map((points) => (
+						<polygon points={points} />
+					))}
+				</g>
+				<g class="stat-radar__spokes">
+					{spokes.map((s) => (
+						<line x1={CX} y1={CY} x2={s.x} y2={s.y} />
+					))}
+				</g>
+				<polygon class="stat-radar__area" points={dataPoly} />
+				<g class="stat-radar__vertices">
+					{vertices.map((p) => (
+						<rect x={round(p.x - 3.5)} y={round(p.y - 3.5)} width="7" height="7" />
+					))}
+				</g>
+				<g class="stat-radar__labels">
+					{labels.map((l) => (
+						<text x={l.x} y={l.y} text-anchor={l.anchor}>
+							<title>{l.name ? `${l.label} · ${l.name}` : l.label}</title>
+							<tspan class="stat-radar__label">{l.label}</tspan>
+							<tspan class="stat-radar__value" x={l.x} dy="13">
+								{l.value}
+							</tspan>
+						</text>
+					))}
+				</g>
+			</svg>
+			<ul class="stat-radar__data">
+				<li>量程 0–{max}</li>
+				{values.map((v) => (
+					<li>
+						{v.name ? `${v.label} ${v.name}` : v.label}：{v.value}
+					</li>
+				))}
+			</ul>
+		</figure>
+	)
+}

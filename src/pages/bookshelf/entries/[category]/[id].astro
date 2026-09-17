@@ -2,6 +2,7 @@
 import Icon from "@components/common/Icon.astro";
 import PageTitle from "@/components/common/PageTitle.astro";
 import Infobox from "@/components/bookshelf/Infobox.astro";
+import StatRadar from "@/components/bookshelf/StatRadar.astro";
 import Notices from "@/components/bookshelf/Notices.astro";
 import Navbox from "@/components/bookshelf/Navbox.astro";
 import { bookshelfConfig } from "@/config";
@@ -16,6 +17,7 @@ import "@/styles/pages/bookshelf-entry.css";
 import "@/styles/components/bookshelf-navbox.css";
 import "@/styles/components/bookshelf-infobox.css";
 import "@/styles/components/bookshelf-notices.css";
+import "@/styles/components/bookshelf-stat-radar.css";
 
 export async function getStaticPaths() {
 	const entries = await getCollection("bookshelf");
@@ -80,13 +82,19 @@ const bgOpacity = data.background?.opacity ?? 0.15;
 				)}
 
 				<article class="bookshelf-entry__body bookshelf-entry__markdown custom-md">
-					{data.infobox && (
+					{data.infobox ? (
 						<Infobox
 							title={data.infobox.title}
 							image={data.infobox.image}
 							imageAlt={data.infobox.imageAlt}
 							groups={data.infobox.groups}
+							stats={data.stats}
 						/>
+					) : (
+						data.stats &&
+						data.stats.values.length >= 3 && (
+							<StatRadar title={data.stats.title} max={data.stats.max} values={data.stats.values} />
+						)
 					)}
 
 					<Content />

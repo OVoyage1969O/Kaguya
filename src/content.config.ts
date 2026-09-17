@@ -103,6 +103,23 @@ const bookshelfCollection = defineCollection({
 				),
 			})
 			.optional(),
+		// 角色能力值（渲染为九轴雷达图）
+		stats: z
+			.object({
+				title: z.string().optional().default("能力值"),
+				max: z.number().optional().default(100),
+				values: z
+					.array(
+						z.object({
+							label: z.string(),
+							value: z.number(),
+							name: z.string().optional(),
+						}),
+					)
+					.optional()
+					.default([]),
+			})
+			.optional(),
 		// 背景图
 		background: z
 			.object({

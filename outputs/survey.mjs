@@ -1,4 +1,4 @@
-﻿// Full-surface visual survey for the Kaguya Persona framework.
+// Full-surface visual survey for the Kaguya Persona framework.
 // Usage: node outputs/survey.mjs [desktop|mobile|both] [light|dark|both] [routeFilter]
 import { chromium } from 'playwright';
 import fs from 'node:fs';
@@ -19,7 +19,9 @@ const ROUTES = [
 	['search', '/search/'],
 	['bookshelf', '/bookshelf/'],
 	['bookshelf-category', '/bookshelf/category/magic/'],
-	['bookshelf-entry', '/bookshelf/entries/magic/榄旀硶/'],
+	['bookshelf-entry', '/bookshelf/entries/magic/魔法/'],
+	['trivia-vita', '/bookshelf/entries/trivia/维塔·萨普里/'],
+	['trivia-deep', '/bookshelf/entries/trivia/狄普·桑姆博/'],
 	['gallery', '/gallery/'],
 	['gallery-album', '/gallery/FGO/'],
 	['calendar', '/calendar/'],

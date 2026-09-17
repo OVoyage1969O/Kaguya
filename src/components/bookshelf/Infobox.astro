@@ -1,16 +1,18 @@
 ---
 import katex from "katex";
 import "katex/dist/katex.min.css";
-import type { BookshelfInfoboxGroup } from "@/types/config";
+import type { BookshelfInfoboxGroup, BookshelfStatBlock } from "@/types/config";
+import StatRadar from "@/components/bookshelf/StatRadar.astro";
 
 interface Props {
 	title: string;
 	image?: string;
 	imageAlt?: string;
 	groups: BookshelfInfoboxGroup[];
+	stats?: BookshelfStatBlock;
 }
 
-const { title, image, imageAlt = "", groups = [] } = Astro.props;
+const { title, image, imageAlt = "", groups = [], stats } = Astro.props;
 
 /** 转义 HTML 特殊字符，防止 set:html 注入 */
 function escapeHtml(str: string): string {
@@ -81,5 +83,8 @@ function renderValue(value: string): string {
 				)}
 			</div>
 		))}
+		{stats && stats.values.length >= 3 && (
+			<StatRadar title={stats.title} max={stats.max} values={stats.values} />
+		)}
 	</div>
 </aside>

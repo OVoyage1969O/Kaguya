@@ -1020,6 +1020,20 @@ export type BookshelfInfoboxGroup = {
 	fields?: BookshelfInfoboxField[]; // 字段列表
 };
 
+// 能力值单项（九维雷达图的一根轴）
+export type BookshelfStatValue = {
+	label: string; // 轴名，例如 STR
+	value: number; // 数值
+	name?: string; // 轴的中文全称，用于悬停提示与无障碍文本
+};
+
+// 角色能力值（渲染为九轴雷达图）
+export type BookshelfStatBlock = {
+	title?: string; // 图表标题，默认「能力值」
+	max?: number; // 量程上限，默认 100
+	values: BookshelfStatValue[]; // 按顺时针顺序排列的轴
+};
+
 export type BookshelfEntryBody = {
 	title: string; // 词条名
 	categoryId: string; // 所属分类 ID

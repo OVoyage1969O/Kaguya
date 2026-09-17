@@ -25,3 +25,16 @@ The surfaces still carrying their pre-Persona styling were harmonised: the share
 - Production build: 73 pages; Pagefind 67 pages / 9,902 words — both unchanged from the first pass.
 - Reduced motion: the konbini curtain is `display:none` and its scene entrance animation is removed under `prefers-reduced-motion: reduce`.
 - Not claimed: frame rate or perceived motion smoothness from stills, and no OS-level reduced-motion run.
+
+## Nine-axis ability chart (character entries)
+
+Trivia character entries gained a nine-axis ability chart, requested for 维塔·萨普里 and 狄普·桑姆博 and placed in the right sidebar.
+
+- Placement: the chart renders as a section of the entry's infobox, with the same title-bar treatment as the information groups. An entry carrying `stats` without an infobox falls back to a standalone card in the article.
+- Rendering: build-time inline SVG, no runtime dependency and no client JavaScript. Both built pages contain the chart with nine axis labels.
+- Legibility in the 276px sidebar: the axis step was raised to 17px and the value step to 15px inside a 380-unit viewBox so labels survive the downscale; both steps are now recorded in DESIGN.md typography.
+- Two layout faults were found and fixed during verification. The markdown body's `figure` margin rules outrank a bare component selector and pushed the chart into the floated sidebar's lane, dropping it below the 955px float; the component's styles are now scoped under `.custom-md`. Tailwind's `sr-only` was overridden by the markdown table rules, leaving the assistive-technology table visible at 976x465; it is now a list hidden by the component's own rules.
+- Detector: `impeccable detect` over the four touched files exits 0 with no anti-patterns and no advisories.
+- Verification sweep: 26 routes x desktop 1440x900 and mobile 390x844 x light and dark — 104 captures, all HTTP 200, zero horizontal overflow.
+- Production build: 73 pages, unchanged; the entries without a `stats` block are unaffected.
+- Not claimed: screen-reader output was not captured; the hidden list was verified by computed clip-path only.

@@ -1,0 +1,191 @@
+/* ============================================
+   能力值九轴雷达图 — 来自 StatRadar.astro
+   构建期内联 SVG：无运行时依赖。
+
+   默认落点是右侧信息栏（.bk-infobox）里的一个分区，与「人物信息」「魔术」
+   等分组同构；条目若没有 infobox，则退回正文里的独立卡片（见文件末尾）。
+
+   选择器都要压过正文容器的 `.custom-md figure`（0,1,1）——它的左右外边距
+   会把图表挤进浮动区的边缘。
+   ============================================ */
+
+/* ---------- 图表本体，两种容器共用 ---------- */
+
+.custom-md .stat-radar__chart {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+}
+
+.custom-md .stat-radar__grid polygon {
+	fill: none;
+	stroke-width: 1;
+}
+
+.custom-md .stat-radar__spokes line {
+	stroke-width: 1;
+}
+
+.custom-md .stat-radar__area {
+	stroke-width: 2;
+	stroke-linejoin: miter;
+}
+
+.custom-md .stat-radar__vertices rect {
+	stroke-width: 1.5;
+}
+
+.custom-md .stat-radar__label {
+	font-family: var(--p3-display);
+	font-weight: 700;
+	font-size: 17px;
+	letter-spacing: 0.04em;
+}
+
+.custom-md .stat-radar__value {
+	font-size: 15px;
+	font-variant-numeric: tabular-nums;
+}
+
+/* 图的数值另以纯文本给出，供读屏使用；视觉上完全移出布局。
+   不复用 Tailwind 的 sr-only：`.custom-md table/list` 会改写它的宽高。 */
+.custom-md .stat-radar__data {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	list-style: none;
+}
+
+/* ---------- 语境一：信息栏内的一个分区 ---------- */
+
+.custom-md .bk-infobox .stat-radar {
+	margin: 0;
+	padding: 0 10px 10px;
+	border-bottom: 1px solid var(--bk-soft-line);
+	background: none;
+	max-width: none;
+	text-align: center;
+}
+
+.custom-md .bk-infobox .stat-radar:last-child {
+	border-bottom: 0;
+}
+
+/* 与 .bk-infobox__group-title 同款标题条，读起来就是信息栏的又一个分组。 */
+.custom-md .bk-infobox .stat-radar__title {
+	margin: 0 -10px 8px;
+	padding: 0.45em 0.4em;
+	background: var(--bk-invert-bg);
+	color: var(--bk-invert);
+	font-size: 0.95rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-align: center;
+}
+
+.custom-md .bk-infobox .stat-radar__grid polygon {
+	stroke: var(--bk-soft-line);
+}
+
+.custom-md .bk-infobox .stat-radar__grid polygon:last-child {
+	stroke: var(--bk-line);
+}
+
+.custom-md .bk-infobox .stat-radar__spokes line {
+	stroke: var(--bk-soft-line);
+}
+
+.custom-md .bk-infobox .stat-radar__label {
+	fill: var(--bk-ink);
+}
+
+.custom-md .bk-infobox .stat-radar__value {
+	fill: var(--bk-muted);
+}
+
+/* 数据面是信息栏里唯一的彩色，用站点主色，浅深两套各自可读。 */
+.custom-md .bk-infobox .stat-radar__area {
+	fill: color-mix(in oklch, var(--primary) 22%, transparent);
+	stroke: var(--primary);
+}
+
+.custom-md .bk-infobox .stat-radar__vertices rect {
+	fill: var(--primary);
+	stroke: var(--bk-paper);
+}
+
+/* ---------- 语境二：条目没有 infobox 时的独立卡片 ---------- */
+
+.custom-md > .stat-radar {
+	margin: 0 0 1.5rem;
+	padding: 16px 18px 12px;
+	max-width: 23rem;
+	border: 1px solid var(--line-divider);
+	border-radius: 3px;
+	background: var(--float-panel-bg);
+}
+
+.custom-md > .stat-radar .stat-radar__title {
+	margin: 0 0 6px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: var(--deep-text);
+	font-weight: 750;
+	font-size: 0.9375rem;
+	letter-spacing: 0.015em;
+}
+
+.custom-md > .stat-radar .stat-radar__title::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 8px;
+	height: 17px;
+	background: var(--p3-cyan);
+	transform: skewX(-14deg);
+}
+
+.custom-md > .stat-radar .stat-radar__grid polygon {
+	stroke: var(--line-divider);
+}
+
+.custom-md > .stat-radar .stat-radar__grid polygon:last-child {
+	stroke: var(--meta-divider);
+}
+
+.custom-md > .stat-radar .stat-radar__spokes line {
+	stroke: var(--line-divider);
+}
+
+.custom-md > .stat-radar .stat-radar__label {
+	fill: var(--deep-text);
+}
+
+.custom-md > .stat-radar .stat-radar__value {
+	fill: var(--content-meta);
+}
+
+.custom-md > .stat-radar .stat-radar__area {
+	fill: color-mix(in oklch, var(--primary) 20%, transparent);
+	stroke: var(--primary);
+}
+
+.custom-md > .stat-radar .stat-radar__vertices rect {
+	fill: var(--primary);
+	stroke: var(--float-panel-bg);
+}
+
+/* 信息栏在 768px 以下铺满整行，图表随之变宽。 */
+@media (max-width: 768px) {
+	.custom-md > .stat-radar {
+		max-width: 100%;
+		padding: 14px 14px 10px;
+	}
+}
