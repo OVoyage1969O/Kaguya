@@ -177,11 +177,36 @@
 .study-footer__rss { display: inline-flex; align-items: center; gap: 5px; }
 .p3-footer-word { overflow: hidden; color: var(--primary); font: 850 clamp(64px,15.3vw,200px)/.8 var(--p3-display); letter-spacing: -.04em; margin-bottom: 40px; padding: .08em .08em 0 0; transform: skewX(-8deg); transform-origin: 0 100%; }
 
+/* Route curtain. One material — flat Persona colour planes — in four arrangements
+   that the runtime picks at random per navigation. Geometry lives here; the
+   timeline lives in persona-motion.ts. */
 .p3-route-wipe { position: fixed; inset: 0; z-index: 9998; pointer-events: none; overflow: hidden; }
 .p3-route-wipe[hidden] { display: none; }
-.p3-route-wipe__cyan,.p3-route-wipe__blue { position: absolute; inset: 0 -20%; transform: translateX(-110%) skewX(-15deg); background: var(--p3-cyan); }
-.p3-route-wipe__blue { background: var(--p3-blue); }
+.p3-route-wipe__panel { position: absolute; }
+/* 只在帘子真的在动的时候提升图层，别让五个全屏块常驻合成层。 */
+.p3-route-wipe:not([hidden]) .p3-route-wipe__panel { will-change: transform; }
+.p3-route-wipe__panel[data-tone="cyan"] { background: var(--p3-cyan); }
+.p3-route-wipe__panel[data-tone="blue"] { background: var(--p3-blue); }
+.p3-route-wipe__panel[data-tone="night"] { background: var(--p3-night); }
 .p3-route-wipe__word { position: absolute; left: 8%; bottom: 12%; font: 850 clamp(56px,14vw,190px)/1 var(--p3-display); color: white; letter-spacing: -.04em; visibility: hidden; }
+
+/* Arrangement 1 & 2 — two skewed planes sweeping in from one side. */
+.p3-route-wipe[data-variant^="planes"] .p3-route-wipe__panel { inset: 0 -22%; }
+.p3-route-wipe[data-variant^="planes"] .p3-route-wipe__panel:nth-child(n+3) { display: none; }
+
+/* Arrangement 3 — five vertical blades dropping as a wave. */
+.p3-route-wipe[data-variant="blinds"] .p3-route-wipe__panel { top: -6%; height: 112%; width: 20.8%; background: var(--p3-blue); }
+.p3-route-wipe[data-variant="blinds"] .p3-route-wipe__panel:nth-child(1) { left: 0; }
+.p3-route-wipe[data-variant="blinds"] .p3-route-wipe__panel:nth-child(2) { left: 20%; }
+.p3-route-wipe[data-variant="blinds"] .p3-route-wipe__panel:nth-child(3) { left: 40%; }
+.p3-route-wipe[data-variant="blinds"] .p3-route-wipe__panel:nth-child(4) { left: 60%; }
+.p3-route-wipe[data-variant="blinds"] .p3-route-wipe__panel:nth-child(5) { left: 80%; }
+
+/* Arrangement 4 — two halves closing, then passing through each other. */
+.p3-route-wipe[data-variant="shutter"] .p3-route-wipe__panel { left: -5%; right: -5%; height: 57%; }
+.p3-route-wipe[data-variant="shutter"] .p3-route-wipe__panel:nth-child(1) { top: -5%; background: var(--p3-night); }
+.p3-route-wipe[data-variant="shutter"] .p3-route-wipe__panel:nth-child(2) { bottom: -5%; background: var(--p3-blue); }
+.p3-route-wipe[data-variant="shutter"] .p3-route-wipe__panel:nth-child(n+3) { display: none; }
 /* Swup awaits the authored timeline; never transform ancestors of pinned content. */
 html.p3-theme:is(.is-leaving,.is-rendering) .transition-swup-main { animation: none !important; transform: none !important; opacity: 1 !important; }
 

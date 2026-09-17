@@ -49,3 +49,17 @@ Two defects reported after the close-out were traced and fixed.
 - Verification sweep: 26 routes x desktop 1440x900 and mobile 390x844 x light and dark — 104 captures, all HTTP 200, zero horizontal overflow.
 - Production build: 73 pages; the lettering rule and the reveal tween are both present in the built CSS and JS.
 - Not claimed: the frame captures were taken against the dev server, where the content swap between cover and reveal is slower than a production build; the production hold will be shorter than the ~840ms measured.
+
+## Randomised route curtain (four arrangements)
+
+The curtain previously played one arrangement on every navigation; it now picks one of four at random.
+
+- Material: all four move the same thing — flat Persona colour panels covering the viewport — and differ only in panel count, entry direction and exit direction. No new effect was introduced. Two skewed planes enter from the left or the right, five vertical blades drop as a wave, and two halves close towards the middle then pass through each other so the content is uncovered from the centre outward.
+- Selection: a random index is drawn per navigation, never repeating the previous arrangement back to back. Sixteen consecutive `swup.navigate` calls produced planes-right 5, blinds 4, planes-left 4, shutter 3 — all four present, zero immediate repeats.
+- Coverage: each arrangement was forced in turn with a seeded `Math.random` and captured frame by frame (persona-route-variants.png). Every arrangement reaches a fully covered hold before the reveal, with no gaps at the closed moment — including the blade and split arrangements, where a mis-sized panel would show through.
+- State handling: panels are placed at their start transform before the curtain is unhidden, so no frame shows the previous arrangement's residue. `will-change` applies only while the curtain is visible.
+- Reduced motion: with `prefers-reduced-motion: reduce` the curtain never becomes visible and no arrangement is even assigned; 55 samples across a navigation recorded `everVisible: false`, and navigation completed normally.
+- Detector: `impeccable detect` over the three changed files reports nothing on the new curtain code. Its three anti-patterns remain the pre-existing blue top rules on the navigation, the dock and the dialog panel.
+- Verification sweep: 26 routes x desktop 1440x900 and mobile 390x844 x light and dark — 104 captures, all HTTP 200, zero horizontal overflow.
+- Production build: 73 pages; all four variant selectors, the five-panel pool and the arrangement ids are present in the built output.
+- Not claimed: perceived smoothness on low-end devices was not measured, and the captured timings come from the dev server.

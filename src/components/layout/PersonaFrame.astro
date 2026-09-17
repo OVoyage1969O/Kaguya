@@ -5,8 +5,13 @@
   <span class="p3-world-frame__edge"></span>
 </div>
 <div class="p3-route-wipe" data-p3-wipe hidden aria-hidden="true">
-  <div class="p3-route-wipe__cyan" data-p3-wipe-plane></div>
-  <div class="p3-route-wipe__blue" data-p3-wipe-plane></div>
+  <!-- 色块池：每次导航由运行时随机选一个走位，按需取用前几块。
+       多渲染几块是为了让「百叶」这类走位有足够的叶片，其余走位用不到就隐藏。 -->
+  <div class="p3-route-wipe__panel" data-p3-panel data-tone="cyan"></div>
+  <div class="p3-route-wipe__panel" data-p3-panel data-tone="blue"></div>
+  <div class="p3-route-wipe__panel" data-p3-panel data-tone="night"></div>
+  <div class="p3-route-wipe__panel" data-p3-panel data-tone="blue"></div>
+  <div class="p3-route-wipe__panel" data-p3-panel data-tone="cyan"></div>
   <span class="p3-route-wipe__word">KAGUYA</span>
 </div>
 <noscript><style>.p3-route-wipe{display:none!important}</style></noscript>

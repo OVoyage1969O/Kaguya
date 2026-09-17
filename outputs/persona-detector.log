@@ -1,5 +1,5 @@
-﻿# impeccable detect — 过场动画与首页字组修正
-# targets: src/utils/persona-motion.ts, src/styles/persona-theme.css
+﻿# impeccable detect — 随机过场走位
+# targets: src/utils/persona-motion.ts, src/components/layout/PersonaFrame.astro, src/styles/persona-theme.css
 # exit code: 0
 
 System.Management.Automation.RemoteException
@@ -8,7 +8,7 @@ D:\1\my-blog-master\src\styles\persona-theme.css
     → Thick accent border on a rounded card — the border clashes with the rounded corners. Remove the border or the border-radius.
   line 96: [border-accent-on-rounded] border-top: 3px solid
     → Thick accent border on a rounded card — the border clashes with the rounded corners. Remove the border or the border-radius.
-  line 190: [border-accent-on-rounded] border-top: 5px solid
+  line 215: [border-accent-on-rounded] border-top: 5px solid
     → Thick accent border on a rounded card — the border clashes with the rounded corners. Remove the border or the border-radius.
 System.Management.Automation.RemoteException
 3 anti-patterns found.
@@ -48,11 +48,11 @@ D:\1\my-blog-master\src\styles\persona-theme.css
     → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
   line 160: [design-system-color] Undocumented color #12346e is outside DESIGN.md colors
     → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
-  line 199: [design-system-color] Undocumented color #fff is outside DESIGN.md colors
+  line 224: [design-system-color] Undocumented color #fff is outside DESIGN.md colors
     → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
-  line 200: [design-system-color] Undocumented color #0f3fd6 is outside DESIGN.md colors
+  line 225: [design-system-color] Undocumented color #0f3fd6 is outside DESIGN.md colors
     → A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.
-  line 221: [design-system-font-size] font-size: clamp(32px,10.7vw,64px) has fluid endpoints 32px and 64px off the DESIGN.md type ramp
+  line 246: [design-system-font-size] font-size: clamp(32px,10.7vw,64px) has fluid endpoints 32px and 64px off the DESIGN.md type ramp
     → A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.
 System.Management.Automation.RemoteException
 19 advisory notes. Suppress with --no-advisory.

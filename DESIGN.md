@@ -172,7 +172,7 @@ The author dialogue in [AboutCanvas.svelte](src/components/about/AboutCanvas.sve
 
 ### Masthead, curtain and colophon
 
-The decorative masthead is hidden from accessibility APIs; page content retains the semantic heading. [PersonaFrame](src/components/layout/PersonaFrame.astro) owns a persistent, pointer-transparent route curtain. [persona-motion.ts](src/utils/persona-motion.ts) covers before route replacement and reveals afterward, reverts route-local animation, bypasses reduced motion and resets after a 4.5-second fallback.
+The decorative masthead is hidden from accessibility APIs; page content retains the semantic heading. [PersonaFrame](src/components/layout/PersonaFrame.astro) owns a persistent, pointer-transparent route curtain built from a pool of flat colour panels. It is one material in four arrangements: two skewed planes entering from either side, five vertical blades dropping as a wave, and two halves that close towards the middle and then pass through each other. [persona-motion.ts](src/utils/persona-motion.ts) picks an arrangement at random per navigation, never repeating the previous one back to back, covers before route replacement and reveals afterward, reverts route-local animation, bypasses reduced motion and resets after a 4.5-second fallback. Each arrangement's panel geometry is declared in [persona-theme.css](src/styles/persona-theme.css) under its own `[data-variant]`; only the timeline lives in the module.
 
 Standalone 3D scenes keep their artwork but open behind a matching curtain. [kuonji.astro](src/pages/kuonji.astro) serves the mansion and [konbini.css](src/styles/pages/konbini.css) the corner store, both built from the same two-leaf electric-blue reveal, mask-risen title and cyan subtitle. Each waits for its scene — konbini is signalled by [KonbiniDiorama.svelte](src/components/features/konbini-diorama/KonbiniDiorama.svelte) after its first frame — and fails open after seven seconds. The konbini curtain sits above its scene layer and both pages hide the development toolbar.
 
@@ -185,6 +185,7 @@ Standalone 3D scenes keep their artwork but open behind a matching curtain. [kuo
 - **Do** keep Chinese reading text upright and use the local display face for expressive Latin lettering.
 - **Do** make focus visible, preserve the skip link and bypass cinematic motion when reduced motion is requested.
 - **Do** preserve original artwork, meaningful headings and existing navigation content.
+- **Do** express a new route arrangement as another geometry of the existing panel material, not as a new effect.
 
 ### Don't:
 - **Don't** introduce glass blur, glow or game-logo copies into the Persona shell.
