@@ -1034,6 +1034,12 @@ export type BookshelfStatBlock = {
 	values: BookshelfStatValue[]; // 按顺时针顺序排列的轴
 };
 
+// 词条开场动画（进入页面的第一次播放）
+export type BookshelfEntryIntro = {
+	video: string; // 视频地址（带 alpha 的 webm）
+	once?: boolean; // 是否只在首次打开时播放，默认 true
+};
+
 export type BookshelfEntryBody = {
 	title: string; // 词条名
 	categoryId: string; // 所属分类 ID

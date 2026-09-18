@@ -86,8 +86,11 @@ for (const device of devices) {
 					});
 				rec.status = resp ? resp.status() : null;
 				// Force theme class (Layout toggles `dark` on <html>).
+				// The entry intro is verified separately; drop it so these captures
+				// stay about layout.
 				await page.evaluate((t) => {
 					document.documentElement.classList.toggle('dark', t === 'dark');
+					document.querySelector('[data-p3-intro]')?.remove();
 				}, theme);
 				// Let entrance motion, curtain reveal and lazy islands settle.
 				// The 3D scene pages run a longer opening curtain, so they wait more.

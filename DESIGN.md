@@ -156,6 +156,12 @@ The chart renders as a section of the entry's right sidebar: [Infobox.astro](src
 
 Its styles are scoped under `.custom-md` because the markdown body's `figure` margins outrank a bare component selector, and the hidden list avoids the markdown table rules for the same reason.
 
+### Entry intro
+
+A character entry may declare an `intro` video in its frontmatter, played once when the page is first opened. The clip is a WebM carrying an alpha channel keyed from a black-background source, so the artwork composites over the live page with no panel behind it. [entry-intro.css](src/styles/components/entry-intro.css) uses `object-fit: contain` so the composition is never cropped, places the layer above the shell at `z-index: 9990`, and keeps it out of pointer input so the page stays scrollable and clickable while it plays.
+
+"Once" is recorded in `localStorage` per entry: a returning visitor gets no overlay and the video is never even requested. Under `prefers-reduced-motion: reduce` the intro is skipped and deliberately **not** marked as played, so disabling that preference later still shows it. The trigger is global — [entry-intro.ts](src/utils/entry-intro.ts), wired from [Layout.astro](src/layouts/Layout.astro) — because `@swup/astro` does not re-execute module scripts on navigation: the markup is page-specific and the logic looks for it on every `astro:page-load`.
+
 ### Inputs
 
 The global shell sets caret and focus colors. [SearchModal.svelte](src/components/controls/SearchModal.svelte) still contains its earlier pill-shaped input and ambient shadow. Preserve its functionality; this exception is documented in the sidecar preview and must not become the default style for new Persona controls.

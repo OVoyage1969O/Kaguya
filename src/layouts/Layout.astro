@@ -278,6 +278,13 @@ const siteLang = lang.replace("_", "-");
 </script>
 
 <script>
+  // 词条开场动画。挂在这里是因为 Swup 换页不会重新执行模块脚本，
+  // 逻辑必须待在每页都会打包的全局脚本里。
+  import { initEntryIntro } from "@/utils/entry-intro";
+  initEntryIntro();
+</script>
+
+<script>
   import { aiSearchPublicConfig } from "@/config/aiSearchConfig";
   import I18nKey from "@/i18n/i18nKey";
   import { i18n } from "@/i18n/translation";

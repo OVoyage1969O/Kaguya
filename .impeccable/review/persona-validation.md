@@ -63,3 +63,19 @@ The curtain previously played one arrangement on every navigation; it now picks 
 - Verification sweep: 26 routes x desktop 1440x900 and mobile 390x844 x light and dark — 104 captures, all HTTP 200, zero horizontal overflow.
 - Production build: 73 pages; all four variant selectors, the five-panel pool and the arrangement ids are present in the built output.
 - Not claimed: perceived smoothness on low-end devices was not measured, and the captured timings come from the dev server.
+
+## Deep Sambo entry intro (transparent video)
+
+狄普·桑姆博 opens with a one-time animation: a 3.2s pixel-particle clip whose black background was keyed to alpha so it composites over the live page.
+
+- Keying: the source is 1280x720 H.264 with a near-black background at luma 9-10, while the darkest artwork (the character's brown hair) sits near luma 66, leaving the 12-32 band almost empty. Alpha is derived from full-range RGB luma with a 14-30 ramp, and RGB is zeroed wherever alpha is zero so the background encodes as flat black. The first attempt used the `lum` plane directly and produced wrong thresholds, because the source is TV range: the background read ~27 there rather than 9.
+- Output: VP9 in WebM with `yuva420p` and `-auto-alt-ref 0`. Measured in Chromium, the alpha is clean across the clip — 95.7% clear at 0.1s, 74.7% at 1.6s, 87.3% at 3.0s, with the frame corners reading alpha 0 throughout. VP8 was rejected: it decoded with 14.4% partial alpha against VP9's 2.0%, which is visible on pixel art. Audio was dropped. File: `public/assets/video/deep-sambo-intro.webm`, 1.7MB, in line with the site's existing 1.45-2.4MB images.
+- Caveat on tooling: the local ffmpeg (a 2018 4.1 build) cannot decode VP8/VP9 alpha at all — it returns fully opaque frames. A qtrle control encode round-tripped alpha correctly, proving the filter chain was sound and the decoder was at fault. Verification therefore uses Chromium, which is also the actual runtime.
+- Playback: verified in Chromium that the overlay appears and plays over the page with the background fully transparent, at 1440x900 and at 390x844.
+- Once only: after the first play the element removes itself and records `p3-intro:狄普·桑姆博` in `localStorage`. A second and third visit show no overlay, and a request listener recorded **zero** network requests for the video on the third visit. 维塔·萨普里 shows no overlay element.
+- Reduced motion: with `prefers-reduced-motion: reduce` the overlay is removed and nothing is written to `localStorage`, so the intro is skipped rather than consumed.
+- Swup arrival: navigating from `/bookshelf/` to the entry through `swup.navigate` plays the intro (video at 0.36s when sampled), confirming the global `astro:page-load` wiring works for client-side navigation and not only for a full page load.
+- Detector: `impeccable detect` over the four touched source files reports 0 anti-patterns; its single advisory is a pre-existing Tailwind font-size class in Layout.astro.
+- Verification sweep: 26 routes x desktop and mobile x light and dark — 104 captures, all HTTP 200, zero horizontal overflow. The sweep removes the intro element before capturing, since the intro has its own verification above.
+- Production build: 73 pages. The built entry carries the intro element, the WebM reference and `preload="none"`; 维塔·萨普里 and the home page carry none. The runtime logic is inlined into every page, which is intended — it no-ops without a matching element.
+- Not claimed: Safari's VP9-alpha support was not tested; a browser that cannot decode the alpha would show the clip letterboxed rather than transparent. No poster fallback ships.

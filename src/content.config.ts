@@ -120,6 +120,13 @@ const bookshelfCollection = defineCollection({
 					.default([]),
 			})
 			.optional(),
+		// 进入词条时播放一次的开场动画
+		intro: z
+			.object({
+				video: z.string(), // 视频地址
+				once: z.boolean().optional().default(true), // 只在首次打开该词条时播放
+			})
+			.optional(),
 		// 背景图
 		background: z
 			.object({

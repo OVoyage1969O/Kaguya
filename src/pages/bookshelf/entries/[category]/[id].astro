@@ -3,6 +3,7 @@ import Icon from "@components/common/Icon.astro";
 import PageTitle from "@/components/common/PageTitle.astro";
 import Infobox from "@/components/bookshelf/Infobox.astro";
 import StatRadar from "@/components/bookshelf/StatRadar.astro";
+import EntryIntro from "@/components/bookshelf/EntryIntro.astro";
 import Notices from "@/components/bookshelf/Notices.astro";
 import Navbox from "@/components/bookshelf/Navbox.astro";
 import { bookshelfConfig } from "@/config";
@@ -50,6 +51,7 @@ const bgOpacity = data.background?.opacity ?? 0.15;
 		style={data.background ? `--bk-bg-image: url('${data.background.image}'); --bk-bg-opacity: ${bgOpacity};` : undefined}
 	>
 		<BookshelfDust client:only="svelte" />
+		{data.intro && <EntryIntro intro={data.intro} storageKey={data.title} />}
 		{data.background && <div class="bookshelf-entry__bg" aria-hidden="true"></div>}
 
 		<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
