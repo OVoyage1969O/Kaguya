@@ -14,7 +14,7 @@ type Timing = { duration: number; stagger: number; ease: string };
 /**
  * A curtain arrangement. Every arrangement moves the same material — flat Persona
  * colour planes covering the viewport — and differs only in how many panels it uses,
- * where they enter from, and which way they leave. Geometry lives in persona-theme.css
+ * where they enter from, and which way they leave. Geometry lives in claude-theme.css
  * under the matching `[data-variant]`.
  */
 type Arrangement = {

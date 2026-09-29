@@ -6,7 +6,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#202a32" />
+    <meta name="theme-color" content="#292825" />
+	<link rel="preconnect" href="https://cdn.prod.website-files.com" crossorigin="anonymous" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%239caaa7' d='M5 20 20 5l15 15v16H5z'/%3E%3Cpath fill='%23202a32' d='M16 24h8v12h-8z'/%3E%3C/svg%3E" />
     <meta name="description" content="久远寺宅：可旋转与缩放的三渲二微缩庭院。" />
     <title>久远寺宅 · 微缩庭院</title>
@@ -62,25 +63,26 @@
   </body>
 </html>
 <style is:global>
-  html.kuonji-page,.kuonji-page body {margin:0;width:100%;height:100%;overflow:hidden;background:#202a32;scrollbar-gutter:auto;}
-  #kuonji-scene {width:100%;height:100dvh;display:grid;place-items:center;color:#cad4db;font:14px/1.7 serif;}
+  @font-face {font-family:"Anthropic Serif";src:url("https://cdn.prod.website-files.com/67ce28cfec624e2b733f8a52/69971a1551eb6cda0d656e8a_AnthropicSerif-Roman-Web.woff2") format("woff2");font-weight:300 800;font-style:normal;font-display:swap;}
+  html.kuonji-page,.kuonji-page body {margin:0;width:100%;height:100%;overflow:hidden;background:#292825;scrollbar-gutter:auto;}
+  #kuonji-scene {width:100%;height:100dvh;display:grid;place-items:center;color:#d1cfc5;font:14px/1.7 "Anthropic Serif","Noto Serif SC",serif;}
   #kuonji-scene canvas {display:block;width:100%;height:100%;touch-action:none;cursor:grab;outline:none;}
   #kuonji-scene canvas:active {cursor:grabbing;}
-  #kuonji-scene canvas:focus-visible {outline:1px solid #8899a8;outline-offset:-2px;}
+  #kuonji-scene canvas:focus-visible {outline:1px solid #8e6658;outline-offset:-2px;}
 
   /* 入宅开屏：与「进入书架」同源的开幕幕布 —— 两扇门叶合拢，标题自门缝升起，随后向两侧开启。 */
   .kuonji-opening {position:fixed;inset:0;z-index:60;overflow:hidden;pointer-events:none;}
-  .kuonji-opening__leaf {position:absolute;top:0;bottom:0;left:0;width:50.15%;background:#124cfa;will-change:transform;}
-  .kuonji-opening__leaf:nth-of-type(2) {left:auto;right:0;}
-  .kuonji-opening__leaf:nth-of-type(1) {box-shadow:1px 0 0 rgba(196,216,228,.14),26px 0 60px rgba(0,0,0,.45);}
-  .kuonji-opening__leaf:nth-of-type(2) {box-shadow:-1px 0 0 rgba(196,216,228,.14),-26px 0 60px rgba(0,0,0,.45);}
-  .kuonji-opening__mark {position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;color:#dbe6ec;}
+  .kuonji-opening__leaf {position:absolute;top:0;bottom:0;left:0;width:50.15%;background:#d97757;will-change:transform;}
+  .kuonji-opening__leaf:nth-of-type(2) {left:auto;right:0;background:#141413;}
+  .kuonji-opening__leaf:nth-of-type(1) {box-shadow:1px 0 0 rgba(240,238,230,.14),26px 0 60px rgba(20,20,19,.45);}
+  .kuonji-opening__leaf:nth-of-type(2) {box-shadow:-1px 0 0 rgba(240,238,230,.14),-26px 0 60px rgba(20,20,19,.45);}
+  .kuonji-opening__mark {position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;color:#faf9f5;font-family:"Anthropic Serif","Noto Serif SC",serif;}
   .kuonji-opening__kicker,.kuonji-opening__sub {font-size:10px;letter-spacing:.34em;text-indent:.34em;}
   .kuonji-opening__kicker {opacity:0;animation:ko-fade 1s ease .25s forwards;}
-  .kuonji-opening__sub {opacity:0;color:#a9f4ff;letter-spacing:.28em;text-indent:.28em;}
+  .kuonji-opening__sub {opacity:0;color:#f0ac54;letter-spacing:.28em;text-indent:.28em;}
   .kuonji-opening__mask {display:block;overflow:hidden;padding:0 .1em;}
-  .kuonji-opening__mask strong {display:block;font:800 clamp(34px,9vw,60px)/1.42 "Noto Sans SC","Microsoft YaHei",sans-serif;letter-spacing:.1em;text-indent:.1em;transform:translateY(118%) scaleY(.58);transform-origin:bottom center;will-change:transform;}
-  .kuonji-opening__hint {position:absolute;bottom:15%;left:0;right:0;text-align:center;font-size:10px;letter-spacing:.3em;color:#93a7b4;opacity:0;animation:ko-pulse 2.2s ease-in-out .6s infinite;transition:opacity .3s ease;}
+  .kuonji-opening__mask strong {display:block;font:500 clamp(34px,9vw,60px)/1.42 "Anthropic Serif","Noto Serif SC",serif;letter-spacing:.1em;text-indent:.1em;transform:translateY(118%) scaleY(.58);transform-origin:bottom center;will-change:transform;}
+  .kuonji-opening__hint {position:absolute;bottom:15%;left:0;right:0;text-align:center;font-size:10px;letter-spacing:.3em;color:#b0aea5;opacity:0;animation:ko-pulse 2.2s ease-in-out .6s infinite;transition:opacity .3s ease;}
 
   /* 开幕由脚本在场景就绪后触发：html.is-kuonji-open */
   html.is-kuonji-open .kuonji-opening {animation:ko-curtain-hide .01s linear 3.2s forwards;}

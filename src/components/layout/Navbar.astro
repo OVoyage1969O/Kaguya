@@ -41,7 +41,7 @@ if (isLocalSrcLogo) {
 
 <div id="navbar" class="z-50">
 	<div class="navbar-segments">
-		<!-- 左段：logo + 标题（滚动收缩成球） -->
+		<!-- 品牌起点：与桌面导航共用一条斜向轨道 -->
 		<div class="navbar-seg navbar-seg--left">
 			<a href={url('/')} class="navbar-logo scale-animation flex items-center text-(--deep-text)">
 				{siteConfig.navbar.logo?.type === "icon" ? (
@@ -68,11 +68,14 @@ if (isLocalSrcLogo) {
 				) : (
 					<Icon name="material-symbols:home-pin-outline" is:inline class="text-[1.35rem] flex-shrink-0" />
 				)}
-				<span class="navbar-logo-text font-mono uppercase tracking-[0.12em] text-xs font-semibold ml-2">{navbarTitle}</span>
+				<span class="navbar-logo-text">
+					<span class="navbar-logo-text__title">{navbarTitle}</span>
+					<span class="navbar-logo-text__latin" aria-hidden="true">KAGUYA</span>
+				</span>
 			</a>
 		</div>
 
-		<!-- 中段：紧凑导航椭圆（滚动不变） -->
+		<!-- 桌面主导航：从品牌起点向右延伸 -->
 		<div class="navbar-seg navbar-seg--center" data-navbar-nav>
 			<div class="navbar-nav hidden lg:flex items-center gap-0.5 relative">
 				<div class="navbar-hover-highlight" data-hover-border></div>

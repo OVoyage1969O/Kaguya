@@ -15,8 +15,8 @@ export function mountKuonji(host: HTMLElement) {
   renderer.domElement.tabIndex = 0;
   host.append(renderer.domElement);
   const scene = new T.Scene();
-  scene.background = new T.Color(0x202a32);
-  scene.fog = new T.Fog(0x202a32, 45, 95);
+  scene.background = new T.Color(0x292825);
+  scene.fog = new T.Fog(0x292825, 45, 95);
   const camera = new T.OrthographicCamera(-12,12,12,-12,.1,160);
   camera.position.set(17,13.5,21);
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -25,12 +25,12 @@ export function mountKuonji(host: HTMLElement) {
   controls.minZoom = .55; controls.maxZoom = 2.6;
   controls.minPolarAngle = .18; controls.maxPolarAngle = Math.PI*.49;
   controls.enablePan = false; controls.rotateSpeed = .6; controls.zoomSpeed = .7;
-  scene.add(new T.HemisphereLight(0xc6dbe2,0x66604f,2.4));
-  const moon = new T.DirectionalLight(0xd6e7f2,3.1);moon.position.set(-9,17,9);
+  scene.add(new T.HemisphereLight(0xeadfd2,0x66584f,2.4));
+  const moon = new T.DirectionalLight(0xf0e3d6,3.1);moon.position.set(-9,17,9);
   moon.castShadow=true;moon.shadow.mapSize.set(2048,2048);
   Object.assign(moon.shadow.camera,{left:-12,right:12,top:14,bottom:-12,near:.1,far:55});
   moon.shadow.normalBias=.035;moon.shadow.bias=-.0002;scene.add(moon);
-  const rim = new T.DirectionalLight(0xbfc8e3,1.4);rim.position.set(6,10,-10);scene.add(rim);
+  const rim = new T.DirectionalLight(0xd9a585,1.4);rim.position.set(6,10,-10);scene.add(rim);
   const model=buildKuonji();scene.add(model.root);
   for(const [x,y,z] of [[4.35,3.35,-1.1],[-.55,3.1,1.48],[.58,2.8,-1.2]]) {
     const glow=new T.PointLight(0xffcc87,2.7,4,2);glow.position.set(x,y,z);scene.add(glow);

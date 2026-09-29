@@ -5,7 +5,7 @@
 	inset: 0;
 	z-index: 90;
 	overflow: hidden;
-	background: #0a1230;
+	background: #242321;
 }
 
 /* 隐藏博客外壳元素（顶部导航、侧栏、dock、页脚、进度条等） */
@@ -45,7 +45,7 @@ html:has(.konbini-scene-page) #content-wrapper {
 html:has(.konbini-scene-page),
 body:has(.konbini-scene-page) {
 	overflow: hidden !important;
-	background: #0a1230 !important;
+	background: #242321 !important;
 }
 
 html:has(.konbini-scene-page).is-leaving #swup-container.transition-swup-main,
@@ -92,7 +92,7 @@ html:has(.konbini-scene-page).is-rendering #swup-container.transition-swup-main 
 	bottom: 0;
 	left: 0;
 	width: 50.15%;
-	background: var(--p3-blue, #124cfa);
+	background: var(--p3-blue, #d97757);
 	will-change: transform;
 }
 
@@ -102,11 +102,11 @@ html:has(.konbini-scene-page).is-rendering #swup-container.transition-swup-main 
 }
 
 .konbini-opening__leaf:nth-of-type(1) {
-	box-shadow: 1px 0 0 rgba(196, 216, 228, 0.14), 26px 0 60px rgba(0, 0, 0, 0.45);
+	box-shadow: 1px 0 0 rgba(240, 238, 230, 0.14), 26px 0 60px rgba(20, 20, 19, 0.45);
 }
 
 .konbini-opening__leaf:nth-of-type(2) {
-	box-shadow: -1px 0 0 rgba(196, 216, 228, 0.14), -26px 0 60px rgba(0, 0, 0, 0.45);
+	box-shadow: -1px 0 0 rgba(240, 238, 230, 0.14), -26px 0 60px rgba(20, 20, 19, 0.45);
 }
 
 .konbini-opening__mark {
@@ -118,7 +118,8 @@ html:has(.konbini-scene-page).is-rendering #swup-container.transition-swup-main 
 	justify-content: center;
 	gap: 22px;
 	text-align: center;
-	color: #dbe6ec;
+	color: #faf9f5;
+	font-family: var(--claude-sans, "Noto Sans SC", sans-serif);
 }
 
 .konbini-opening__kicker,
@@ -135,7 +136,7 @@ html:has(.konbini-scene-page).is-rendering #swup-container.transition-swup-main 
 
 .konbini-opening__sub {
 	opacity: 0;
-	color: var(--p3-cyan, #4de5f5);
+	color: #f0ac54;
 	letter-spacing: 0.28em;
 	text-indent: 0.28em;
 }
@@ -148,7 +149,7 @@ html:has(.konbini-scene-page).is-rendering #swup-container.transition-swup-main 
 
 .konbini-opening__mask strong {
 	display: block;
-	font: 800 clamp(34px, 9vw, 60px) / 1.42 "Noto Sans SC", "Microsoft YaHei", sans-serif;
+	font: 500 clamp(34px, 9vw, 60px) / 1.42 var(--claude-serif, "Noto Serif SC", serif);
 	letter-spacing: 0.1em;
 	text-indent: 0.1em;
 	transform: translateY(118%) scaleY(0.58);
@@ -164,7 +165,7 @@ html:has(.konbini-scene-page).is-rendering #swup-container.transition-swup-main 
 	text-align: center;
 	font-size: 10px;
 	letter-spacing: 0.3em;
-	color: #93a7b4;
+	color: #b0aea5;
 	opacity: 0;
 	animation: kob-pulse 2.2s ease-in-out 0.6s infinite;
 	transition: opacity 0.3s ease;

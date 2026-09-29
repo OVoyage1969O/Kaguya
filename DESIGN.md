@@ -1,200 +1,118 @@
 ---
 name: "永远邸 / Kaguya"
-description: "A Persona-inspired blue visual world for a personal archive."
+description: "A warm editorial archive inspired by Claude's public brand language."
 colors:
-  p3-blue: "#124cfa"
-  p3-cyan: "#4de5f5"
-  p3-night: "#061b49"
-  page-bg-light: "#edf3fc"
-  deep-text-light: "#0a2453"
-  primary-light: "#174cce"
-  content-meta-light: "#526885"
-  line-divider-light: "#c3d1e7"
-  float-panel-bg-light: "#f5f8ff"
-  hover-light: "#d8e6ff"
-  page-bg-dark: "#07172f"
-  deep-text-dark: "#eaf4ff"
-  primary-dark: "#66d8fa"
-  content-meta-dark: "#9eb5d1"
-  line-divider-dark: "#284261"
-  float-panel-bg-dark: "#102745"
-  hover-dark: "#183859"
+  ivory-light: "#faf9f5"
+  ivory-medium: "#f0eee6"
+  ivory-dark: "#e8e6dc"
+  slate-dark: "#141413"
+  slate-medium: "#3d3d3a"
+  slate-light: "#5e5d59"
+  cloud-light: "#d1cfc5"
+  cloud-medium: "#b0aea5"
+  clay: "#d97757"
+  accent: "#c6613f"
+  pencil: "#f0ac54"
+  dark-paper: "#262624"
+  dark-panel: "#30302e"
+  dark-divider: "#4a4945"
+  dark-control-border: "#55524c"
+  dark-control-accent: "#8e6658"
 typography:
+  ui:
+    fontFamily: '"Anthropic Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif'
+    fontSize: "clamp(14px,1.2vw,16px)"
+    fontWeight: 400
   display:
-    fontFamily: '"Archive Display", "Noto Sans SC", sans-serif'
-    fontSize: "clamp(48px,8.7vw,112px)"
-    fontWeight: 850
-    lineHeight: 0.88
-    letterSpacing: "-.035em"
-  title:
-    fontFamily: '"Noto Sans SC", "Microsoft YaHei", sans-serif'
-    fontWeight: 750
-    letterSpacing: ".015em"
-  reading:
-    lineHeight: 1.95
-  tool-description:
-    fontSize: "0.875rem"
-    lineHeight: 1.7
-  tool-label:
-    fontSize: "0.8125rem"
+    fontFamily: '"Anthropic Serif", "Noto Serif SC", "Songti SC", Georgia, serif'
     fontWeight: 500
-  chart-title:
-    fontSize: "0.9375rem"
-    fontWeight: 750
-  chart-axis:
-    fontSize: "17px"
-    fontWeight: 700
-  chart-value:
-    fontSize: "15px"
+    letterSpacing: "-.035em"
+  reading:
+    fontFamily: '"Anthropic Serif", "Noto Serif SC", "Songti SC", Georgia, serif'
+    fontSize: "1.0625rem"
+    lineHeight: 1.88
+  mono:
+    fontFamily: '"Anthropic Mono", "JetBrains Mono", ui-monospace, monospace'
 rounded:
-  command: "2px"
-  card: "3px"
-  mobile-dock: "5px"
+  compact: "8px"
+  control: "10px"
+  button: "12px"
+  menu: "14px"
+  card: "16px"
+  panel: "18px"
+  feature: "22px"
 spacing:
-  tools-grid-gap: "1rem"
-  tools-card-padding: "1.25rem"
-  tools-category-gap: "2rem"
-components:
-  tool-tab:
-    rounded: "{rounded.command}"
-    padding: "0.375rem 0.875rem"
-    typography: "{typography.tool-label}"
-  tool-tab-active:
-    backgroundColor: "{colors.p3-blue}"
-    textColor: "#fff"
-    rounded: "{rounded.command}"
-  tool-card-light:
-    backgroundColor: "{colors.float-panel-bg-light}"
-    textColor: "{colors.deep-text-light}"
-    rounded: "{rounded.card}"
-    padding: "{spacing.tools-card-padding}"
-  tool-card-dark:
-    backgroundColor: "{colors.float-panel-bg-dark}"
-    textColor: "{colors.deep-text-dark}"
-    rounded: "{rounded.card}"
-    padding: "{spacing.tools-card-padding}"
-  command-navigation:
-    backgroundColor: "{colors.p3-night}"
-    textColor: "#f1f8ff"
-    rounded: "{rounded.command}"
-    padding: "7px 18px"
+  readingMeasure: "48rem"
+  shellWidth: "1180px"
+  navigationHeight: "62px"
 ---
 
 # Design System: 永远邸 / Kaguya
 
 ## Overview
 
-**Creative North Star: "Persona-inspired personal universe"**
+**Creative North Star: "A warm room for long-form thinking."**
 
-Electric blue planes, cyan cuts and compressed display typography give the archive a cinematic identity. Original artwork remains central; the visual language borrows energy and geometry without copying game logos. The confirmed direction lives in [PRODUCT.md](PRODUCT.md) and [the framework contract](docs/persona-framework.md).
+The site is a personal archive for mathematics, technology, fiction and daily writing. Its visual language borrows the calm editorial character of Claude's public brand system: warm ivory paper, near-black slate, restrained clay accents, humanist sans-serif interface text and literary serif reading text. It does not copy Claude product layouts or logos.
 
-Experience surfaces use expressive masks and spatial movement; reading surfaces keep Chinese text upright and stable; tool surfaces favor clear controls. This is an extraction of the shipped implementation, not a generated design seed. The auxiliary engine was unavailable, and no detector pass is claimed.
+The system keeps the site's original artwork and interactive scenes, but places them inside the same warm material world. Reading surfaces remain quiet. Tools and navigation use the sans family. Titles, essays and reflective copy use the serif family. Motion communicates state changes and route transitions, then gets out of the way.
 
-**Key Characteristics:**
-- Electric blue, cyan and navy with paired light and dark reading papers.
-- Heavy oblique display lettering alongside upright Chinese reading text.
-- Flat command strips, fine dividers and nearly square controls.
-- Deliberate mask reveals and translation, with reduced-motion bypass and fail-open navigation.
+## Color
 
-## Colors
+Light mode uses ivory medium as the page paper, ivory light for raised panels, slate dark for text and clay for the small number of active states. Dark mode uses warm charcoal paper instead of blue-black, with ivory text and a lighter clay accent.
 
-The palette is vivid at the edges and quieter on reading surfaces. Normative values above preserve [persona-theme.css](src/styles/persona-theme.css); light/dark suffixes document the two values of the same runtime semantic property.
-
-### Primary
-- **Electric blue (`p3-blue`)** fills identity planes, route curtains, active tool indicators and the footer rule.
-- **Reading accent (`primary-light`, `primary-dark`)** colors links, focus outlines and section lettering against the current paper.
-
-### Secondary
-- **Cyan (`p3-cyan`)** creates the contrasting plane, navigation underline and home display accent.
-
-### Neutral
-- **Midnight navy (`p3-night`)** anchors home and navigation in both themes.
-- **Reading paper, deep text and metadata** use their matching theme variants; metadata remains visibly subordinate to body text.
-- **Panel, divider and hover** variants support drawers, tools and interactive feedback.
-
-**The Paired Paper Rule.** Change paper, text, metadata and dividers together through the theme properties; do not mix light-paper text with dark-paper surfaces.
+Clay is an accent, not a background system. It marks the active navigation item, links, focus, small indicators and key actions. Large surfaces stay ivory, slate or warm charcoal.
 
 ## Typography
 
-**Display Font:** locally hosted Archivo, registered as `Archive Display`, with Noto Sans SC and sans-serif fallbacks. **Chinese title family:** Noto Sans SC, Microsoft YaHei, sans-serif. The legacy variable name `--study-serif` now resolves to this sans-serif stack.
+Anthropic Sans is the interface voice for navigation, controls, metadata, filters and labels. Anthropic Serif is the display and reading voice for mastheads, article titles, prose, dialogue and the footer statement. Anthropic Mono is limited to code, shortcuts and machine-readable values.
 
-The display role above describes section mastheads, not every headline. Desktop home identity uses its own large responsive size; footer lettering uses a wider responsive scale. Chinese page titles use the title role; reading paragraphs retain the existing body family and the reading line height. Tool labels and descriptions have the compact roles recorded above. See [PersonaMasthead](src/components/layout/PersonaMasthead.astro), [HomeHero](src/components/layout/HomeHero.astro), and [study-theme.css](src/styles/study-theme.css).
-
-**The Upright Reading Rule.** Apply oblique geometry to display lettering and decorative planes; never skew or transform the reading container as a whole.
+The official web fonts are loaded from Anthropic's public website assets with `font-display: swap`. Chinese text falls back to Noto Sans SC or Noto Serif SC so the sans-versus-serif hierarchy remains intact.
 
 ## Layout
 
-[MainGridLayout](src/layouts/MainGridLayout.astro) centers the shared content in a `max-w-5xl` container, with 1rem side padding and 1.5rem from the medium breakpoint. Article prose is capped at 52rem. The tool grid has three columns, two at widths up to 1024px, and one up to 640px; its rhythm is recorded above.
+The shared shell is centered and restrained. The navigation is one warm paper bar with a maximum width of 1180px. Reading content remains capped at 48rem. Large route mastheads use serif type, a hairline divider and one small clay dot. Decorative diagonal rails and edge lettering are removed.
 
-The home has distinct desktop and phone compositions. [HomeMobile](src/components/layout/HomeMobile.astro) uses an asymmetric blue field and left-aligned content. The decorative outer frame disappears at widths up to 1023px. At 600px and below, section lettering shrinks and its slash disappears. The footer changes from three columns to two at 767px, with its introduction spanning both columns. Do not derive a universal spacing scale from these surface-specific dimensions.
-
-## Elevation & Depth
-
-The Persona shell is flat: navigation removes blur and shadow, while blue planes, paper tones, fine borders and clipping establish depth. Tool cards change border and surface color on hover and rise slightly without gaining a shadow. Existing search-modal shadows are inherited drift, not a new elevation vocabulary.
-
-**The Flat Command Rule.** Keep shared command strips and tool surfaces free of glass blur, glow and offset shadows.
-
-## Shapes
-
-Controls are nearly square using the named radii above. Diagonals belong to decorative blue fields, slashes, clipped home lettering and route curtains. Navigation's hover highlight is skewed independently from its readable labels. The small rounded count badge is an existing utility shape; it does not establish pill-shaped cards as a global rule.
+The home keeps its original character and scene artwork. A warm charcoal wash unifies the imagery, while the large blue Persona plane becomes a floating ivory editorial card. Mobile collapses to a single column and uses the same paper, slate and clay hierarchy.
 
 ## Components
 
-### Buttons and tool filters
-
-Compact, sharp controls. Tool tabs use the recorded padding and label role, with a 40px minimum height. The active blue background is implemented by a moving indicator behind white text; inactive labels use the current deep-text color and lower opacity on hover. Keyboard focus uses a visible theme-accent outline. Dock buttons use navy at rest and electric blue on hover.
-
-### Cards and count badges
-
-Tool cards have a one-pixel semantic divider border, a themed panel fill, and the recorded card radius/padding. Hover changes to the semantic hover fill, accents the border and translates upward by 3px; reduced motion removes that translation. Count badges use a compact rounded capsule with themed metadata colors; the active state becomes white on blue. See [collections.css](src/styles/collections.css) and its Persona overrides.
-
-### Stat radar
-
-Encyclopedia character entries may carry a nine-axis ability chart in their frontmatter. [StatRadar.astro](src/components/bookshelf/StatRadar.astro) draws it as a build-time inline SVG — no runtime dependency — with the axes running clockwise from the top, square vertices, and a visually hidden list repeating the numbers for assistive technology. Axis labels use the chart-axis step and their values the chart-value step with tabular numerals.
-
-The chart renders as a section of the entry's right sidebar: [Infobox.astro](src/components/bookshelf/Infobox.astro) takes it as `stats`, and the chart adopts that panel's ink, muted and divider tokens so it reads as a sibling of the information groups, with the data area as the panel's only colour. An entry with stats but no infobox falls back to a standalone card in the article. Configure it with a `stats` block in the entry frontmatter: `title`, `max`, and the ordered `values`.
-
-Its styles are scoped under `.custom-md` because the markdown body's `figure` margins outrank a bare component selector, and the hidden list avoids the markdown table rules for the same reason.
-
-### Entry intro
-
-A character entry may declare an `intro` video in its frontmatter, played once when the page is first opened. The clip is a WebM carrying an alpha channel keyed from a black-background source, so the artwork composites over the live page with no panel behind it. [entry-intro.css](src/styles/components/entry-intro.css) uses `object-fit: contain` so the composition is never cropped, places the layer above the shell at `z-index: 9990`, and keeps it out of pointer input so the page stays scrollable and clickable while it plays.
-
-"Once" is recorded in `localStorage` per entry: a returning visitor gets no overlay and the video is never even requested. Under `prefers-reduced-motion: reduce` the intro is skipped and deliberately **not** marked as played, so disabling that preference later still shows it. The trigger is global — [entry-intro.ts](src/utils/entry-intro.ts), wired from [Layout.astro](src/layouts/Layout.astro) — because `@swup/astro` does not re-execute module scripts on navigation: the markup is page-specific and the logic looks for it on every `astro:page-load`.
-
-### Inputs
-
-The global shell sets caret and focus colors. [SearchModal.svelte](src/components/controls/SearchModal.svelte) still contains its earlier pill-shaped input and ambient shadow. Preserve its functionality; this exception is documented in the sidecar preview and must not become the default style for new Persona controls.
-
 ### Navigation
 
-Navy command segments carry pale labels, with electric blue on the identity segment and a cyan baseline under the center segment. Drawers use the current panel and divider colors. The skip link appears on keyboard focus. Existing search, theme controls and mobile menu behavior remain available.
+Navigation sits in an ivory panel with an 18px radius, a one-pixel divider and a soft downward shadow. Labels use Anthropic Sans. Hover uses ivory dark; active state uses clay. Search remains a compact control inside the same bar.
 
-### Shared dialogs
+### Cards and controls
 
-[privacy-modal.css](src/styles/components/privacy-modal.css) still ships its original greyscale panel, so the Persona layer overrides it in [persona-theme.css](src/styles/persona-theme.css): the panel surface and divider replace the grey pair, the 1rem radius becomes the card radius, and the drop shadow and backdrop blur are removed. A 5px electric-blue top rule addresses the panel, and a skewed cyan bar precedes the title. This covers the privacy/user-agreement dialog and the guestbook announcement dialog, which share the same `privacy-*` classes.
+Cards use ivory light or warm charcoal panels, one-pixel dividers and 16px corners. They lift by two pixels on hover. Controls use 10-12px corners. Pills are reserved for small filters and status controls.
 
-The author dialogue in [AboutCanvas.svelte](src/components/about/AboutCanvas.svelte) loses its hardcoded black bubble, grey outline and 24px radius. It becomes a navy panel at the card radius carrying a detached skewed cyan bar — the masthead's marker, deliberately not a side-tab border — with a cyan-edged avatar. The per-dialogue name color stays configuration-driven; its default `#00d5dd` sits inside the cyan family.
+### Reading
 
-### Masthead, curtain and colophon
+Article prose uses Anthropic Serif at 1.0625rem with a 1.88 line height. Headings stay in the same family with increased weight. Metadata, categories and tags use Anthropic Sans. Inline and block code use Anthropic Mono.
 
-The decorative masthead is hidden from accessibility APIs; page content retains the semantic heading. [PersonaFrame](src/components/layout/PersonaFrame.astro) owns a persistent, pointer-transparent route curtain built from a pool of flat colour panels. It is one material in four arrangements: two skewed planes entering from either side, five vertical blades dropping as a wave, and two halves that close towards the middle and then pass through each other. [persona-motion.ts](src/utils/persona-motion.ts) picks an arrangement at random per navigation, never repeating the previous one back to back, covers before route replacement and reveals afterward, reverts route-local animation, bypasses reduced motion and resets after a 4.5-second fallback. Each arrangement's panel geometry is declared in [persona-theme.css](src/styles/persona-theme.css) under its own `[data-variant]`; only the timeline lives in the module.
+### Route transition
 
-Standalone 3D scenes keep their artwork but open behind a matching curtain. [kuonji.astro](src/pages/kuonji.astro) serves the mansion and [konbini.css](src/styles/pages/konbini.css) the corner store, both built from the same two-leaf electric-blue reveal, mask-risen title and cyan subtitle. Each waits for its scene — konbini is signalled by [KonbiniDiorama.svelte](src/components/features/konbini-diorama/KonbiniDiorama.svelte) after its first frame — and fails open after seven seconds. The konbini curtain sits above its scene layer and both pages hide the development toolbar.
+The existing route-transition engine remains, but its panels now use ivory, clay and slate. Reduced-motion mode bypasses the curtain.
 
-[StudyFooter](src/components/layout/StudyFooter.astro) combines large clipped lettering with plain navigation headings and real icon components. [study-motion.ts](src/utils/study-motion.ts) reveals its rule and sections once, clears temporary transforms and reverts before replacement. Motion uses controlled easing, not bounce; exact timings live in the sidecar. Screenshot and verification scope are recorded in [.impeccable/review/persona-validation.md](.impeccable/review/persona-validation.md).
+### Dialogs and floating tools
 
-## Do's and Don'ts
+Dialogs use ivory panels, 18px corners and a soft offset shadow. Floating tools use compact 48px paper controls. Labels appear on hover or keyboard focus. The visual weight stays below the reading content.
 
-### Do:
-- **Do** use the paired semantic theme colors for reading surfaces.
-- **Do** keep Chinese reading text upright and use the local display face for expressive Latin lettering.
-- **Do** make focus visible, preserve the skip link and bypass cinematic motion when reduced motion is requested.
-- **Do** preserve original artwork, meaningful headings and existing navigation content.
-- **Do** express a new route arrangement as another geometry of the existing panel material, not as a new effect.
+## Motion
 
-### Don't:
-- **Don't** introduce glass blur, glow or game-logo copies into the Persona shell.
-- **Don't** add bounce to the mask and translation motion language.
-- **Don't** hide reading content behind a curtain that can intercept pointers or remain indefinitely.
-- **Don't** promote legacy search-modal styling, decorative numbering or glyph icons into new system rules.
+Motion intensity is low. Hover and focus feedback uses short ease-out transitions. Cards move at most two pixels. The home scene keeps its authored narrative motion, and route transitions keep their state-change function. Reduced-motion preferences remove decorative movement.
+
+## Do
+
+- Use serif type for reading and display moments.
+- Use sans type for navigation, controls and metadata.
+- Keep clay accents sparse and meaningful.
+- Preserve warm contrast in both light and dark themes.
+- Keep original artwork and route behavior intact.
+
+## Do not
+
+- Reintroduce electric blue, cyan planes or skewed Persona command strips.
+- Add gradients, glows or glass panels.
+- Use clay as a full-page background.
+- Mix cool gray surfaces with the warm ivory and slate system.
+- Turn every container into a card.

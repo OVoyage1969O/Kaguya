@@ -1,0 +1,17 @@
+import {chromium} from 'playwright';
+const b=await chromium.launch({channel:'msedge',headless:true});
+const p=await b.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+await p.goto('http://127.0.0.1:4321/Kaguya/archive/');
+await p.waitForTimeout(1000);
+await p.locator('#dock-toggle-btn').click();
+await p.waitForTimeout(350);
+console.log('expanded',await p.locator('#dock-stack').getAttribute('data-expanded'));
+await p.screenshot({path:'outputs/nav-corners-expanded.png'});
+await p.locator('#dock-theme-btn').click();
+console.log('theme',await p.locator('html').getAttribute('class'));
+await p.locator('#dock-toggle-btn').click();
+await p.locator('#dock-music-btn').click();
+await p.waitForTimeout(400);
+await p.screenshot({path:'outputs/nav-corners-music.png'});
+console.log('overflow',await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth));
+await b.close();

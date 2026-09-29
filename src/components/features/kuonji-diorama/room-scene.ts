@@ -13,7 +13,7 @@ export function mountRoom(host:HTMLElement,name:RoomName) {
   renderer.shadowMap.enabled=false;renderer.shadowMap.type=T.PCFSoftShadowMap;
   host.append(renderer.domElement);const canvas=renderer.domElement;canvas.tabIndex=0;
   canvas.setAttribute('aria-label','室内三维场景：拖拽或方向键环顾，滚轮缩放，点击有铭牌的门进入其他房间。Tab 可选择房间链接。');
-  const scene=new T.Scene();scene.background=new T.Color(0x0b0c0e);
+  const scene=new T.Scene();scene.background=new T.Color(0x1d1c1a);
   const camera=new T.PerspectiveCamera(76,1,.05,60);camera.position.set(.15,2.03,4.25);
   if(name==='hall')camera.position.set(.15,2.03,4.9);
   if(name==='landing')camera.position.set(-4.1,6.43,3.8);
@@ -45,7 +45,7 @@ export function mountRoom(host:HTMLElement,name:RoomName) {
         .to(angles,{yaw:previous.yaw,pitch:previous.pitch,fov:previous.fov,duration:reduced.matches?0:1.1,ease:'power3.inOut'},0);
     }
   };
-  const interactions=mountRoomInteractions(host,model.root,dark=>{clearOutline.setTheme(dark);scene.background=new T.Color(dark?0x0b0c0e:0xf7f7f5);request();},request,inspect);
+  const interactions=mountRoomInteractions(host,model.root,dark=>{clearOutline.setTheme(dark);scene.background=new T.Color(dark?0x1d1c1a:0xfaf9f5);request();},request,inspect);
   let pointer:{id:number;x:number;y:number}|undefined;
   const fingers=new Map<number,{x:number;y:number}>();let pinch=0;
   const down=(e:PointerEvent)=>{if(entering||inspecting)return;fingers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(e.isPrimary&&e.button===0)pointer={id:e.pointerId,x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);if(fingers.size===2){const p=[...fingers.values()];pinch=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);}};

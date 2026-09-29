@@ -5,20 +5,20 @@ import * as THREE from "three";
 // 夜景统一调色板（暖内冷外）
 export const PALETTE = {
 	// 夜空与远景
-	nightSky: 0x0a1230,
-	fog: 0x0a1230,
+	nightSky: 0x242321,
+	fog: 0x242321,
 	// 路面 / 人行道
-	asphalt: 0x232a3a,
-	sidewalk: 0x3a4356,
-	roadLine: 0xcbd4e6,
-	zebra: 0xd7deeb,
-	gutter: 0x1b212e,
-	puddle: 0x1a2c52,
+	asphalt: 0x302f2c,
+	sidewalk: 0x4a4742,
+	roadLine: 0xd1cfc5,
+	zebra: 0xe8e6dc,
+	gutter: 0x1d1c1a,
+	puddle: 0x4c3932,
 	// 建筑外立面
 	wallCream: 0xfff3df,
 	wallWarm: 0xf7e3c4,
-	roof: 0x2a2f3d,
-	trim: 0xcfd6e4,
+	roof: 0x302f2c,
+	trim: 0xd1cfc5,
 	// 便利店招牌 / 店内
 	storeGreen: 0x1f7a4d,
 	storeGreenDark: 0x165636,
@@ -30,7 +30,7 @@ export const PALETTE = {
 	glassWarm: 0xffe7c0,
 	// 霓虹点缀
 	neonRed: 0xff4f6d,
-	neonBlue: 0x5ac8ff,
+	neonBlue: 0xd97757,
 	neonOrange: 0xffa24d,
 	// 杂项
 	white: 0xffffff,
