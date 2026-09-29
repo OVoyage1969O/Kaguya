@@ -61,6 +61,15 @@ export const friendsConfig: FriendLink[] = [
 		weight: 5,
 		enabled: true,
 	},
+	{
+		title: "时代情绪",
+		imgurl: "https://supertu.online/favicon.svg",
+		desc: "阿吐的生活记录、小小故事与学习感悟。",
+		siteurl: "https://supertu.online/",
+		tags: ["Blog"],
+		weight: 5,
+		enabled: true,
+	},
 ];
 
 // 获取启用的友链并进行排序
