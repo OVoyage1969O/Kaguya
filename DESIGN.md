@@ -97,9 +97,19 @@ The existing route-transition engine remains, but its panels now use ivory, clay
 
 Dialogs use ivory panels, 18px corners and a soft offset shadow. Floating tools use compact 48px paper controls. Labels appear on hover or keyboard focus. The visual weight stays below the reading content.
 
+### Footer
+
+The footer is a compact two-row colophon beneath one hairline. An italic Kaguya signature, horizontal reading links and accessible social icons form the first row; copyright, legal links and technology credits form the second. Descriptive copy, slogans, section labels and last-writing dates are omitted. Mobile keeps signature and social icons together, then wraps the reading links and administrative information naturally. Extra bottom space only clears the fixed mobile dock.
+
+### Cursor
+
+Desktop pointers now use the user's supplied Windows ANI/CUR character pack. Lossless transparent sprite sheets retain every frame, source sequence, 60Hz jiffy timing and per-frame hotspot. The supplied animated states are 32px, eight frames and 100ms per frame. A small pointer-transparent canvas draws only on frame changes; movement positions it using the original hotspot. The former clay mark and ribbon are no longer mounted. The component remains outside the replaced route container and hides on blur, page exit, pointer leave and tab hiding. Coarse pointers retain the ordinary touch experience; reduced-motion mode uses the first frame.
+
+The package's normal, link, text, unavailable, working, busy, move and directional-resize cursors follow the corresponding interaction states. Explicit help, precision, handwriting, alternate, person and pin states can be selected using data-cursor-role. Disabled takes priority over busy. State attributes are observed for stationary pointers. A static native CUR fallback stays available while sprites load or if rendering fails. scripts/convert-cursor-pack.py converts only ANI/CUR files and preserves the source archive.
+
 ## Motion
 
-Motion intensity is low. Hover and focus feedback uses short ease-out transitions. Cards move at most two pixels. The home scene keeps its authored narrative motion, and route transitions keep their state-change function. Reduced-motion preferences remove decorative movement.
+Motion follows onetake's rhythm and carry principles. Mastheads settle on a critically damped wordRise curve sampled from the onetake library; compact introductory groups follow after 140ms. Cards arrive once as they enter the viewport with a short bounded stagger. Long-form article prose remains stable. Hover lifts cards by two to three pixels; presses compress controls briefly. The home scene and route transitions keep their authored choreography. Route replacement cleans up observers and animations, and reduced-motion preferences bypass entrances.
 
 ## Do
 

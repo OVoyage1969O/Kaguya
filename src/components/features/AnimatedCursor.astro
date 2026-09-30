@@ -1,0 +1,22 @@
+<canvas class="animated-cursor" data-animated-cursor aria-hidden="true"></canvas>
+
+<style is:global>
+  .animated-cursor { position: fixed; top: 0; left: 0; z-index: 10020; pointer-events: none; visibility: hidden; }
+  @media (hover: hover) and (pointer: fine) {
+    html.claude-theme { --ani-role: normal; --pack-cursor: url('/Kaguya/assets/cursors/normal.cur') 1 1, default; }
+    html.claude-theme, .claude-theme body,
+    .claude-theme :is(a,button,summary,label,select,[role="button"],input,textarea,[contenteditable]) { cursor: var(--pack-cursor); }
+    .claude-theme :is(a[href],button,summary,label,select,[role="button"],[role="tab"],[role="checkbox"]) { --ani-role: link; }
+    .claude-theme :is(input,textarea,[contenteditable="true"]) { --ani-role: text; }
+    .claude-theme :is(input[type="checkbox"],input[type="radio"],input[type="range"],input[type="button"],input[type="submit"]) { --ani-role: link; }
+    .claude-theme canvas:not([data-animated-cursor]) { --ani-role: move; }
+    .claude-theme :is(:disabled,[aria-disabled="true"]) { --ani-role: unavailable; }
+    html.claude-theme[data-ani-active] *, html.claude-theme[data-ani-active] { cursor: none !important; }
+  }
+  @media (hover: none), (pointer: coarse) { .animated-cursor { display: none; } }
+</style>
+
+<script>
+  import { initAnimatedCursor } from '@/utils/animated-cursor';
+  initAnimatedCursor();
+</script>

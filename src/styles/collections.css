@@ -1,5 +1,22 @@
 /* ===== 工具导航页样式 ===== */
 
+/* The imported bookmark collection previews two desktop rows before disclosure. */
+.tools-fold { margin-top: 18px; }
+.tools-fold__toggle { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:48px; padding:10px 16px; border:1px solid var(--line-divider); border-radius:12px; color:var(--deep-text); background:var(--float-panel-bg); list-style:none; }
+.tools-fold__toggle::-webkit-details-marker { display:none; }
+.tools-fold__count { font-size:12px; color:var(--content-meta); }
+.tools-fold__action { display:inline-flex; align-items:center; gap:8px; font-size:13px; white-space:nowrap; }
+.tools-fold__action svg,.tools-fold__bottom svg { width:18px; height:18px; }
+.tools-fold__opened { display:none; }
+.tools-fold[open] .tools-fold__opened { display:inline; }
+.tools-fold[open] .tools-fold__closed { display:none; }
+.tools-fold[open] .tools-fold__action svg { rotate:180deg; }
+.tools-fold__content { margin-top:16px; }
+.tools-fold__bottom { display:flex; justify-content:center; align-items:center; gap:8px; width:100%; min-height:44px; margin-top:18px; border:1px solid var(--line-divider); border-radius:12px; color:var(--deep-text); background:var(--float-panel-bg); font-size:13px; }
+.tools-fold__bottom[hidden] { display:none; }
+.tools-fold__toggle:hover,.tools-fold__bottom:hover { background:var(--btn-plain-bg-hover); }
+@media(max-width:600px) { .tools-fold__toggle { gap:8px; padding-inline:12px; } }
+
 /* Tab 外层 */
 .tools-tab-wrapper {
   margin-bottom: 1.5rem;

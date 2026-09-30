@@ -1,0 +1,16 @@
+import {chromium} from 'playwright';
+import fs from 'node:fs/promises';
+const source=await fs.readFile('src/config/studyBookmarks.ts','utf8');
+const expected=JSON.parse(source.match(/export const studyBookmarkItems[^=]*= ([\s\S]*);/)[1]);
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+await page.route('https://favicon.im/**',route=>route.abort());
+const errors=[];page.on('pageerror',error=>errors.push(error.message));
+await page.goto('http://127.0.0.1:4321/Kaguya/collections/',{waitUntil:'domcontentloaded'});
+await page.locator('[data-tools-tab="学习知识库"]').click();
+const group=page.locator('[data-tools-section="学习知识库"]');
+const rendered=await group.locator('.tools-card').evaluateAll(links=>links.map(link=>({url:link.getAttribute('href'),name:link.querySelector('h3').textContent.trim(),description:link.querySelector('.tools-card-desc').textContent.trim()})));
+const missing=expected.filter(item=>!rendered.some(link=>link.url===item.url&&link.name===item.name&&link.description===item.description));
+console.log(JSON.stringify({imported:expected.length,rendered:rendered.length,missing:missing.length,uniqueUrls:new Set(rendered.map(item=>item.url)).size,visible:await group.isVisible(),errors}));
+if(missing.length||rendered.length!==296||errors.length)throw Error('Bookmark import verification failed');
+await browser.close();

@@ -1,0 +1,15 @@
+---
+import Icon from '@components/common/Icon.astro';
+import type { CollectionApiItem } from '@/types/config';
+interface Props { item: CollectionApiItem; category: string; index: number; }
+const { item, category, index } = Astro.props;
+---
+<a href={item.url} title={item.name} target="_blank" rel="noopener noreferrer" class="tools-card group" data-category={category} style={`animation-delay: ${index * 60}ms`}>
+  <div class="tools-card-jump-icon"><Icon name="material-symbols:arrow-outward-rounded" class="text-base" /></div>
+  <div class="flex items-center gap-2 mb-3">
+    {item.icon?.startsWith('http') ? <img src={item.icon} alt="" loading="lazy" decoding="async" class="w-6 h-6 rounded object-contain shrink-0" /> : <Icon name={item.icon || 'material-symbols:api'} class="text-2xl text-neutral-600 dark:text-neutral-300 shrink-0" />}
+    <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100 group-hover:translate-x-1 transition-transform duration-300 truncate">{item.name}</h3>
+  </div>
+  <p class="tools-card-desc">{item.description}</p>
+  <div class="tools-card-footer"><span class="text-xs text-neutral-400 dark:text-neutral-500 truncate">{new URL(item.url).hostname}</span></div>
+</a>

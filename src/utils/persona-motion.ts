@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import { riseIntoPlace } from "./editorial-motion";
 
 let initialized = false;
 
@@ -140,16 +141,9 @@ export function initPersonaMotion() {
 		if (!page) return;
 		media = gsap.matchMedia();
 		media.add("(prefers-reduced-motion: no-preference)", () => {
-			const type = page.querySelector("[data-p3-masthead-type]");
-			if (type)
-				gsap.from(type, {
-					yPercent: 115,
-					scaleY: 0.55,
-					duration: 1.25,
-					delay: wipe.hidden ? 0.08 : 0.3,
-					ease: "expo.out",
-					clearProps: "transform",
-				});
+			const type = page.querySelector<HTMLElement>("[data-p3-masthead-type]");
+			const animation = type ? riseIntoPlace(type, wipe.hidden ? 40 : 180, 26) : undefined;
+			return () => animation?.cancel();
 		});
 		if (!wipe.hidden) {
 			curtain?.kill();

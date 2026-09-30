@@ -59,7 +59,7 @@ const FONT_SIZE = 16;
 const LINE_HEIGHT = 28;
 const PADDING = 24;
 const BALL_RATIO = 0.12;
-const FONT_FAMILY = "'Roboto', sans-serif";
+const FONT_FAMILY = "'Anthropic Serif', 'Noto Serif SC', 'Songti SC', Georgia, serif";
 
 // ===== 段落系统 =====
 interface ParagraphLayout {
@@ -164,11 +164,11 @@ function drawParagraphLine(
 	const seg = para.segments[0];
 	const color = seg?.href
 		? isDark
-			? "#6ab0ff"
-			: "#4a9eff"
+			? "#e58b6c"
+			: "#c6613f"
 		: isDark
-			? "rgba(255,255,255,0.87)"
-			: "rgba(0,0,0,0.87)";
+			? "#f0eee6"
+			: "#141413";
 
 	ctx.fillStyle = color;
 	ctx.font = buildFont(scaledFontSize, seg?.fontWeight ?? "normal");
@@ -536,11 +536,17 @@ onMount(() => {
 
 	rafId = requestAnimationFrame(render);
 	window.addEventListener("resize", onResize);
+	// Canvas text must be measured again when the web font replaces its fallback.
+	document.fonts.addEventListener("loadingdone", onResize);
+	void document.fonts.load(`16px ${FONT_FAMILY}`).then(() => {
+		if (canvas?.isConnected) onResize();
+	});
 });
 
 onDestroy(() => {
 	cancelAnimationFrame(rafId);
 	window.removeEventListener("resize", onResize);
+	document.fonts.removeEventListener("loadingdone", onResize);
 	visibilityObserver?.disconnect();
 	clearCache();
 	paraLayouts = [];

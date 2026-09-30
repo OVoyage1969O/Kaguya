@@ -14,6 +14,7 @@ import ConfigCarrier from "@components/layout/ConfigCarrier.astro";
 import MobileDock from "@components/layout/MobileDock.astro";
 import FloatingDock from "@/components/controls/FloatingDock.astro";
 import PersonaFrame from "@components/layout/PersonaFrame.astro";
+import AnimatedCursor from "@components/features/AnimatedCursor.astro";
 
 import {
 	aiSearchConfig,
@@ -257,6 +258,7 @@ const siteLang = lang.replace("_", "-");
   >
     <div id="progress-bar"></div>
     <PersonaFrame />
+    <AnimatedCursor />
     <PageLoader />
     <ConfigCarrier />
     <MusicManager />

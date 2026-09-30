@@ -1,97 +1,94 @@
 ---
-import Icon from "@components/common/Icon.astro";
-import { bookshelfConfig } from "@/config";
-import MainGridLayout from "@/layouts/MainGridLayout.astro";
-import { url } from "@/utils/url-utils";
-import "@/styles/pages/bookshelf-home.css";
-const { name, description, categories, featured = [] } = bookshelfConfig;
-const englishNames: Record<string, string> = { typemoon: "TYPE-MOON", touhou: "TOUHOU PROJECT", magic: "MAGIC & MYSTERY", places: "PLACES & SPACES", trivia: "TRIVIA" };
-const volumes = categories.map(cat => ({ ...cat, items: [...cat.entries, ...(cat.subgroups ?? []).flatMap(sub => sub.entries)] }));
-const entries = volumes.flatMap(cat => cat.items.map(entry => ({ ...entry, category: cat.name, cover: cat.cover, href: url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`) })));
-const selected = featured.flatMap(id => { const entry = entries.find(e => e.id === id); return entry ? [entry] : []; });
-const portrait = url("/assets/images/ALI.jpg");
-const mansion = url("/assets/images/LW.jpg");
+import Icon from '@components/common/Icon.astro';
+import { bookshelfConfig } from '@/config';
+import MainGridLayout from '@/layouts/MainGridLayout.astro';
+import { getBookshelfCatalogue } from '@/utils/bookshelf-data';
+import { url } from '@/utils/url-utils';
+import '@/styles/pages/bookshelf-home.css';
+
+const volumes = await getBookshelfCatalogue();
+const entries = volumes.flatMap(volume => volume.items);
+const characters = entries.filter(entry => entry.person && entry.image);
+const english:Record<string,string> = {typemoon:'TYPE-MOON',touhou:'TOUHOU',magic:'MAGIC',places:'PLACES',trivia:'TRIVIA'};
+const synopsis:Record<string,string> = {
+  typemoon:'从魔术回路到圣杯战争，翻阅型月的规则与人物。',
+  touhou:'循着异变与符卡，走入幻想乡的另一种日常。',
+  magic:'关于魔术、魔法，以及两者之间的边界。',
+  places:'故事发生的城市、屋邸与各自承载的记忆。',
+  trivia:'在人物档案里，继续展开特里维亚的故事。',
+};
+const base = import.meta.env.BASE_URL;
+const asset = (src:string) => src.startsWith(base)||src.startsWith('http')?src:url(src);
 ---
-<MainGridLayout title={name} description={description} hasOwnH1={true}>
-  <div class="eternal-library" data-bk-root>
-    <div class="el-opening" data-bk-intro hidden>
-      <div class="el-opening__curtain el-opening__curtain--top" data-bk-curtain></div>
-      <div class="el-opening__curtain el-opening__curtain--bottom" data-bk-curtain></div>
-      <div class="el-opening__identity" aria-hidden="true">
-        <div class="el-opening__mask"><span data-bk-intro-word>ETERNAL</span></div>
-        <div class="el-opening__mask"><span data-bk-intro-word>ARCHIVE</span></div>
-        <p>永远百科 <span>让幻想，有迹可循。</span></p>
-      </div>
-      <button class="el-opening__skip" type="button" data-bk-skip>跳过开场 <Icon name="material-symbols:arrow-forward-rounded" /></button>
-      <div class="el-opening__rule" aria-hidden="true"><i data-bk-intro-line></i></div>
-    </div>
-    <header class="el-hero" id="archive-top">
-      <div class="el-hero__top" data-bk-hero-detail>
-        <h1>{name}<span>ETERNAL MANSION</span></h1>
-        <a href="#worlds" class="el-index-link">浏览全部世界 <Icon name="material-symbols:arrow-downward-rounded" /></a>
-      </div>
-      <div class="el-hero__composition">
-        <div class="el-hero__type" aria-hidden="true">
-          <div class="el-type-mask"><span data-bk-title>ETERNAL</span></div>
-          <div class="el-type-mask"><span data-bk-title>ARCHIVE<span class="el-type-dot">.</span></span></div>
+<MainGridLayout title={bookshelfConfig.name} description={bookshelfConfig.description} hasOwnH1={true}>
+  <div class="atlas" data-bk-root>
+    <svg class="atlas-filter" aria-hidden="true" width="0" height="0"><defs><filter id="atlas-type-flow" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur in="SourceGraphic" stdDeviation="0" data-atlas-blur /></filter></defs></svg>
+    <header class="atlas-hero" id="archive-top">
+      <div class="atlas-hero__copy">
+        <h1><span data-atlas-title>永远百科</span><em data-atlas-title>Eternal Encyclopedia<span>.</span></em></h1>
+        <div class="atlas-hero__intro" data-atlas-intro>
+          <p>世界观、角色与设定，分卷收藏于此。<br />从型月与东方，到魔法与更广的幻想。</p>
+          <div class="atlas-hero__actions"><a class="atlas-button" href="#worlds">翻阅世界 <Icon name="material-symbols:arrow-downward-rounded" /></a><a class="atlas-text-link" href="#catalogue">查找词条 <Icon name="material-symbols:search-rounded" /></a></div>
         </div>
-        <a class="el-hero__scene" href={url("/bookshelf/entries/places/永远邸/")} aria-label="阅读永远邸词条" data-bk-hero-image>
-          <div class="el-hero__scene-media" data-bk-parallax-frame><img src={mansion} alt="久远寺邸的玻璃花房，窗外是冬日树林" width="1280" height="640" fetchpriority="high" decoding="async" data-bk-parallax /></div>
-          <span class="el-image-label">永远邸 / 一切幻想的居所 <Icon name="material-symbols:arrow-outward-rounded" /></span>
-        </a>
-        <a class="el-hero__portrait" href={url("/bookshelf/entries/typemoon/久远寺有珠/")} aria-label="阅读久远寺有珠词条" data-bk-hero-image>
-          <div class="el-hero__portrait-media"><img src={portrait} alt="久远寺有珠的角色肖像" width="1152" height="2048" decoding="async" /></div>
-          <span>久远寺有珠 <Icon name="material-symbols:arrow-outward-rounded" /></span>
-        </a>
-        <div class="el-hero__note" data-bk-hero-detail><p>世界的切片，<br />收藏于此。</p><span>WORLDS, KEPT WITHIN.</span></div>
       </div>
-      <div class="el-hero__bottom" data-bk-hero-detail>
-        <p>收录「永远邸」及其所承载的世界观、角色与设定。<br class="el-desktop-break" />从型月、东方到魔法与神秘，沿着一页，走进另一个世界。</p>
-        <a class="el-round-link" href="#worlds"><span>进入档案</span><Icon name="material-symbols:arrow-downward-rounded" /></a>
-      </div>
-    </header>
-    <section class="el-worlds" id="worlds" aria-labelledby="worlds-title">
-      <div class="el-section-heading" data-bk-section-heading><h2 id="worlds-title">选择一个世界<span>Explore the worlds.</span></h2><p>{volumes.length} 个分类 · {entries.length} 个词条<br />展开目录，开始翻阅。</p></div>
-      <div class="el-volumes">
-        {volumes.map((cat, index) => (
-          <details class="el-volume" data-bk-volume open={index === 0} id={`world-${cat.id}`}>
-            <summary class="el-volume__toggle"><span class="el-volume__name">{cat.name}</span><span class="el-volume__english">{englishNames[cat.id] || cat.id.toUpperCase()}</span><span class="el-volume__count">{String(cat.items.length).padStart(2, "0")} 词条</span><span class="el-volume__toggle-icon"><Icon name="material-symbols:add-rounded" /></span></summary>
-            <div class="el-volume__body" data-bk-volume-body>
-              <div class="el-volume__visual">
-                <a class="el-volume__picture" href={url(`/bookshelf/category/${cat.id}/`)} aria-label={`浏览${cat.name}完整分类`} data-bk-parallax-frame>
-                  {cat.cover ? <img src={cat.cover} alt={`${cat.name}分类封面`} loading="lazy" decoding="async" width="720" height="540" data-bk-parallax /> : <Icon name={cat.icon} />}
-                  <span class="el-picture-shutter" data-bk-shutter aria-hidden="true"></span>
-                </a>
-                <p>{cat.summary}</p><a class="el-text-link" href={url(`/bookshelf/category/${cat.id}/`)}>浏览完整分类 <Icon name="material-symbols:arrow-outward-rounded" /></a>
-              </div>
-              <div class="el-volume__entries">{cat.items.length ? cat.items.map(entry => (
-                <a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)} class="el-entry"><span><strong>{entry.title}</strong>{entry.summary && <small>{entry.summary}</small>}</span><Icon name="material-symbols:arrow-outward-rounded" /></a>
-              )) : <p class="el-empty">这一册还在编写中，故事即将入藏。</p>}</div>
-            </div>
-          </details>
-        ))}
-      </div>
-    </section>
-    {selected.length > 0 && <section class="el-featured" id="selected" aria-labelledby="featured-title">
-      <div class="el-section-heading" data-bk-section-heading><h2 id="featured-title">偶然翻到的一页<span>A few pages to stay.</span></h2><p>循着故事的线索，<br />把陌生的世界慢慢读懂。</p></div>
-      <div class="el-picks">{selected.map(entry => (
-        <a href={entry.href} class:list={["el-pick", { "el-pick--portrait": entry.id === "alice" }]}>
-          <div class="el-pick__image" data-bk-parallax-frame data-bk-image-reveal>
-            <img src={entry.id === "alice" ? portrait : entry.cover || mansion} alt={entry.id === "alice" ? "久远寺有珠" : `${entry.category}的档案图像`} loading="lazy" decoding="async" width="900" height={entry.id === "alice" ? "1200" : "675"} data-bk-parallax />
-            <span class="el-picture-shutter" data-bk-shutter aria-hidden="true"></span><span class="el-pick__open"><Icon name="material-symbols:arrow-outward-rounded" /></span>
+      <div class="atlas-hero__meta" data-atlas-intro><span>已收录 <strong data-atlas-number={entries.length}>{entries.length}</strong> 个词条</span><span>{volumes.length} 个世界分卷</span></div>
+      <div class="atlas-shelf" aria-label="世界封面展览">
+        <canvas class="atlas-shelf__canvas" data-atlas-canvas aria-hidden="true"></canvas>
+        {volumes.map((volume,index)=><a class={`atlas-book atlas-book--${volume.id}`} href={`#world-${volume.id}`} data-atlas-book>
+          <div class="atlas-book__cover">
+            <img src={asset(volume.cover || '/assets/images/LW.jpg')} alt={`${volume.name}的封面`} width="500" height="700" loading={index<3?'eager':'lazy'} decoding="async" />
+            <span class="atlas-book__spine" aria-hidden="true"></span>
           </div>
-          <div class="el-pick__caption"><div><span>{entry.category}</span><h3>{entry.title}</h3></div><span class="el-pick__read">翻开此页 <Icon name="material-symbols:arrow-outward-rounded" /></span></div><p>{entry.summary}</p>
+          <div class="atlas-book__caption"><h2>{volume.name}</h2><span>{volume.items.length} 条目 <Icon name="material-symbols:arrow-downward-rounded" /></span></div>
+        </a>)}
+      </div>
+      <nav class="atlas-wayfinding" aria-label="百科页面导航"><a href="#worlds">世界分卷</a><a href="#characters">人物档案</a><a href="#catalogue">完整目录</a><span>选择一册，开始阅读。</span></nav>
+    </header>
+
+    <section class="atlas-worlds" id="worlds" aria-labelledby="worlds-title">
+      <header class="atlas-section-head"><h2 id="worlds-title">世界分卷<span>每一册，都有自己的规则。</span></h2></header>
+      {volumes.map(volume=><article class="atlas-volume" id={`world-${volume.id}`} data-atlas-volume>
+        <a class={`atlas-volume__art atlas-volume__art--${volume.id}`} href={volume.href} aria-label={`浏览${volume.name}分类`}>
+          <img src={asset(volume.cover || '/assets/images/LW.jpg')} alt={`${volume.name}封面`} width="720" height="540" loading="lazy" decoding="async" />
+          <span class="atlas-volume__page" data-atlas-page aria-hidden="true"></span>
+          <span class="atlas-volume__english" aria-hidden="true">{english[volume.id]}</span>
         </a>
-      ))}</div>
-    </section>}
-    <footer class="el-colophon" data-bk-finale>
-      <div class="el-colophon__text"><p>下一页，<br /><span data-bk-finale-text>会遇见什么？</span></p></div>
-      <div class="el-colophon__action"><p>不必先有目的地。<br />让偶然，替你翻开一页。</p><button type="button" data-bk-random data-entries={JSON.stringify(entries.map(e => e.href))} disabled={entries.length === 0}>随手抽一页 <Icon name="material-symbols:arrow-outward-rounded" /></button></div>
-      <div class="el-colophon__bottom"><span>永远百科 · 世界仍在续写</span><a href="#archive-top">返回开篇 <Icon name="material-symbols:arrow-upward-rounded" /></a></div>
-    </footer>
+        <div class="atlas-volume__content">
+          <div class="atlas-volume__title"><h3>{volume.name}</h3><span>{volume.items.length} 词条</span></div>
+          <p class="atlas-volume__synopsis">{synopsis[volume.id] || volume.summary}</p>
+          <div class="atlas-volume__entries">{volume.items.slice(0,4).map(entry=><a href={entry.href}><span>{entry.title}</span><Icon name="material-symbols:arrow-outward-rounded" /></a>)}</div>
+          <a class="atlas-text-link" href={volume.href}>打开这一卷 <Icon name="material-symbols:arrow-forward-rounded" /></a>
+        </div>
+      </article>)}
+    </section>
+
+    <section class="atlas-characters" id="characters" aria-labelledby="characters-title">
+      <header class="atlas-section-head"><h2 id="characters-title">人物档案<span>沿着一个名字，读懂一个世界。</span></h2></header>
+      <div class="atlas-character-grid">{characters.map(entry=><a class="atlas-character" href={entry.href} data-atlas-character>
+        <div class="atlas-character__portrait"><img src={asset(entry.image)} alt={entry.title} width="500" height="680" loading="lazy" decoding="async" /></div>
+        <div class="atlas-character__caption"><h3>{entry.title}<Icon name="material-symbols:arrow-outward-rounded" /></h3><span>{entry.categoryName}</span><p>{entry.summary}</p></div>
+      </a>)}</div>
+    </section>
+
+    <section class="atlas-catalogue" id="catalogue" aria-labelledby="catalogue-title">
+      <header class="atlas-section-head atlas-section-head--catalogue"><h2 id="catalogue-title">完整目录<span>查找已经收录的世界、人物与设定。</span></h2><button class="atlas-text-link" type="button" data-atlas-random data-entries={JSON.stringify(entries.map(entry=>entry.href))}>随机翻阅 <Icon name="material-symbols:shuffle-rounded" /></button></header>
+      <form class="atlas-search" role="search" data-atlas-search-form>
+        <Icon name="material-symbols:search-rounded" />
+        <label class="sr-only" for="atlas-query">搜索百科词条</label>
+        <input id="atlas-query" type="search" name="q" placeholder="搜索名称、设定或关键词…" autocomplete="off" data-atlas-search />
+        <button type="button" data-atlas-clear aria-label="清空搜索" hidden><Icon name="material-symbols:close-rounded" /></button>
+      </form>
+      <div class="atlas-filters" role="group" aria-label="按世界筛选"><button type="button" class="is-active" aria-pressed="true" data-atlas-filter="all">全部<span>{entries.length}</span></button>{volumes.map(volume=><button type="button" aria-pressed="false" data-atlas-filter={volume.id}>{volume.name}<span>{volume.items.length}</span></button>)}</div>
+      <p class="atlas-result" role="status" aria-live="polite" data-atlas-result>共 {entries.length} 个词条</p>
+      <div class="atlas-entry-grid" data-atlas-results>{entries.map(entry=><a class="atlas-entry" href={entry.href} data-atlas-entry data-category={entry.categoryId} data-search={`${entry.title} ${entry.summary} ${entry.categoryName}`}>
+        <h3>{entry.title}<Icon name="material-symbols:arrow-outward-rounded" /></h3><span class="atlas-entry__category">{entry.categoryName}</span><p>{entry.summary || '打开词条，继续阅读。'}</p>
+      </a>)}</div>
+      <div class="atlas-empty" data-atlas-empty hidden><Icon name="material-symbols:search-off-rounded" /><h3>没有找到对应词条</h3><p>试试更短的关键词，或回到全部目录。</p><button class="atlas-button" type="button" data-atlas-reset>显示全部词条</button></div>
+      <noscript><p>目录已完整列出。启用 JavaScript 后可以在本页搜索与筛选。</p></noscript>
+    </section>
   </div>
   <script>
-    import { initBookshelfLifecycle } from "@/utils/bookshelf-home-animation";
+    import { initBookshelfLifecycle } from '@/utils/bookshelf-home-animation';
     initBookshelfLifecycle();
   </script>
 </MainGridLayout>

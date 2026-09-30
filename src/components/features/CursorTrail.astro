@@ -1,0 +1,30 @@
+<canvas class="cursor-trail" data-cursor-trail aria-hidden="true"></canvas>
+
+<style is:global>
+  .cursor-trail { position: fixed; inset: 0; z-index: 10020; pointer-events: none; visibility: hidden; }
+  @media (hover: hover) and (pointer: fine) {
+    html.claude-theme { --site-cursor: url('/Kaguya/assets/cursor-mark.svg') 4 2, auto; }
+    html.claude-theme[data-cursor-state="hover"] { --site-cursor: url('/Kaguya/assets/cursor-hover.svg') 4 2, pointer; }
+    html.claude-theme[data-cursor-state="pressed"] { --site-cursor: url('/Kaguya/assets/cursor-pressed.svg') 4 2, pointer; }
+    html.claude-theme[data-cursor-state="selected"] { --site-cursor: url('/Kaguya/assets/cursor-selected.svg') 4 2, pointer; }
+    html.claude-theme[data-cursor-state="disabled"] { --site-cursor: url('/Kaguya/assets/cursor-disabled.svg') 4 2, not-allowed; }
+    html.claude-theme[data-cursor-state="busy"] { --site-cursor: url('/Kaguya/assets/cursor-busy.svg') 4 2, progress; }
+    html.claude-theme, html.claude-theme body,
+    .claude-theme :is(a,button,summary,label,[role="button"],select) {
+      cursor: var(--site-cursor);
+    }
+    .claude-theme :is(input,textarea,[contenteditable="true"]) { cursor: text; }
+    .claude-theme :is(input[type="checkbox"],input[type="radio"],input[type="range"],input[type="button"],input[type="submit"]) { cursor: var(--site-cursor); }
+    .claude-theme :is([aria-busy="true"],[data-loading="true"]) { cursor: url('/Kaguya/assets/cursor-busy.svg') 4 2, progress; }
+    .claude-theme :is(button:disabled,[aria-disabled="true"],input:disabled) { cursor: url('/Kaguya/assets/cursor-disabled.svg') 4 2, not-allowed; }
+    /* Scene canvases keep the grab/drag affordance authored by their own controls. */
+  }
+  @media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+    .cursor-trail { display: none; }
+  }
+</style>
+
+<script>
+  import { initCursorTrail } from '@/utils/cursor-trail';
+  initCursorTrail();
+</script>

@@ -1,46 +1,32 @@
 ---
 import { footerConfig, homeConfig, siteConfig } from "@/config";
-import { getSortedPosts } from "@/utils/content-utils";
 import { url } from "@/utils/url-utils";
 import Icon from "@components/common/Icon.astro";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 
-const posts = await getSortedPosts();
-const latest = posts.reduce<Date | null>((date, post) => !date || post.data.published > date ? post.data.published : date, null);
 const year = new Date().getFullYear();
 const start = siteConfig.siteStartDate?.slice(0, 4) || String(year);
 const { socialLinks, beian, poweredBy } = footerConfig;
 const indexLinks = [
-  { label: "文章归档", english: "ARCHIVE", href: "/archive/" },
-  { label: "分类索引", english: "INDEX", href: "/categories/" },
-  { label: "关于这里", english: "ABOUT", href: "/about/" },
+  { label: "文章归档", href: "/archive/" },
+  { label: "分类索引", href: "/categories/" },
+  { label: "关于这里", href: "/about/" },
 ];
 ---
 <footer class="study-footer" aria-label="站点页脚" data-study-footer>
-  <div class="p3-footer-word" aria-hidden="true">KAGUYA.</div>
-  <div class="study-footer__rule" aria-hidden="true"><span>FINIS / 卷末</span><span>THE STUDY REMAINS OPEN</span><i data-study-footer-line></i></div>
+  <div class="study-footer__rule" aria-hidden="true"><i data-study-footer-line></i></div>
   <div class="study-footer__body">
     <div class="study-footer__note" data-study-footer-item>
-      <span class="study-eyebrow">{siteConfig.navbar.title || siteConfig.title} · PERSONAL ARCHIVE</span>
-      <p class="study-footer__heading">知识有迹，<br />长夜有光<span>。</span></p>
-      <p class="study-footer__description">在技术与数学之间，在思考与日常之间。<br />把尚未想明白的事，慢慢写成答案。</p>
-      <a class="study-footer__home" href={url("/")}>返回扉页 <Icon name="material-symbols:arrow-outward-rounded" class="study-footer__arrow" /></a>
+      <a class="study-footer__signature" href={url("/")} aria-label={`${siteConfig.navbar.title || siteConfig.title}首页`}><span>Kaguya<span class="study-footer__signature-dot">.</span></span></a>
     </div>
     <nav class="study-footer__index" aria-label="站点索引" data-study-footer-item>
-      <h2>阅读索引</h2>
-      {indexLinks.map(link => <a href={url(link.href)}><span>{link.label}</span><small>{link.english}</small></a>)}
-      <a href={url("rss/")}><span>订阅更新</span><small class="study-footer__rss">RSS <Icon name="material-symbols:arrow-outward-rounded" class="study-footer__arrow" /></small></a>
+      {indexLinks.map(link => <a href={url(link.href)}><span>{link.label}</span></a>)}
+      <a href={url("rss/")}><span>订阅更新</span><Icon name="material-symbols:rss-feed-rounded" class="study-footer__arrow" /></a>
     </nav>
     <nav class="study-footer__social" aria-label="联系与社交" data-study-footer-item>
-      <h2>保持联络</h2>
-      {socialLinks.map(link => <a href={link.href} target={/^https?:/.test(link.href) ? "_blank" : undefined} rel={/^https?:/.test(link.href) ? "noopener noreferrer" : undefined}><span>{link.label}</span><Icon name={link.icon} /></a>)}
+      {socialLinks.map(link => <a href={link.href} aria-label={link.label} title={link.label} target={/^https?:/.test(link.href) ? "_blank" : undefined} rel={/^https?:/.test(link.href) ? "noopener noreferrer" : undefined}><Icon name={link.icon} /></a>)}
     </nav>
-  </div>
-  <div class="study-footer__closing" data-study-footer-item>
-    <svg viewBox="0 0 110 40" fill="none" aria-hidden="true"><path d="m2 28 27-17 28 15 24-21 27 14" stroke="currentColor" stroke-width=".5"/><circle cx="29" cy="11" r="2" fill="currentColor"/><circle cx="57" cy="26" r="2" fill="currentColor"/><circle cx="81" cy="5" r="2" fill="currentColor"/><path d="M96 27v10m-5-5h10" stroke="currentColor" stroke-width=".6"/></svg>
-    <span>PER ASPERA, AD ASTRA.</span>
-    {latest && <span class="study-footer__updated">最近落笔 <time datetime={latest.toISOString()}>{latest.toISOString().slice(0,10).replaceAll("-", ".")}</time></span>}
   </div>
   <div class="study-footer__meta">
     <span>© {start === String(year) ? year : `${start}–${year}`} {homeConfig.name}</span>

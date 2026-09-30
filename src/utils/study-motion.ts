@@ -1,5 +1,6 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { riseIntoPlace } from "./editorial-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 let initialized = false;
@@ -10,7 +11,13 @@ export function initStudyMotion() {
 	initialized = true;
 	let mounted: HTMLElement | null = null;
 	let media: gsap.MatchMedia | undefined;
+	let observer: IntersectionObserver | undefined;
+	let entranceAnimations: Animation[] = [];
 	const cleanup = () => {
+		observer?.disconnect();
+		observer = undefined;
+		entranceAnimations.forEach(animation => animation.cancel());
+		entranceAnimations = [];
 		media?.revert();
 		media = undefined;
 		mounted = null;
@@ -23,6 +30,29 @@ export function initStudyMotion() {
 		mounted = page;
 		media = gsap.matchMedia();
 		media.add("(prefers-reduced-motion: no-preference)", () => {
+			// Content stays visible without JavaScript. Animate only editorial groups,
+			// leaving article prose and the home scene's own choreography untouched.
+			const entrance = page.querySelectorAll<HTMLElement>(
+				".page-title, .post-hero, .archive-stats, .tools-tab-wrapper",
+			);
+			entrance.forEach((element, index) => {
+				entranceAnimations.push(riseIntoPlace(element, 140 + index * 65, 16));
+			});
+			observer = new IntersectionObserver(entries => {
+				const visible = entries.filter(entry => entry.isIntersecting);
+				visible.forEach((entry, index) => {
+					observer?.unobserve(entry.target);
+					entranceAnimations.push(riseIntoPlace(entry.target as HTMLElement, Math.min(index, 4) * 55));
+				});
+			}, { threshold: .08, rootMargin: "0px 0px 24px 0px" });
+			page.querySelectorAll<HTMLElement>(
+				".tools-card, .article-list-card, .related-posts, .el-volume, .el-pick",
+			).forEach(element => observer?.observe(element));
+			const stopEntrances = () => {
+				observer?.disconnect();
+				entranceAnimations.forEach(animation => animation.cancel());
+				entranceAnimations = [];
+			};
 			const footer = page.querySelector<HTMLElement>("[data-study-footer]");
 			if (footer) {
 				const timeline = gsap.timeline({
@@ -48,6 +78,7 @@ export function initStudyMotion() {
 						0.2,
 					);
 			}
+			return stopEntrances;
 		});
 	};
 	let bound = false;

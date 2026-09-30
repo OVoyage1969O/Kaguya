@@ -1,0 +1,21 @@
+---
+import Icon from '@components/common/Icon.astro';
+import ToolCard from './ToolCard.astro';
+import type { CollectionApiItem } from '@/types/config';
+interface Props { items:CollectionApiItem[]; category:string; variant:'all'|'tab'; }
+const { items, category, variant } = Astro.props;
+const limit = category === '学习知识库' ? 6 : items.length;
+const fold = items.length > limit;
+const id = `tools-more-${variant}-${encodeURIComponent(category)}`;
+---
+<div data-tools-group={category} class="tools-preview-group">
+  <div class="tools-card-grid">{items.slice(0,limit).map((item,index)=><ToolCard item={item} category={category} index={index} />)}</div>
+  {fold && <details class="tools-fold" data-tools-fold={category}>
+    <summary class="tools-fold__toggle" aria-controls={id} data-tools-fold-toggle>
+      <span class="tools-fold__count"><span class="tools-fold__closed">显示 {limit} 项，共 {items.length} 项</span><span class="tools-fold__opened">已展开全部 {items.length} 项</span></span>
+      <span class="tools-fold__action"><span class="tools-fold__closed">展开全部</span><span class="tools-fold__opened">收起</span><Icon name="material-symbols:expand-more-rounded" /></span>
+    </summary>
+    <div class="tools-card-grid tools-fold__content" id={id}>{items.slice(limit).map((item,index)=><ToolCard item={item} category={category} index={index+limit} />)}</div>
+    <button class="tools-fold__bottom" type="button" data-tools-collapse hidden>收起学习知识库 <Icon name="material-symbols:expand-less-rounded" /></button>
+  </details>}
+</div>

@@ -1,0 +1,34 @@
+import {chromium} from 'playwright';
+const browser=await chromium.launch({channel:'msedge',headless:true});
+for(const [name,width,height] of [['desktop',1440,900],['mobile',390,844]]){
+ const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
+ await page.route('https://favicon.im/**',route=>route.abort());
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.goto('http://127.0.0.1:4321/Kaguya/collections/',{waitUntil:'domcontentloaded'});
+ await page.locator('[data-tools-tab="学习知识库"]').click();
+ const group=page.locator('[data-tools-section="学习知识库"]');
+ const summary=group.locator('summary');
+ const visible=()=>group.locator('.tools-card:visible').count();
+ const collapsed=await visible();if(collapsed!==6)throw Error(`Collapsed ${collapsed}`);
+ await summary.click();const expanded=await visible();if(expanded!==296)throw Error(`Expanded ${expanded}`);
+ await page.locator('[data-tools-tab="all"]').click();
+ const mirror=page.locator('[data-tools-section="all"] [data-tools-fold="学习知识库"]');
+ if(!await mirror.evaluate(details=>details.open))throw Error('View state did not sync');
+ await page.locator('[data-tools-tab="学习知识库"]').click();
+ await group.locator('[data-tools-collapse]').click();await page.waitForTimeout(150);
+ if(await visible()!==6)throw Error('Bottom collapse failed');
+ await summary.focus();await page.keyboard.press('Enter');if(await visible()!==296)throw Error('Keyboard expansion failed');
+ await page.keyboard.press('Enter');if(await visible()!==6)throw Error('Keyboard collapse failed');
+ console.log(name,{collapsed,expanded,restored:await visible(),overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),errors});
+ await summary.scrollIntoViewIfNeeded();
+ await page.screenshot({path:`outputs/study-fold-${name}.png`});
+ await page.close();
+}
+const nojs=await browser.newPage({javaScriptEnabled:false,viewport:{width:1440,height:900}});
+await nojs.route('https://favicon.im/**',route=>route.abort());
+await nojs.goto('http://127.0.0.1:4321/Kaguya/collections/',{waitUntil:'domcontentloaded'});
+const group=nojs.locator('[data-tools-section="all"] [data-tools-group="学习知识库"]');
+console.log('nojs collapsed',await group.locator('.tools-card:visible').count());
+await group.locator('summary').click();
+console.log('nojs expanded',await group.locator('.tools-card:visible').count());
+await browser.close();

@@ -1,4 +1,5 @@
 import type { CollectionsApiConfig } from "../types/config";
+import { studyBookmarkItems } from "./studyBookmarks";
 
 // 使用 favicon 服务获取网站图标
 const favicon = (domain: string) => `https://favicon.im/${domain}`;
@@ -428,6 +429,7 @@ export const collectionsApiConfig: CollectionsApiConfig = {
 					icon: favicon("nowcoder.com"),
 					enabled: true,
 				},
+				...studyBookmarkItems,
 			],
 		},
 		{
