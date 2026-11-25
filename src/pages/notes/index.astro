@@ -1,0 +1,18 @@
+---
+import NotesLayout from '@/layouts/NotesLayout.astro';
+import Icon from '@/components/common/Icon.astro';
+import {getMathematicsNotebook} from '@/utils/notes-data';
+const notebook=await getMathematicsNotebook();
+const headings=[{depth:2,slug:'reading',text:'如何阅读'},...notebook.map(subject=>({depth:2,slug:subject.id,text:subject.name}))];
+---
+<NotesLayout notebook={notebook} headings={headings}>
+  <div class="notes-overview" data-pagefind-body>
+    <p class="notes-introduction">把零散的推导连成体系。<br/>从基础概念开始，沿章节逐步阅读。</p>
+    <section id="reading" class="notes-reading-guide"><h2>如何阅读</h2><p>从左侧目录选择科目与章节，右侧目录用于定位本篇内容。读完一章后，可通过文末的相邻章节继续阅读。</p><p>需要复习时，直接搜索章节名称或简介中的关键词。公式与长表格可以横向滚动查看。</p></section>
+    {notebook.map(subject=><section class="notes-course" id={subject.id}>
+      <header><h2>{subject.name}</h2><span>{subject.chapters.length} 篇笔记</span></header>
+      <p>{subject.description}</p>
+      <ol>{subject.chapters.map(note=><li><a href={note.href} data-no-swup><span class="notes-chapter-number">{note.number}</span><span><strong>{note.title}</strong><small>{note.stub?'这一章仍在整理中。':note.description}</small></span><Icon name="material-symbols:arrow-forward-rounded"/></a></li>)}</ol>
+    </section>)}
+  </div>
+</NotesLayout>

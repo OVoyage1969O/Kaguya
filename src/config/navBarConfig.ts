@@ -66,6 +66,7 @@ const buildNavBarConfig = (): NavBarConfig => {
 		LinkPreset.Home,
 		LinkPreset.Kuonji,
 		LinkPreset.Feibichi,
+		{ name: "笔记", url: "/notes/", icon: "material-symbols:menu-book-outline-rounded" },
 		...(siteConfig.pages.collections ? [LinkPreset.Collections] : []),
 		postsNav,
 		...(contactNav ? [contactNav] : []),

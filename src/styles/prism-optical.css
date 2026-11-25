@@ -1,0 +1,672 @@
+/* ==========================================================================
+   永远邸 · 双态晶体光学设计系统（Porcelain Light / Obsidian Dark Optical UI）
+   仅作用于非首页（html.prism-study / [data-study-page]），首页 `/` 完全保留原样。
+   - 亮色模式（默认瓷白）：瓷白 #fbfbfc / 石墨深墨 #1c1b20 / 红宝石 #b21838 / 香槟金 #c4a059
+   - 暗色模式（黑曜晶夜）：黑曜深黑 #0b0b0f / 珠光月白 #f0eef5 / 绯红宝石 #e33458 / 鎏金 #d9b56c
+   ========================================================================== */
+
+/* ---------- 1. 持久 WebGL2 光学画布与建筑星轨底纹 ---------- */
+.prism-ambient {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	overflow: hidden;
+	background: var(--prism-bg, #fbfbfc);
+	transition: background-color 0.28s ease;
+}
+html.prism-study .prism-ambient,
+html:has(main[data-study-page]):not(:has(.home-hero)) .prism-ambient {
+	display: block;
+}
+.prism-ambient__canvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.prism-ambient__filigree {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.72;
+}
+.prism-ambient__stem path {
+	fill: none;
+	stroke: var(--prism-filigree-stroke, rgba(28, 27, 32, 0.22));
+	stroke-width: 1;
+	vector-effect: non-scaling-stroke;
+}
+.prism-ambient__stem circle {
+	fill: var(--prism-bg, #fbfbfc);
+	stroke: var(--prism-line-strong, rgba(28, 27, 32, 0.34));
+	stroke-width: 1.1;
+	vector-effect: non-scaling-stroke;
+}
+.prism-ambient__arc {
+	fill: none;
+	stroke: var(--prism-filigree-arc, rgba(28, 27, 32, 0.08));
+	stroke-width: 1;
+	stroke-dasharray: 4 8;
+	vector-effect: non-scaling-stroke;
+}
+
+/* ---------- 2A. 亮色模式：素白晶体光学变量（仅作用于非首页 :not(.dark)） ---------- */
+:root.prism-study.prism-study:not(.dark),
+:root.claude-theme.claude-theme:not(.dark):has(main[data-study-page]):not(:has(.home-hero)) {
+	--prism-bg: #fbfbfc;
+	--prism-porcelain: #fbfbfc;
+	--prism-surface: rgba(255, 255, 255, 0.84);
+	--prism-surface-strong: rgba(255, 255, 255, 0.94);
+	--prism-surface-subtle: rgba(244, 243, 248, 0.86);
+	--prism-surface-solid: #ffffff;
+	--prism-ink: #1c1b20;
+	--prism-ink-soft: #4e4c58;
+	--prism-muted: #706d7a;
+	--prism-faint: #8c8996;
+	--prism-ruby: #b21838;
+	--prism-ruby-bright: #dc2c4e;
+	--prism-ruby-deep: #68091d;
+	--prism-ruby-soft: rgba(178, 24, 56, 0.08);
+	--prism-ruby-ring: rgba(178, 24, 56, 0.42);
+	--prism-gold: #c4a059;
+	--prism-ice: #8fd3f4;
+	--prism-rose: #f1b7d2;
+	--prism-line: rgba(28, 27, 32, 0.13);
+	--prism-line-med: rgba(28, 27, 32, 0.22);
+	--prism-line-strong: rgba(28, 27, 32, 0.36);
+	--prism-filigree-stroke: rgba(28, 27, 32, 0.22);
+	--prism-filigree-arc: rgba(28, 27, 32, 0.08);
+	--prism-shadow: rgba(28, 27, 32, 0.06);
+	--prism-shadow-strong: rgba(28, 27, 32, 0.14);
+	--prism-inset-highlight: rgba(255, 255, 255, 0.95);
+	--prism-wash-start: rgba(255, 255, 255, 0.94);
+	--prism-wash-mid: rgba(255, 255, 255, 0.78);
+	--prism-wash-end: rgba(251, 251, 252, 0.92);
+	--prism-tether-glow: rgba(220, 44, 78, 0.24);
+	--prism-spoiler-bg: #1c1b20;
+	--prism-spoiler-border: transparent;
+	--prism-spoiler-reveal-bg: rgba(178, 24, 56, 0.12);
+	--prism-spoiler-reveal-ink: #1c1b20;
+
+	--page-bg: var(--prism-bg);
+	--deep-text: var(--prism-ink);
+	--primary: var(--prism-ruby);
+	--study-accent: var(--prism-ruby);
+	--content-meta: var(--prism-muted);
+	--line-divider: var(--prism-line);
+	--line-color: var(--prism-line);
+	--meta-divider: var(--prism-line-strong);
+	--float-panel-bg: var(--prism-surface);
+	--card-bg: var(--prism-surface);
+	--btn-content: var(--prism-ink);
+	--btn-plain-bg-hover: rgba(178, 24, 56, 0.06);
+	--btn-plain-bg-active: rgba(178, 24, 56, 0.11);
+	--btn-regular-bg-hover: rgba(178, 24, 56, 0.06);
+	--btn-card-bg-hover: rgba(178, 24, 56, 0.06);
+	--inline-code-bg: rgba(178, 24, 56, 0.07);
+	--inline-code-color: #8b132c;
+	--link-underline: rgba(178, 24, 56, 0.34);
+	--link-hover: #8f102b;
+	--link-active: #68091d;
+	--selection-bg: rgba(178, 24, 56, 0.15);
+	--license-block-bg: rgba(247, 246, 250, 0.85);
+	--toc-item-active: var(--prism-ruby);
+	--title-active: var(--prism-ink);
+	color-scheme: light;
+	accent-color: var(--prism-ruby);
+	scrollbar-color: rgba(28, 27, 32, 0.24) #fbfbfc;
+}
+
+/* ---------- 2B. 暗色模式：黑曜晶体光学变量（仅作用于非首页 .dark） ---------- */
+:root.prism-study.prism-study.dark,
+:root.claude-theme.claude-theme.dark:has(main[data-study-page]):not(:has(.home-hero)) {
+	--prism-bg: #0b0b0f;
+	--prism-porcelain: #0b0b0f;
+	--prism-surface: rgba(19, 19, 26, 0.82);
+	--prism-surface-strong: rgba(25, 25, 34, 0.94);
+	--prism-surface-subtle: rgba(30, 30, 40, 0.86);
+	--prism-surface-solid: #16161e;
+	--prism-ink: #f0eef5;
+	--prism-ink-soft: #c5c1d1;
+	--prism-muted: #938fa2;
+	--prism-faint: #757184;
+	--prism-ruby: #eb3b5f;
+	--prism-ruby-bright: #ff6282;
+	--prism-ruby-deep: #8f122d;
+	--prism-ruby-soft: rgba(235, 59, 95, 0.16);
+	--prism-ruby-ring: rgba(235, 59, 95, 0.56);
+	--prism-gold: #dab66e;
+	--prism-ice: #7fd0f7;
+	--prism-rose: #f3a6c8;
+	--prism-line: rgba(240, 238, 245, 0.13);
+	--prism-line-med: rgba(240, 238, 245, 0.22);
+	--prism-line-strong: rgba(240, 238, 245, 0.36);
+	--prism-filigree-stroke: rgba(240, 238, 245, 0.2);
+	--prism-filigree-arc: rgba(240, 238, 245, 0.08);
+	--prism-shadow: rgba(0, 0, 0, 0.42);
+	--prism-shadow-strong: rgba(0, 0, 0, 0.64);
+	--prism-inset-highlight: rgba(255, 255, 255, 0.08);
+	--prism-wash-start: rgba(15, 15, 21, 0.94);
+	--prism-wash-mid: rgba(15, 15, 21, 0.78);
+	--prism-wash-end: rgba(11, 11, 15, 0.92);
+	--prism-tether-glow: rgba(255, 76, 114, 0.36);
+	--prism-spoiler-bg: #2f2d3a;
+	--prism-spoiler-border: rgba(240, 238, 245, 0.18);
+	--prism-spoiler-reveal-bg: rgba(235, 59, 95, 0.22);
+	--prism-spoiler-reveal-ink: #f0eef5;
+
+	--page-bg: var(--prism-bg);
+	--deep-text: var(--prism-ink);
+	--primary: var(--prism-ruby);
+	--study-accent: var(--prism-ruby);
+	--content-meta: var(--prism-muted);
+	--line-divider: var(--prism-line);
+	--line-color: var(--prism-line);
+	--meta-divider: var(--prism-line-strong);
+	--float-panel-bg: var(--prism-surface);
+	--card-bg: var(--prism-surface);
+	--btn-content: var(--prism-ink);
+	--btn-plain-bg-hover: rgba(235, 59, 95, 0.13);
+	--btn-plain-bg-active: rgba(235, 59, 95, 0.22);
+	--btn-regular-bg-hover: rgba(235, 59, 95, 0.13);
+	--btn-card-bg-hover: rgba(235, 59, 95, 0.13);
+	--inline-code-bg: rgba(235, 59, 95, 0.16);
+	--inline-code-color: #ff9ab0;
+	--link-underline: rgba(235, 59, 95, 0.45);
+	--link-hover: #ff6282;
+	--link-active: #ff87a0;
+	--selection-bg: rgba(235, 59, 95, 0.28);
+	--license-block-bg: rgba(22, 22, 30, 0.88);
+	--toc-item-active: var(--prism-ruby);
+	--title-active: var(--prism-ink);
+	color-scheme: dark;
+	accent-color: var(--prism-ruby);
+	scrollbar-color: rgba(240, 238, 245, 0.24) #0b0b0f;
+}
+
+:root.prism-study [data-study-page],
+:root.claude-theme:has(main[data-study-page]):not(:has(.home-hero)) [data-study-page] {
+	--ed-ink: var(--prism-ink);
+	--ed-ink-soft: var(--prism-ink-soft);
+	--ed-meta: var(--prism-muted);
+	--ed-rule: var(--prism-line);
+	--ed-rule-strong: var(--prism-line-strong);
+	--ed-raised: var(--prism-surface-strong);
+	--ed-well: var(--prism-surface-subtle);
+	--ed-accent: var(--prism-ruby);
+}
+
+/* 确保内容层清晰浮于 WebGL2 光学画布之上 */
+html.prism-study body,
+html:has(main[data-study-page]):not(:has(.home-hero)) body {
+	background: var(--prism-bg) !important;
+	color: var(--prism-ink) !important;
+}
+html.prism-study #main-grid-wrapper,
+html:has(main[data-study-page]):not(:has(.home-hero)) #main-grid-wrapper {
+	position: relative;
+	z-index: 2;
+}
+
+/* ---------- 3. 顶部光学玻璃导航栏（亮暗双态高对比文字修复） ---------- */
+html.prism-study #navbar .navbar-segments,
+html:has(main[data-study-page]):not(:has(.home-hero)) #navbar .navbar-segments {
+	border: 1px solid var(--prism-line);
+	border-radius: 14px;
+	background: var(--prism-surface);
+	backdrop-filter: blur(14px) saturate(1.15);
+	-webkit-backdrop-filter: blur(14px) saturate(1.15);
+	box-shadow:
+		0 10px 32px var(--prism-shadow),
+		inset 0 1px 0 var(--prism-inset-highlight);
+}
+
+/* 彻底覆盖 main.css 中 .btn-plain / .dropdown-item 的 dark:text-white/75 竞态 */
+html.prism-study #navbar :is(
+	.navbar-logo,
+	.navbar-logo-text__title,
+	.navbar-nav > .dropdown-container > .btn-plain,
+	.dropdown-trigger,
+	.dropdown-arrow,
+	.nav-search-btn,
+	#nav-menu-switch
+),
+html:has(main[data-study-page]):not(:has(.home-hero)) #navbar :is(
+	.navbar-logo,
+	.navbar-logo-text__title,
+	.navbar-nav > .dropdown-container > .btn-plain,
+	.dropdown-trigger,
+	.dropdown-arrow,
+	.nav-search-btn,
+	#nav-menu-switch
+) {
+	color: var(--prism-ink) !important;
+}
+html.prism-study #navbar .nav-search-btn__shortcut,
+html:has(main[data-study-page]):not(:has(.home-hero)) #navbar .nav-search-btn__shortcut {
+	color: var(--prism-muted) !important;
+	opacity: 0.9;
+}
+html.prism-study #navbar .navbar-logo-text__latin,
+html:has(main[data-study-page]):not(:has(.home-hero)) #navbar .navbar-logo-text__latin {
+	color: var(--prism-ruby) !important;
+}
+html.prism-study #navbar :is(.btn-plain:hover, .nav-item-active > .btn-plain),
+html:has(main[data-study-page]):not(:has(.home-hero)) #navbar :is(.btn-plain:hover, .nav-item-active > .btn-plain) {
+	color: var(--prism-ruby) !important;
+}
+html.prism-study #navbar .nav-item-active > .btn-plain,
+html:has(main[data-study-page]):not(:has(.home-hero)) #navbar .nav-item-active > .btn-plain {
+	position: relative;
+}
+html.prism-study #navbar .nav-item-active > .btn-plain::after,
+html:has(main[data-study-page]):not(:has(.home-hero)) #navbar .nav-item-active > .btn-plain::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 2px;
+	width: 5px;
+	height: 5px;
+	background: var(--prism-ruby);
+	transform: translateX(-50%) rotate(45deg);
+}
+html.prism-study #navbar .navbar-moving-icon,
+html:has(main[data-study-page]):not(:has(.home-hero)) #navbar .navbar-moving-icon {
+	color: var(--prism-ruby) !important;
+}
+html.prism-study :is(.dropdown-content-wrapper, .nav-drawer, .cb__dropdown-menu),
+html:has(main[data-study-page]):not(:has(.home-hero)) :is(.dropdown-content-wrapper, .nav-drawer, .cb__dropdown-menu) {
+	border: 1px solid var(--prism-line);
+	background: var(--prism-surface-strong);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	box-shadow: 0 20px 52px var(--prism-shadow-strong);
+}
+html.prism-study :is(.dropdown-content-wrapper .dropdown-item, .dropdown-content-wrapper .btn-plain, .nav-drawer-link, .nav-drawer-sublink, .nav-drawer-title, .nav-drawer-close-btn),
+html:has(main[data-study-page]):not(:has(.home-hero)) :is(.dropdown-content-wrapper .dropdown-item, .dropdown-content-wrapper .btn-plain, .nav-drawer-link, .nav-drawer-sublink, .nav-drawer-title, .nav-drawer-close-btn) {
+	color: var(--prism-ink) !important;
+}
+html.prism-study :is(.dropdown-content-wrapper .dropdown-item:hover, .dropdown-content-wrapper .btn-plain:hover, .nav-drawer-link:hover, .nav-drawer-sublink:hover),
+html:has(main[data-study-page]):not(:has(.home-hero)) :is(.dropdown-content-wrapper .dropdown-item:hover, .dropdown-content-wrapper .btn-plain:hover, .nav-drawer-link:hover, .nav-drawer-sublink:hover) {
+	color: var(--prism-ruby) !important;
+	border-color: var(--prism-ruby-ring);
+}
+
+/* 面包屑：极简星轨坐标行 */
+html.prism-study .cb,
+html:has(main[data-study-page]):not(:has(.home-hero)) .cb {
+	border-bottom-color: var(--prism-line);
+	font-family: var(--claude-mono);
+	font-size: 12px;
+	letter-spacing: 0.04em;
+}
+html.prism-study .cb__current,
+html:has(main[data-study-page]):not(:has(.home-hero)) .cb__current {
+	color: var(--prism-ruby);
+}
+
+/* 右下悬浮工具栏与移动端 Dock */
+html.prism-study #floating-dock .dock-btn,
+html:has(main[data-study-page]):not(:has(.home-hero)) #floating-dock .dock-btn {
+	background: var(--prism-surface-strong);
+	border-color: var(--prism-line);
+	color: var(--prism-ink-soft);
+	backdrop-filter: blur(10px);
+	box-shadow: 0 8px 24px var(--prism-shadow);
+}
+html.prism-study #floating-dock .dock-btn:is(:hover, :focus-visible),
+html:has(main[data-study-page]):not(:has(.home-hero)) #floating-dock .dock-btn:is(:hover, :focus-visible) {
+	border-color: var(--prism-ruby-ring);
+	background: var(--prism-surface-solid);
+	color: var(--prism-ruby);
+}
+html.prism-study .mobile-dock,
+html:has(main[data-study-page]):not(:has(.home-hero)) .mobile-dock {
+	background: var(--prism-surface-strong);
+	border-color: var(--prism-line);
+	backdrop-filter: blur(14px);
+}
+html.prism-study .mobile-dock__site-mark,
+html:has(main[data-study-page]):not(:has(.home-hero)) .mobile-dock__site-mark {
+	background: var(--prism-ruby);
+	color: #ffffff;
+}
+
+/* Swup 路由切幕 */
+html.prism-study .p3-route-wipe__panel[data-tone="cyan"] {
+	background: var(--prism-bg);
+}
+html.prism-study .p3-route-wipe__panel[data-tone="blue"] {
+	background: var(--prism-ruby);
+}
+html.prism-study .p3-route-wipe__panel[data-tone="night"] {
+	background: #1c1b20;
+}
+
+/* ---------- 4. 全站非首页题签（建筑星轨细线 + 菱形节点） ---------- */
+[data-study-page] .page-title--plate,
+[data-study-page] .p3-masthead.page-plate {
+	position: relative;
+	border-bottom: 1px solid var(--prism-line-med) !important;
+}
+[data-study-page] .page-title--plate::before,
+[data-study-page] .p3-masthead.page-plate::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -3px;
+	width: 5px;
+	height: 5px;
+	background: var(--prism-ruby);
+	transform: rotate(45deg);
+}
+[data-study-page] .page-title--plate::after,
+[data-study-page] .p3-masthead.page-plate::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: -4px;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--prism-bg);
+	border: 1px solid var(--prism-line-strong);
+}
+[data-study-page] .page-plate__zh {
+	font-weight: 400 !important;
+	letter-spacing: 0.04em !important;
+	color: var(--prism-ink) !important;
+}
+[data-study-page] .page-plate__en {
+	font-family: var(--claude-mono) !important;
+	font-style: normal !important;
+	font-size: clamp(0.75rem, 1.1vw, 0.9rem) !important;
+	letter-spacing: 0.18em !important;
+	text-transform: uppercase;
+	color: var(--prism-ruby) !important;
+}
+
+/* ---------- 5. 切面红宝石菱形主按钮（致敬参考图 CONTINUE 按钮） ---------- */
+.prism-lozenge {
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2px;
+	min-width: 240px;
+	min-height: 62px;
+	padding: 12px 44px;
+	border: 0;
+	color: #ffffff !important;
+	text-decoration: none !important;
+	cursor: pointer;
+	isolation: isolate;
+	background: transparent;
+	transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.prism-lozenge::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	clip-path: polygon(0% 50%, 16% 0%, 84% 0%, 100% 50%, 84% 100%, 16% 100%);
+	background:
+		linear-gradient(128deg, #ef4d6e 0%, #c41a3d 34%, #820c26 68%, #4d0515 100%);
+	transition: filter 0.28s ease;
+}
+/* 几何棱面折射高光 */
+.prism-lozenge::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	clip-path: polygon(0% 50%, 16% 0%, 84% 0%, 100% 50%, 84% 100%, 16% 100%);
+	background:
+		linear-gradient(
+			155deg,
+			rgba(255, 255, 255, 0.34) 0%,
+			rgba(255, 255, 255, 0.08) 46%,
+			transparent 47%,
+			rgba(0, 0, 0, 0.18) 100%
+		),
+		radial-gradient(
+			circle at var(--prism-mx, 50%) var(--prism-my, 50%),
+			rgba(255, 232, 238, 0.42),
+			transparent 55%
+		);
+	pointer-events: none;
+}
+.prism-lozenge:hover {
+	transform: translateY(-2px) scale(1.02);
+}
+.prism-lozenge:hover::before {
+	filter: brightness(1.08) saturate(1.08);
+}
+.prism-lozenge:active {
+	transform: scale(0.98);
+}
+.prism-lozenge__en {
+	font: 400 18px/1.1 var(--claude-serif);
+	letter-spacing: 0.22em;
+	text-shadow: 0 2px 10px rgba(64, 4, 18, 0.45);
+}
+.prism-lozenge__zh {
+	font: 400 11px/1.2 var(--claude-sans);
+	letter-spacing: 0.16em;
+	opacity: 0.9;
+}
+
+/* ---------- 6. 光学玻璃卡片镜面反射（鼠标实时追踪色散高光） ---------- */
+[data-study-page] :is(
+	.tools-card,
+	.article-list-card--pinned,
+	.friend-card,
+	.fl-card,
+	.vol-card,
+	.encyc-slip,
+	.encyc-oracle__card
+) {
+	position: relative;
+	overflow: hidden;
+	background: var(--prism-surface) !important;
+	border: 1px solid var(--prism-line) !important;
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-shadow: 0 8px 26px var(--prism-shadow) !important;
+	transition:
+		transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+		border-color 0.24s ease,
+		box-shadow 0.34s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+[data-study-page] :is(
+	.tools-card,
+	.article-list-card--pinned,
+	.vol-card,
+	.encyc-slip,
+	.encyc-oracle__card
+)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	opacity: 0;
+	background: radial-gradient(
+		240px circle at var(--prism-mx, 50%) var(--prism-my, 50%),
+		rgba(143, 211, 244, 0.22),
+		rgba(241, 183, 210, 0.14) 38%,
+		transparent 72%
+	);
+	transition: opacity 0.32s ease;
+}
+[data-study-page] :is(
+	.tools-card,
+	.article-list-card--pinned,
+	.vol-card,
+	.encyc-slip,
+	.encyc-oracle__card
+):hover::before {
+	opacity: 1;
+}
+[data-study-page] :is(
+	.tools-card,
+	.article-list-card--pinned,
+	.friend-card,
+	.fl-card,
+	.vol-card,
+	.encyc-slip
+):hover {
+	transform: translateY(-3px) !important;
+	border-color: var(--prism-ruby-ring) !important;
+	box-shadow:
+		0 16px 38px var(--prism-shadow-strong),
+		0 0 0 1px var(--prism-ruby-soft) !important;
+}
+
+/* ---------- 7. 归档 / 文章列表 / 笔记 / 博客正文光学精修 ---------- */
+[data-study-page] .archive-stats__grid {
+	background: var(--prism-surface);
+	border: 1px solid var(--prism-line) !important;
+	border-radius: 12px;
+	backdrop-filter: blur(8px);
+}
+[data-study-page] .archive-stats__metric:first-child {
+	padding-left: 1.25rem !important;
+}
+[data-study-page] .archive-stats__value {
+	color: var(--prism-ink) !important;
+}
+[data-study-page] .ap-post-link {
+	position: relative;
+	padding-left: 1.15rem !important;
+	transition: padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-study-page] .ap-post-link::before {
+	content: "";
+	position: absolute;
+	left: 2px;
+	top: 50%;
+	width: 5px;
+	height: 5px;
+	background: var(--prism-line-strong);
+	transform: translateY(-50%) rotate(45deg);
+	transition: background-color 0.22s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-study-page] .ap-post-link:hover {
+	padding-left: 1.55rem !important;
+}
+[data-study-page] .ap-post-link:hover::before {
+	background: var(--prism-ruby);
+	transform: translateY(-50%) rotate(135deg) scale(1.15);
+}
+
+/* 工具箱标签栏：切面红宝石激活态 */
+[data-study-page] .tools-tab-pill {
+	background: var(--prism-surface) !important;
+	border-color: var(--prism-line) !important;
+}
+[data-study-page] .tools-tab-indicator {
+	background: linear-gradient(125deg, #c91d42, #8a0d27) !important;
+}
+
+/* 文章列表排序与分页 */
+[data-study-page] .article-list-toolbar__sort {
+	background: var(--prism-surface) !important;
+}
+[data-study-page] .article-list-toolbar__sort button.is-active,
+[data-study-page] .article-list-pagination__page.is-active {
+	background: var(--prism-ruby) !important;
+	color: #ffffff !important;
+}
+[data-study-page] .article-list-card--regular .article-list-card__body {
+	position: relative;
+	padding-left: 1.2rem !important;
+}
+[data-study-page] .article-list-card--regular .article-list-card__body::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 2.15rem;
+	width: 6px;
+	height: 6px;
+	background: var(--prism-ruby-ring);
+	transform: rotate(45deg);
+	transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s ease;
+}
+[data-study-page] .article-list-card--regular:hover .article-list-card__body::before {
+	background: var(--prism-ruby);
+	transform: rotate(135deg) scale(1.2);
+}
+
+/* 文章正文与数学笔记阅读纸面 */
+[data-study-page] .post-opener__volume {
+	display: inline-flex !important;
+	align-items: center;
+	gap: 8px;
+	color: var(--prism-ruby) !important;
+	font-family: var(--claude-mono) !important;
+	font-size: 0.8rem !important;
+	letter-spacing: 0.12em !important;
+}
+[data-study-page] .post-opener__volume::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	background: var(--prism-ruby);
+	transform: rotate(45deg);
+}
+[data-study-page] #post-container .custom-md,
+[data-study-page] .notes-main {
+	color: var(--prism-ink);
+}
+[data-study-page] .notes-sidebar,
+[data-study-page] .notes-toolbar,
+[data-study-page] .notes-course li a {
+	background: var(--prism-surface);
+	border-color: var(--prism-line);
+}
+[data-study-page] .notes-course li a:hover {
+	border-color: var(--prism-ruby-ring);
+	color: var(--prism-ruby);
+}
+
+/* 黑幕（spoiler）双态适配：亮色深墨遮挡、暗色深曜石遮挡，悬停柔和显字 */
+[data-study-page] .spoiler {
+	display: inline;
+	padding: 0.05em 0.3em;
+	border-radius: 3px;
+	background: var(--prism-spoiler-bg) !important;
+	box-shadow: inset 0 0 0 1px var(--prism-spoiler-border);
+	color: transparent !important;
+	transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+[data-study-page] .spoiler .spoiler__text {
+	color: transparent !important;
+	transition: color 0.25s ease;
+}
+[data-study-page] .spoiler:is(:hover, :focus-within, :active) {
+	background: var(--prism-spoiler-reveal-bg) !important;
+	box-shadow: inset 0 0 0 1px transparent;
+	color: var(--prism-spoiler-reveal-ink) !important;
+}
+[data-study-page] .spoiler:is(:hover, :focus-within, :active) .spoiler__text {
+	color: var(--prism-spoiler-reveal-ink) !important;
+}
+
+/* 页脚在双态光学下的统一收敛 */
+[data-study-page] .study-footer__rule > i {
+	background: var(--prism-line-med) !important;
+}
+[data-study-page] .study-footer__signature-dot {
+	color: var(--prism-ruby) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.prism-ambient__canvas {
+		display: none;
+	}
+}

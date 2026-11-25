@@ -1,0 +1,52 @@
+---
+import Icon from '@components/common/Icon.astro';
+import { url } from '@/utils/url-utils';
+import type { getBookshelfCatalogue } from '@/utils/bookshelf-data';
+interface Props { volumes: Awaited<ReturnType<typeof getBookshelfCatalogue>>; }
+const { volumes }=Astro.props;
+const stageArt:Record<string,{scene:string;portrait:string;person:string;word:string}>={
+  typemoon:{scene:'/assets/images/LW.jpg',portrait:'/assets/images/ALI.jpg',person:'久远寺有珠',word:'TYPE-MOON'},
+  touhou:{scene:'/assets/images/琪露诺.jpg',portrait:'',person:'',word:'TOUHOU'},
+  magic:{scene:'/assets/images/Aoko.webp',portrait:'/assets/images/Aoko.jpg',person:'苍崎青子',word:'MYSTERY'},
+  places:{scene:'/assets/images/LW.jpg',portrait:'',person:'',word:'SOMEWHERE'},
+  trivia:{scene:'/assets/images/AOO.jpg',portrait:'/assets/images/Deep.png',person:'狄普·桑姆博',word:'TRIVIA'},
+};
+const entries=volumes.flatMap(volume=>volume.items);
+const total=entries.length;
+---
+<header class="atlas-exhibition" id="archive-top" data-world-stage>
+  <div class="atlas-stage">
+    <div class="atlas-stage__window" data-world-window aria-hidden="true">
+    <div class="atlas-stage__scenes">
+      {volumes.map((volume,index)=><img class:list={['atlas-stage__scene',{'is-current':index===0}]} data-world-scene={volume.id} src={url(stageArt[volume.id]?.scene || '/assets/images/LW.jpg')} alt="" width="1280" height="720" decoding="async" fetchpriority={index===0?'high':'auto'} />)}
+    </div>
+    <div class="atlas-stage__shade"></div>
+    <div class="atlas-stage__shutters">{[0,1,2,3].map(()=> <i data-world-shutter></i>)}</div>
+    </div>
+    <div class="atlas-stage__copy">
+      <h1 data-world-title aria-label="永远百科"><span class="atlas-title-mask"><span data-world-line>永远</span></span><span class="atlas-title-mask"><span data-world-line>百科<span class="atlas-title-dot" aria-hidden="true">.</span></span></span></h1>
+      <p class="atlas-stage__translation" data-world-detail lang="en">Eternal<br /><em>Encyclopedia.</em></p>
+      <p data-world-detail>世界观、角色与设定。<br />从这一页，走入五个不同的世界。</p>
+      <div class="atlas-stage__actions" data-world-detail><a href="#worlds">开始翻阅 <Icon name="material-symbols:arrow-downward-rounded" /></a><a href="#catalogue">检索词条 <Icon name="material-symbols:search-rounded" /></a></div>
+    </div>
+    <div class="atlas-stage__portraits">
+      {volumes.map((volume,index)=>{
+        const art=stageArt[volume.id];
+        const person=entries.find(entry=>entry.title===art?.person);
+        return art?.portrait&&person&&<a class:list={['atlas-stage__portrait',{'is-current':index===0}]} data-world-portrait={volume.id} href={person.href} tabindex={index===0?0:-1} aria-hidden={index===0?undefined:'true'}>
+          <img src={url(art.portrait)} alt={person.title} width="500" height="680" decoding="async" />
+          <span><strong>{person.title}</strong><Icon name="material-symbols:arrow-outward-rounded" /></span>
+        </a>;
+      })}
+    </div>
+    <div class="atlas-stage__word" aria-hidden="true" data-world-word>{stageArt[volumes[0].id]?.word}</div>
+    <div class="atlas-stage__bottom" data-world-detail><span class="atlas-stage__index"><span><strong>{total}</strong> 个已收录词条</span><span class="atlas-stage__scroll-note" aria-hidden="true"><Icon name="material-symbols:arrow-downward-rounded" />向下探索</span></span><a href={volumes[0].href} data-world-open>打开{volumes[0].name}<Icon name="material-symbols:arrow-outward-rounded" /></a><button type="button" data-world-replay aria-label="重播百科开场"><Icon name="material-symbols:replay-rounded" /><span>重播开场</span></button></div>
+  </div>
+  <nav class="atlas-world-rail" aria-label="选择展览世界">
+    {volumes.map((volume,index)=><a href={`#world-${volume.id}`} class:list={['atlas-world-switch',{'is-current':index===0}]} data-world-switch={volume.id} data-world-href={volume.href} data-world-name={volume.name} data-world-word={stageArt[volume.id]?.word || volume.name} aria-current={index===0?'true':undefined}>
+      <span class="atlas-world-switch__name">{volume.name}</span><span class="atlas-world-switch__meta">{volume.items.length} 词条<Icon name="material-symbols:arrow-outward-rounded" /></span>
+      <i aria-hidden="true"></i>
+    </a>)}
+  </nav>
+  <div class="atlas-stage__status" role="status" aria-live="polite" data-world-status>正在展出：{volumes[0].name}</div>
+</header>

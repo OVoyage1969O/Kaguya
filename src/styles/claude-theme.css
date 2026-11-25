@@ -160,6 +160,8 @@
 .claude-theme #navbar.scrolled .navbar-logo { gap: 10px; padding: 0 8px; justify-content: flex-start; }
 .claude-theme #navbar.scrolled .navbar-logo-text { max-width: 12rem; opacity: 1; transform: none; }
 .claude-theme #navbar :is(.navbar-logo,.navbar-nav>.dropdown-container>.btn-plain,.nav-search-btn,#nav-menu-switch) { color: var(--deep-text); }
+.claude-theme #navbar .dropdown-content-wrapper :is(.dropdown-item,.btn-plain) { color: var(--deep-text); }
+.claude-theme #navbar .dropdown-content-wrapper :is(.dropdown-item:hover,.btn-plain:hover) { color: var(--primary); }
 .claude-theme #navbar .navbar-nav > .dropdown-container > .btn-plain { min-height: 40px; border-radius: 10px; padding-inline: 11px; font-size: 14px; font-weight: 500; }
 .claude-theme #navbar .navbar-hover-highlight { background: var(--btn-plain-bg-hover); border-radius: 10px; transform: none; }
 .claude-theme #navbar .nav-item-active > .btn-plain { color: var(--primary); }

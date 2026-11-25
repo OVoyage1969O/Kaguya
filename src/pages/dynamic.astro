@@ -63,10 +63,7 @@ const pageMoments = allMoments.slice(0, page * pageSize);
 		<div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
 			<div class="card-base z-10 px-4 sm:px-6 lg:px-9 py-6 relative w-full">
 				<header class="dynamic-page__header">
-					<PageTitle title={title} variant="stacked" />
-					<p class="mt-2 max-w-2xl text-sm leading-6 text-(--content-meta)">
-						{description}
-					</p>
+					<PageTitle title={title} description={description} variant="stacked" />
 				</header>
 
 				{allMoments.length > 0 ? (

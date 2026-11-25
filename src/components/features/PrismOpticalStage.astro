@@ -1,0 +1,38 @@
+---
+/**
+ * Persistent Native WebGL2 Optical Field & Hairline Architectural Overlay
+ * Mounted in Layout.astro outside #swup-container so non-home pages glide smoothly
+ * on a unified luminous porcelain-white crystal canvas while `/` remains untouched.
+ */
+---
+
+<div class="prism-ambient" aria-hidden="true">
+	<canvas class="prism-ambient__canvas" data-prism-webgl></canvas>
+	<svg class="prism-ambient__filigree" viewBox="0 0 1440 900" preserveAspectRatio="none">
+		<!-- Top-left delicate geometric circuit stem -->
+		<g class="prism-ambient__stem">
+			<path d="M 82 0 L 82 64 L 108 90 L 108 134" />
+			<circle cx="108" cy="140" r="4.5" />
+			<path d="M 96 0 L 96 48 L 116 68" opacity="0.5" />
+		</g>
+		<!-- Bottom-right architectural hairline & hollow node -->
+		<g class="prism-ambient__stem">
+			<path d="M 1358 900 L 1358 818 L 1326 786 L 1326 742" />
+			<circle cx="1326" cy="736" r="4.5" />
+		</g>
+		<!-- Subtle tilted orbital arc crossing upper right -->
+		<ellipse
+			class="prism-ambient__arc"
+			cx="1240"
+			cy="140"
+			rx="320"
+			ry="150"
+			transform="rotate(-14 1240 140)"
+		/>
+	</svg>
+</div>
+
+<script>
+	import { initPrismOpticalSystem } from "@/utils/prism-webgl2";
+	initPrismOpticalSystem();
+</script>

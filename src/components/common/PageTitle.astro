@@ -1,10 +1,15 @@
 ---
 import Icon from "@/components/common/Icon.astro";
+import { getRouteKey, PAGE_PLATE_NAMES } from "@/constants/page-names";
 
 interface Props {
 	title: string;
 	icon?: string;
 	eyebrow?: string;
+	/** 题签下方的一句话说明 */
+	description?: string;
+	/** 英文对照名；不传时按路由自动匹配 */
+	en?: string;
 	variant?: "compact" | "stacked";
 	class?: string;
 }
@@ -13,19 +18,33 @@ const {
 	title,
 	icon,
 	eyebrow,
+	description,
+	en,
 	variant = "compact",
 	class: className,
 } = Astro.props;
+
+const route = getRouteKey(Astro.url.pathname, import.meta.env.BASE_URL);
+const english = en ?? PAGE_PLATE_NAMES[route]?.en;
+const isPlate = Boolean(english);
 ---
 
-<div class:list={["page-title", `page-title--${variant}`, className]}>
-	{variant === "compact" && icon && (
+<div class:list={["page-title", `page-title--${variant}`, isPlate && "page-title--plate", className]}>
+	{!isPlate && variant === "compact" && icon && (
 		<span class="page-title__icon" aria-hidden="true">
 			<Icon name={icon} />
 		</span>
 	)}
 	<div class="page-title__body">
 		{eyebrow && <span class="page-title__eyebrow">{eyebrow}</span>}
-		<h1 class="page-title__text">{title}</h1>
+		{isPlate ? (
+			<div class="page-plate__row">
+				<h1 class="page-title__text page-plate__zh" data-p3-masthead-type>{title}</h1>
+				<span class="page-plate__en" lang="en" aria-hidden="true">{english}</span>
+			</div>
+		) : (
+			<h1 class="page-title__text">{title}</h1>
+		)}
+		{description && <p class="page-title__description">{description}</p>}
 	</div>
 </div>

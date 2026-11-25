@@ -1,94 +1,494 @@
 ---
-import Icon from '@components/common/Icon.astro';
-import { bookshelfConfig } from '@/config';
-import MainGridLayout from '@/layouts/MainGridLayout.astro';
-import { getBookshelfCatalogue } from '@/utils/bookshelf-data';
-import { url } from '@/utils/url-utils';
-import '@/styles/pages/bookshelf-home.css';
+import Icon from "@components/common/Icon.astro";
+import { bookshelfConfig } from "@/config";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import {
+	getBookshelfCatalogue,
+	VOLUME_NUMERALS,
+} from "@/utils/bookshelf-data";
+import "@/styles/pages/bookshelf-shelf.css";
 
 const volumes = await getBookshelfCatalogue();
-const entries = volumes.flatMap(volume => volume.items);
-const characters = entries.filter(entry => entry.person && entry.image);
-const english:Record<string,string> = {typemoon:'TYPE-MOON',touhou:'TOUHOU',magic:'MAGIC',places:'PLACES',trivia:'TRIVIA'};
-const synopsis:Record<string,string> = {
-  typemoon:'从魔术回路到圣杯战争，翻阅型月的规则与人物。',
-  touhou:'循着异变与符卡，走入幻想乡的另一种日常。',
-  magic:'关于魔术、魔法，以及两者之间的边界。',
-  places:'故事发生的城市、屋邸与各自承载的记忆。',
-  trivia:'在人物档案里，继续展开特里维亚的故事。',
-};
-const base = import.meta.env.BASE_URL;
-const asset = (src:string) => src.startsWith(base)||src.startsWith('http')?src:url(src);
+const entries = volumes.flatMap((volume) => volume.items);
+const characters = entries.filter((entry) => entry.person && entry.image);
+const volumeCount =
+	volumes.length <= VOLUME_NUMERALS.length
+		? VOLUME_NUMERALS[volumes.length - 1]
+		: String(volumes.length);
+
+const initialVolume = volumes[0];
+
+const orbitalVolumesData = volumes.map((vol, index) => ({
+	index,
+	code: String(index + 1).padStart(2, "0"),
+	id: vol.id,
+	name: vol.name,
+	english: vol.english,
+	volumeNumeral: vol.volumeNumeral,
+	volumeRoman: vol.volumeRoman,
+	era: vol.era,
+	locale: vol.locale,
+	synopsis: vol.editorialSynopsis,
+	cover: vol.coverResolved,
+	href: vol.href,
+	count: vol.items.length,
+	entries: vol.items.map((item) => ({
+		folio: item.folio,
+		title: item.title,
+		groupLabel: item.groupLabel,
+		summary: item.summary,
+		quote: item.quote,
+		previewImage: item.previewImage,
+		href: item.href,
+	})),
+}));
 ---
-<MainGridLayout title={bookshelfConfig.name} description={bookshelfConfig.description} hasOwnH1={true}>
-  <div class="atlas" data-bk-root>
-    <svg class="atlas-filter" aria-hidden="true" width="0" height="0"><defs><filter id="atlas-type-flow" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur in="SourceGraphic" stdDeviation="0" data-atlas-blur /></filter></defs></svg>
-    <header class="atlas-hero" id="archive-top">
-      <div class="atlas-hero__copy">
-        <h1><span data-atlas-title>永远百科</span><em data-atlas-title>Eternal Encyclopedia<span>.</span></em></h1>
-        <div class="atlas-hero__intro" data-atlas-intro>
-          <p>世界观、角色与设定，分卷收藏于此。<br />从型月与东方，到魔法与更广的幻想。</p>
-          <div class="atlas-hero__actions"><a class="atlas-button" href="#worlds">翻阅世界 <Icon name="material-symbols:arrow-downward-rounded" /></a><a class="atlas-text-link" href="#catalogue">查找词条 <Icon name="material-symbols:search-rounded" /></a></div>
-        </div>
-      </div>
-      <div class="atlas-hero__meta" data-atlas-intro><span>已收录 <strong data-atlas-number={entries.length}>{entries.length}</strong> 个词条</span><span>{volumes.length} 个世界分卷</span></div>
-      <div class="atlas-shelf" aria-label="世界封面展览">
-        <canvas class="atlas-shelf__canvas" data-atlas-canvas aria-hidden="true"></canvas>
-        {volumes.map((volume,index)=><a class={`atlas-book atlas-book--${volume.id}`} href={`#world-${volume.id}`} data-atlas-book>
-          <div class="atlas-book__cover">
-            <img src={asset(volume.cover || '/assets/images/LW.jpg')} alt={`${volume.name}的封面`} width="500" height="700" loading={index<3?'eager':'lazy'} decoding="async" />
-            <span class="atlas-book__spine" aria-hidden="true"></span>
-          </div>
-          <div class="atlas-book__caption"><h2>{volume.name}</h2><span>{volume.items.length} 条目 <Icon name="material-symbols:arrow-downward-rounded" /></span></div>
-        </a>)}
-      </div>
-      <nav class="atlas-wayfinding" aria-label="百科页面导航"><a href="#worlds">世界分卷</a><a href="#characters">人物档案</a><a href="#catalogue">完整目录</a><span>选择一册，开始阅读。</span></nav>
-    </header>
 
-    <section class="atlas-worlds" id="worlds" aria-labelledby="worlds-title">
-      <header class="atlas-section-head"><h2 id="worlds-title">世界分卷<span>每一册，都有自己的规则。</span></h2></header>
-      {volumes.map(volume=><article class="atlas-volume" id={`world-${volume.id}`} data-atlas-volume>
-        <a class={`atlas-volume__art atlas-volume__art--${volume.id}`} href={volume.href} aria-label={`浏览${volume.name}分类`}>
-          <img src={asset(volume.cover || '/assets/images/LW.jpg')} alt={`${volume.name}封面`} width="720" height="540" loading="lazy" decoding="async" />
-          <span class="atlas-volume__page" data-atlas-page aria-hidden="true"></span>
-          <span class="atlas-volume__english" aria-hidden="true">{english[volume.id]}</span>
-        </a>
-        <div class="atlas-volume__content">
-          <div class="atlas-volume__title"><h3>{volume.name}</h3><span>{volume.items.length} 词条</span></div>
-          <p class="atlas-volume__synopsis">{synopsis[volume.id] || volume.summary}</p>
-          <div class="atlas-volume__entries">{volume.items.slice(0,4).map(entry=><a href={entry.href}><span>{entry.title}</span><Icon name="material-symbols:arrow-outward-rounded" /></a>)}</div>
-          <a class="atlas-text-link" href={volume.href}>打开这一卷 <Icon name="material-symbols:arrow-forward-rounded" /></a>
-        </div>
-      </article>)}
-    </section>
+<MainGridLayout
+	title={bookshelfConfig.name}
+	description={bookshelfConfig.description}
+	hasOwnH1={true}
+>
+	<div class="encyc" data-encyc-root>
+		<!-- ================================================================
+		     第一幕：开放式素白 WebGL2 三维晶体星轨圣殿
+		     无笨重外框，三维多尖簇晶体直接悬浮于素白光学空间，径向外置编号零遮挡。
+		     ================================================================ -->
+		<section
+			class="prism-orbit-stage"
+			id="worlds"
+			aria-label="永远百科三维晶体星轨导航"
+			data-prism-orbital-root
+			data-orbital-volumes={JSON.stringify(orbitalVolumesData)}
+		>
+			<!-- 左侧：WebGL2 三维晶体星轨画布 + 动态绯红共振波 + 外置编号 -->
+			<div class="prism-orbit-left">
+				<div class="prism-orbit-viewport" data-orbital-viewport>
+					<canvas
+						class="prism-orbit-canvas"
+						data-prism-orbital-canvas
+						aria-label="三维晶体星轨，可拖拽旋转或点击晶体切换世界分卷"
+					></canvas>
 
-    <section class="atlas-characters" id="characters" aria-labelledby="characters-title">
-      <header class="atlas-section-head"><h2 id="characters-title">人物档案<span>沿着一个名字，读懂一个世界。</span></h2></header>
-      <div class="atlas-character-grid">{characters.map(entry=><a class="atlas-character" href={entry.href} data-atlas-character>
-        <div class="atlas-character__portrait"><img src={asset(entry.image)} alt={entry.title} width="500" height="680" loading="lazy" decoding="async" /></div>
-        <div class="atlas-character__caption"><h3>{entry.title}<Icon name="material-symbols:arrow-outward-rounded" /></h3><span>{entry.categoryName}</span><p>{entry.summary}</p></div>
-      </a>)}</div>
-    </section>
+					<!-- 绯红共振折线（置于画布上方、清晰连接红宝石核心与激活石英晶体） -->
+					<svg
+						class="prism-orbit-tether"
+						data-orbital-svg
+						aria-hidden="true"
+					>
+						<path
+							class="prism-orbit-tether__glow"
+							data-orbital-tether-glow
+							d=""
+						></path>
+						<path
+							class="prism-orbit-tether__line"
+							data-orbital-tether
+							d=""
+						></path>
+					</svg>
 
-    <section class="atlas-catalogue" id="catalogue" aria-labelledby="catalogue-title">
-      <header class="atlas-section-head atlas-section-head--catalogue"><h2 id="catalogue-title">完整目录<span>查找已经收录的世界、人物与设定。</span></h2><button class="atlas-text-link" type="button" data-atlas-random data-entries={JSON.stringify(entries.map(entry=>entry.href))}>随机翻阅 <Icon name="material-symbols:shuffle-rounded" /></button></header>
-      <form class="atlas-search" role="search" data-atlas-search-form>
-        <Icon name="material-symbols:search-rounded" />
-        <label class="sr-only" for="atlas-query">搜索百科词条</label>
-        <input id="atlas-query" type="search" name="q" placeholder="搜索名称、设定或关键词…" autocomplete="off" data-atlas-search />
-        <button type="button" data-atlas-clear aria-label="清空搜索" hidden><Icon name="material-symbols:close-rounded" /></button>
-      </form>
-      <div class="atlas-filters" role="group" aria-label="按世界筛选"><button type="button" class="is-active" aria-pressed="true" data-atlas-filter="all">全部<span>{entries.length}</span></button>{volumes.map(volume=><button type="button" aria-pressed="false" data-atlas-filter={volume.id}>{volume.name}<span>{volume.items.length}</span></button>)}</div>
-      <p class="atlas-result" role="status" aria-live="polite" data-atlas-result>共 {entries.length} 个词条</p>
-      <div class="atlas-entry-grid" data-atlas-results>{entries.map(entry=><a class="atlas-entry" href={entry.href} data-atlas-entry data-category={entry.categoryId} data-search={`${entry.title} ${entry.summary} ${entry.categoryName}`}>
-        <h3>{entry.title}<Icon name="material-symbols:arrow-outward-rounded" /></h3><span class="atlas-entry__category">{entry.categoryName}</span><p>{entry.summary || '打开词条，继续阅读。'}</p>
-      </a>)}</div>
-      <div class="atlas-empty" data-atlas-empty hidden><Icon name="material-symbols:search-off-rounded" /><h3>没有找到对应词条</h3><p>试试更短的关键词，或回到全部目录。</p><button class="atlas-button" type="button" data-atlas-reset>显示全部词条</button></div>
-      <noscript><p>目录已完整列出。启用 JavaScript 后可以在本页搜索与筛选。</p></noscript>
-    </section>
-  </div>
-  <script>
-    import { initBookshelfLifecycle } from '@/utils/bookshelf-home-animation';
-    initBookshelfLifecycle();
-  </script>
+					<!-- 3D 径向外置投影编号（极简 01..05，永不遮挡晶体） -->
+					<div class="prism-orbit-labels" data-orbital-labels>
+						<span
+							class="prism-orbit-center-tag"
+							data-orbital-center-tag
+							lang="en"
+						>
+							AUTO
+						</span>
+						{volumes.map((vol, idx) => (
+							<button
+								type="button"
+								class:list={["prism-orbit-node", { "is-active": idx === 0 }]}
+								data-orbital-node={idx}
+								aria-pressed={idx === 0 ? "true" : "false"}
+								title={`${vol.volumeNumeral} · ${vol.name}`}
+							>
+								<span class="prism-orbit-node__num" lang="en">
+									{String(idx + 1).padStart(2, "0")}
+								</span>
+								{idx === 0 && (
+									<span
+										class="prism-orbit-node__badge"
+										data-orbital-badge
+										lang="en"
+									>
+										· ACTIVE
+									</span>
+								)}
+							</button>
+						))}
+					</div>
+				</div>
+
+				<!-- 底部极简 5 卷快捷切换条（同步 3D 星轨，方便键盘与触屏一眼选择） -->
+				<nav class="prism-orbit-strip" aria-label="世界分卷切换">
+					{volumes.map((vol, idx) => (
+						<button
+							type="button"
+							class:list={["prism-orbit-tab", { "is-active": idx === 0 }]}
+							data-orbital-tab={idx}
+							aria-pressed={idx === 0 ? "true" : "false"}
+						>
+							<span class="prism-orbit-tab__code" lang="en">
+								{String(idx + 1).padStart(2, "0")}
+							</span>
+							<span class="prism-orbit-tab__name">{vol.name}</span>
+						</button>
+					))}
+				</nav>
+			</div>
+
+			<!-- 右侧：参考图同款素白极简档案面板 -->
+			<div class="prism-orbit-panel">
+				<div class="prism-orbit-panel__head">
+					<span class="prism-orbit-panel__archive" lang="en">
+						<i class="prism-diamond" aria-hidden="true"></i>
+						<span data-orbital-header>ARCHIVE // VOLUME 01</span>
+					</span>
+					<span class="prism-orbit-panel__status" lang="en">
+						<i class="prism-diamond prism-diamond--sm" aria-hidden="true"></i>
+						<span data-orbital-era>{initialVolume.era}</span>
+					</span>
+				</div>
+
+				<div class="prism-orbit-panel__rule" aria-hidden="true">
+					<span></span>
+					<i></i>
+				</div>
+
+				<div class="prism-orbit-panel__identity">
+					<div class="prism-orbit-panel__heading">
+						<p class="prism-orbit-panel__brand">永远百科 · ETERNAL CODEX</p>
+						<h1 class="prism-orbit-panel__title" data-orbital-title>
+							{initialVolume.name}
+						</h1>
+						<p class="prism-orbit-panel__en" lang="en" data-orbital-en>
+							{initialVolume.english}
+						</p>
+					</div>
+
+					<a
+						class="prism-orbit-panel__plate"
+						href={initialVolume.href}
+						data-orbital-plate-link
+						aria-label={`打开${initialVolume.name}专刊`}
+					>
+						<img
+							data-orbital-plate-img
+							src={initialVolume.coverResolved}
+							alt={`${initialVolume.name}卷首原画`}
+							width="240"
+							height="180"
+							loading="eager"
+							decoding="async"
+						/>
+						<span class="prism-orbit-panel__plate-tag" data-orbital-locale>
+							{initialVolume.locale}
+						</span>
+					</a>
+				</div>
+
+				<p class="prism-orbit-panel__synopsis" data-orbital-synopsis>
+					{initialVolume.editorialSynopsis}
+				</p>
+
+				<!-- 致敬参考图一 `◆ — TITLE` 细线词条目录（悬停可联动左侧标本画预览） -->
+				<ul
+					class="prism-menu-list"
+					aria-label="当前分卷收录词条"
+					data-orbital-menu
+				>
+					{initialVolume.items.map((item) => (
+						<li>
+							<a
+								class="prism-menu-item"
+								href={item.href}
+								data-preview-img={item.previewImage}
+								data-preview-note={
+									item.quote ? `「${item.quote}」` : item.summary
+								}
+							>
+								<span class="prism-menu-item__mark" aria-hidden="true">
+									<i class="prism-diamond prism-diamond--sm"></i>
+									<em class="prism-menu-item__stem"></em>
+								</span>
+								<span class="prism-menu-item__title">{item.title}</span>
+								<span class="prism-menu-item__meta">{item.groupLabel}</span>
+								<span class="prism-menu-item__folio" lang="en">
+									NO.{item.folio}
+								</span>
+							</a>
+						</li>
+					))}
+				</ul>
+
+				<!-- 参考图一同款切面红宝石菱形主 CTA -->
+				<div class="prism-orbit-panel__cta">
+					<a
+						class="prism-lozenge"
+						href={initialVolume.href}
+						data-orbital-enter
+					>
+						<span class="prism-lozenge__en" lang="en">OPEN ARCHIVE</span>
+						<span class="prism-lozenge__zh" data-orbital-enter-label>
+							步入「{initialVolume.name}」专刊
+						</span>
+					</a>
+				</div>
+
+				<div class="prism-orbit-panel__foot">
+					<span class="prism-orbit-panel__meta-line" data-orbital-meta-line>
+						ARCHIVE // {initialVolume.volumeNumeral} · {initialVolume.items.length} 篇收录 | 馆藏共 {volumeCount}卷 {entries.length} 词条
+					</span>
+					<div class="prism-orbit-panel__quick-links">
+						<button type="button" data-orbital-random>
+							◆ SHUFFLE // 随机读取记忆
+						</button>
+						<a href="#characters">◆ DOSSIERS // 人物档案</a>
+						<a href="#catalogue">◆ INDEX // 总目检索 (/)</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ================================================================
+		     第二幕：人物画廊（素白装裱 + 3D 微倾物理视差）
+		     ================================================================ -->
+		{characters.length > 0 && (
+			<section
+				class="encyc-section"
+				id="characters"
+				aria-labelledby="characters-title"
+			>
+				<header class="encyc-section__head" data-encyc-reveal>
+					<div>
+						<span class="encyc-section__eyebrow" lang="en">
+							◆ PORTRAIT DOSSIERS // 人物画廊
+						</span>
+						<h2 id="characters-title">人物档案</h2>
+					</div>
+					<p>
+						沿着一个名字，读懂一座屋邸与一个世界。悬停画框可唤出角色箴言与能力图谱标记。
+					</p>
+				</header>
+
+				<ul class="encyc-people">
+					{characters.map((entry, idx) => (
+						<li data-encyc-reveal style={`--stagger:${idx}`}>
+							<a
+								class={`encyc-person encyc-person--${entry.categoryId}`}
+								href={entry.href}
+								data-encyc-tilt
+							>
+								<div class="encyc-person__mat" data-encyc-tilt-card>
+									<div class="encyc-person__mat-head">
+										<span class="encyc-person__plate" lang="en">
+											PLATE {String(idx + 1).padStart(2, "0")}
+										</span>
+										{entry.hasStats && (
+											<span class="encyc-person__badge">能力图谱</span>
+										)}
+									</div>
+									<div class="encyc-person__frame">
+										<img
+											src={entry.image}
+											alt={entry.title}
+											width="500"
+											height="660"
+											loading="lazy"
+											decoding="async"
+											data-encyc-tilt-img
+										/>
+										{entry.quote && (
+											<div class="encyc-person__quote">
+												<p>「{entry.quote}」</p>
+											</div>
+										)}
+									</div>
+								</div>
+								<div class="encyc-person__caption">
+									<div class="encyc-person__title-row">
+										<span class="encyc-person__name">{entry.title}</span>
+										<span class="encyc-person__folio">NO. {entry.folio}</span>
+									</div>
+									<span class="encyc-person__world">
+										<i class="encyc-world-dot" data-world={entry.categoryId}></i>
+										{entry.categoryName} · {entry.groupLabel}
+									</span>
+									{entry.summary && (
+										<span class="encyc-person__summary">{entry.summary}</span>
+									)}
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		)}
+
+		<!-- ================================================================
+		     第三幕：完整馆藏总目（`/` 快捷键 + 游走红宝石底线 + 阻尼悬浮画片）
+		     ================================================================ -->
+		<section
+			class="encyc-section encyc-catalogue"
+			id="catalogue"
+			aria-labelledby="catalogue-title"
+		>
+			<header class="encyc-section__head" data-encyc-reveal>
+				<div>
+					<span class="encyc-section__eyebrow" lang="en">
+						◆ COMPLETE INDEX // 馆藏总目
+					</span>
+					<h2 id="catalogue-title">完整目录</h2>
+				</div>
+				<p>按名称、世界分卷、角色身份或台词关键词即时筛选全部馆藏词条。</p>
+			</header>
+
+			<div class="encyc-ledger-controls" data-encyc-reveal>
+				<form class="encyc-search" role="search" data-encyc-search-form>
+					<label class="sr-only" for="encyc-query">搜索百科词条</label>
+					<Icon name="material-symbols:search-rounded" />
+					<input
+						id="encyc-query"
+						type="search"
+						name="q"
+						placeholder="搜索词条、人物、设定或台词…"
+						autocomplete="off"
+						data-encyc-search
+					/>
+					<kbd class="encyc-search__kbd" data-encyc-kbd aria-hidden="true">
+						/
+					</kbd>
+					<button
+						type="button"
+						data-encyc-clear
+						aria-label="清空搜索"
+						hidden
+					>
+						<Icon name="material-symbols:close-rounded" />
+					</button>
+				</form>
+
+				<div class="encyc-filters-bar">
+					<div
+						class="encyc-filters"
+						role="group"
+						aria-label="按分卷筛选"
+						data-encyc-filters
+					>
+						<span
+							class="encyc-filters__glider"
+							data-encyc-filter-glider
+							aria-hidden="true"
+						></span>
+						<button
+							type="button"
+							class="is-active"
+							aria-pressed="true"
+							data-encyc-filter="all"
+						>
+							<span>全部</span>
+							<sup>{entries.length}</sup>
+						</button>
+						{volumes.map((volume) => (
+							<button
+								type="button"
+								aria-pressed="false"
+								data-encyc-filter={volume.id}
+							>
+								<i class="encyc-world-dot" data-world={volume.id}></i>
+								<span>{volume.name}</span>
+								<sup>{volume.items.length}</sup>
+							</button>
+						))}
+					</div>
+					<p
+						class="encyc-result"
+						role="status"
+						aria-live="polite"
+						data-encyc-result
+					>
+						共 {entries.length} 篇词条
+					</p>
+				</div>
+			</div>
+
+			<div class="encyc-ledger-stage" data-encyc-ledger-stage>
+				<ul class="encyc-index" data-encyc-results>
+					{entries.map((entry) => (
+						<li
+							data-encyc-entry
+							data-category={entry.categoryId}
+							data-search={`${entry.title} ${entry.summary} ${entry.categoryName} ${entry.groupLabel} ${entry.quote}`}
+							data-preview-src={entry.previewImage}
+							data-preview-folio={`FOLIO ${entry.folio}`}
+							data-preview-label={`${entry.categoryName} · ${entry.groupLabel}`}
+						>
+							<a href={entry.href}>
+								<span class="encyc-index__folio">{entry.folio}</span>
+								<span class="encyc-index__main">
+									<span class="encyc-index__title">{entry.title}</span>
+									<span class="encyc-index__tag">{entry.groupLabel}</span>
+								</span>
+								<span class="encyc-index__summary">
+									{entry.summary || "打开词条，继续阅读。"}
+								</span>
+								<span class="encyc-index__volume">
+									<i
+										class="encyc-world-dot"
+										data-world={entry.categoryId}
+									></i>
+									<span>{entry.categoryName}</span>
+									<Icon name="material-symbols:arrow-outward-rounded" />
+								</span>
+							</a>
+						</li>
+					))}
+				</ul>
+
+				<div
+					class="encyc-hover-card"
+					data-encyc-hover-card
+					aria-hidden="true"
+					hidden
+				>
+					<div class="encyc-hover-card__frame">
+						<img
+							data-encyc-hover-img
+							src=""
+							alt=""
+							width="240"
+							height="300"
+							decoding="async"
+						/>
+					</div>
+					<div class="encyc-hover-card__meta">
+						<span data-encyc-hover-folio lang="en">FOLIO 01</span>
+						<small data-encyc-hover-label>型月世界</small>
+					</div>
+				</div>
+			</div>
+
+			<div class="encyc-empty" data-encyc-empty hidden>
+				<p class="encyc-empty__title">未能在藏书室中寻获对应词条</p>
+				<p>试试更简短的关键词，或切回全部世界分卷浏览。</p>
+				<button class="encyc-btn encyc-btn--ghost" type="button" data-encyc-reset>
+					<span>显示全部 {entries.length} 篇词条</span>
+				</button>
+			</div>
+
+			<noscript>
+				<p class="encyc-result">
+					目录已完整列出。启用 JavaScript 后可体验 WebGL2 三维晶体星轨与检索筛选。
+				</p>
+			</noscript>
+		</section>
+	</div>
+
+	<script>
+		import { initEncyclopediaLifecycle } from "@/utils/encyclopedia-home";
+		initEncyclopediaLifecycle();
+	</script>
 </MainGridLayout>

@@ -23,6 +23,8 @@ import "@/styles/expressive-code.css";
 import "@/styles/toc.css";
 import "@/styles/collections.css";
 import "@/styles/study-theme.css";
+import "@/styles/claude-editorial.css";
+import "@/styles/prism-optical.css";
 
 interface Props {
 	title?: string;
@@ -33,6 +35,7 @@ interface Props {
 	postSlug?: string;
 	hasOwnH1?: boolean;
 	robots?: string;
+	canonical?: string;
 	postCategory?: string;
 	bannerPostMeta?: {
 		title: string;
@@ -75,8 +78,11 @@ const navLinks = navBarConfig.links.map((item) => {
 });
 ---
 
-<Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle} postSlug={postSlug} articleMeta={articleMeta} robots={robots}>
+<Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle} postSlug={postSlug} articleMeta={articleMeta} robots={robots} canonical={Astro.props.canonical}>
 	<slot slot="head" name="head"></slot>
+	{/* 内容页的中文衬线（思源宋体，按 unicode-range 分片按需加载，不阻塞渲染） */}
+	<link slot="head" rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+	<link slot="head" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/noto-serif-sc@5.3.1/index.css" media="print" onload="this.media='all'" />
 
 	<div
 		id="top-row"

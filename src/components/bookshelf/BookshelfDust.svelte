@@ -1,8 +1,7 @@
 <script lang="ts">
-	// 永远百科 · 背景尘埃上飘特效
-	// 细小微粒从底部缓缓上浮、轻微漂移、接近顶部后淡出消失，营造"尘埃在空气中上飘"的静谧氛围。
-	// 仅作背景装饰：全屏 fixed、pointer-events:none、位于内容之下；遵循 prefers-reduced-motion。
-	import { onMount, onDestroy } from "svelte";
+	// 永远百科 · 素白晶体微尘粒子
+	// 细小切面菱形微粒（红宝石、香槟金、冰青与石墨）在瓷白光学场中缓缓漂浮。
+	import { onDestroy, onMount } from "svelte";
 
 	let canvas: HTMLCanvasElement;
 
@@ -19,31 +18,39 @@
 		r: number;
 		vy: number;
 		drift: number;
-		wobble: number;
-		life: number;
+		angle: number;
+		vAngle: number;
 		alpha: number;
+		tone: "ruby" | "gold" | "ice" | "ink";
 	}
 
 	let parts: Particle[] = [];
-	const DENSITY = 0.00012;
-	const MAX_PARTICLES = 220;
+	const DENSITY = 0.000045;
+	const MAX_PARTICLES = 70;
 
-	function colorOf(): string {
-		const dark = document.documentElement.classList.contains("dark");
-		// 书籍页黑白高对比：浅色页用深灰粒子，深色页用浅白粒子
-		return dark ? "255,255,255" : "40,44,52";
-	}
-
-	function buildColor(alpha: number): string {
-		return "rgba(" + colorOf() + "," + alpha + ")";
+	function colorOf(tone: Particle["tone"], alpha: number, isDark: boolean): string {
+		switch (tone) {
+			case "ruby":
+				return isDark
+					? `rgba(235, 59, 95, ${alpha * 0.78})`
+					: `rgba(178, 24, 56, ${alpha * 0.72})`;
+			case "gold":
+				return isDark
+					? `rgba(218, 182, 110, ${alpha * 0.78})`
+					: `rgba(196, 160, 89, ${alpha * 0.75})`;
+			case "ice":
+				return `rgba(143, 211, 244, ${alpha * (isDark ? 0.76 : 0.7)})`;
+			default:
+				return isDark
+					? `rgba(236, 234, 245, ${alpha * 0.45})`
+					: `rgba(28, 27, 32, ${alpha * 0.42})`;
+		}
 	}
 
 	function sizeCanvas() {
-		const host = canvas?.parentElement;
-		if (!host) return;
 		dpr = Math.min(window.devicePixelRatio || 1, 2);
-		w = host.clientWidth || window.innerWidth;
-		h = host.clientHeight || window.innerHeight;
+		w = window.innerWidth;
+		h = window.innerHeight;
 		if (canvas) {
 			canvas.width = Math.floor(w * dpr);
 			canvas.height = Math.floor(h * dpr);
@@ -53,16 +60,19 @@
 	}
 
 	function spawn(initial: boolean): Particle {
-		const r = 0.6 + Math.random() * 1.8;
+		const roll = Math.random();
+		const tone: Particle["tone"] =
+			roll < 0.28 ? "ruby" : roll < 0.54 ? "gold" : roll < 0.78 ? "ice" : "ink";
 		return {
 			x: Math.random() * w,
-			y: initial ? Math.random() * h : h + Math.random() * 20,
-			r,
-			vy: 6 + Math.random() * 16,
-			drift: (Math.random() - 0.5) * 12,
-			wobble: Math.random() * Math.PI * 2,
-			life: 0,
-			alpha: 0.28 + Math.random() * 0.4,
+			y: initial ? Math.random() * h : h + 16,
+			r: 1.8 + Math.random() * 2.8,
+			vy: 6 + Math.random() * 14,
+			drift: (Math.random() - 0.5) * 10,
+			angle: Math.random() * Math.PI,
+			vAngle: (Math.random() - 0.5) * 0.8,
+			alpha: 0.35 + Math.random() * 0.4,
+			tone,
 		};
 	}
 
@@ -74,38 +84,38 @@
 
 	function step(dt: number) {
 		if (!ctx) return;
+		const isDark = document.documentElement.classList.contains("dark");
 		ctx.clearRect(0, 0, w * dpr, h * dpr);
 		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-		const tFadeTop = 0.82;
-
 		for (let i = parts.length - 1; i >= 0; i--) {
 			const p = parts[i];
-			p.life += dt;
-			p.wobble += dt * (1.2 + Math.random() * 0.6);
 			p.y -= p.vy * dt;
-			p.x += (p.drift + Math.sin(p.wobble) * 6) * dt;
-			if (p.x < -4) p.x = w + 4;
-			else if (p.x > w + 4) p.x = -4;
+			p.x += p.drift * dt;
+			p.angle += p.vAngle * dt;
+			if (p.x < -8) p.x = w + 8;
+			else if (p.x > w + 8) p.x = -8;
 
-			// 淡出：上浮到顶部附近时消失
 			const normY = 1 - p.y / h;
 			let a = p.alpha;
-			if (normY > tFadeTop) {
-				a *= Math.max(0, 1 - (normY - tFadeTop) / (1 - tFadeTop));
-			}
-			if (a <= 0.003) {
+			if (normY > 0.82) a *= Math.max(0, 1 - (normY - 0.82) / 0.18);
+			if (a <= 0.005 || p.y < -12) {
 				parts[i] = spawn(false);
 				continue;
 			}
 
-			const grow = 1 + Math.min(0.6, p.life * 0.02);
-			const rad = p.r * grow;
-
+			ctx.save();
+			ctx.translate(p.x, p.y);
+			ctx.rotate(p.angle);
 			ctx.beginPath();
-			ctx.arc(p.x, p.y, rad, 0, Math.PI * 2);
-			ctx.fillStyle = buildColor(a);
+			ctx.moveTo(0, -p.r);
+			ctx.lineTo(p.r * 0.72, 0);
+			ctx.lineTo(0, p.r);
+			ctx.lineTo(-p.r * 0.72, 0);
+			ctx.closePath();
+			ctx.fillStyle = colorOf(p.tone, a, isDark);
 			ctx.fill();
+			ctx.restore();
 		}
 	}
 
@@ -118,26 +128,6 @@
 		step(dt);
 	}
 
-	function start() {
-		if (raf || !canvas) return;
-		running = true;
-		last = 0;
-		raf = requestAnimationFrame(loop);
-	}
-
-	function stop() {
-		running = false;
-		if (raf) cancelAnimationFrame(raf);
-		raf = 0;
-	}
-
-	function onResize() {
-		sizeCanvas();
-		ensureParticles();
-	}
-
-	let visibilityObserver: IntersectionObserver | null = null;
-
 	onMount(() => {
 		ctx = canvas.getContext("2d");
 		const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -147,25 +137,16 @@
 			ctx?.clearRect(0, 0, canvas.width, canvas.height);
 			return;
 		}
-		start();
-		window.addEventListener("resize", onResize);
-		if (canvas) {
-			visibilityObserver = new IntersectionObserver(
-				(entries) => {
-					const vis = entries[0]?.isIntersecting ?? true;
-					if (vis) start();
-					else stop();
-				},
-				{ threshold: 0 },
-			);
-			visibilityObserver.observe(canvas);
-		}
+		raf = requestAnimationFrame(loop);
+		window.addEventListener("resize", () => {
+			sizeCanvas();
+			ensureParticles();
+		});
 	});
 
 	onDestroy(() => {
-		stop();
-		window.removeEventListener("resize", onResize);
-		visibilityObserver?.disconnect();
+		running = false;
+		if (raf) cancelAnimationFrame(raf);
 	});
 </script>
 

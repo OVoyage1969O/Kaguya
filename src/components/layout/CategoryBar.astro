@@ -2,6 +2,7 @@
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryList } from "@utils/content-utils";
+import { bookshelfConfig } from "@/config";
 import { getIconSvg } from "@/constants/icons";
 import { isHomePage } from "@/utils/layout-utils";
 import { url } from "@/utils/url-utils";
@@ -25,6 +26,10 @@ const isPostPage = !!postSlug;
 // 归档页匹配：/archive 或 /archive?category=xxx
 const archivePath = url("/archive/").replace(/\/+$/, "");
 const isArchivePage = pathname === archivePath;
+const bookshelfPath = url("/bookshelf/").replace(/\/+$/, "");
+const isBookshelfRoot = pathname === bookshelfPath || pathname === "/bookshelf";
+const isBookshelfSub =
+	pathname.startsWith(`${bookshelfPath}/`) || pathname.startsWith("/bookshelf/");
 
 const currentCategory = searchParams.get("category") || "";
 const categories = isArchivePage || isPostPage ? await getCategoryList() : [];
@@ -155,6 +160,58 @@ if (!isHome) {
 				isDropdown: true,
 			},
 		];
+	} else if (isBookshelfRoot || isBookshelfSub) {
+		const wikiHomeItem: BreadcrumbItem = {
+			label: bookshelfConfig.name,
+			href: url("/bookshelf/"),
+			icon: "material-symbols:menu-book-rounded",
+			isCurrent: isBookshelfRoot,
+		};
+		if (isBookshelfRoot) {
+			items = [homeItem, wikiHomeItem];
+		} else {
+			const subPath = pathname.startsWith(`${bookshelfPath}/`)
+				? pathname.slice(bookshelfPath.length)
+				: pathname.slice("/bookshelf".length);
+			const catMatch = subPath.match(/^\/category\/([^/]+)$/);
+			const entryMatch = subPath.match(/^\/entries\/([^/]+)\/([^/]+)$/);
+			if (catMatch) {
+				const catId = decodeURIComponent(catMatch[1]);
+				const cat = bookshelfConfig.categories.find((c) => c.id === catId);
+				items = [
+					homeItem,
+					wikiHomeItem,
+					{
+						label: cat?.name || catId,
+						href: "",
+						icon: "material-symbols:auto-stories-rounded",
+						isCurrent: true,
+					},
+				];
+			} else if (entryMatch) {
+				const catId = decodeURIComponent(entryMatch[1]);
+				const entryLabel = decodeURIComponent(entryMatch[2]);
+				const cat = bookshelfConfig.categories.find((c) => c.id === catId);
+				items = [
+					homeItem,
+					wikiHomeItem,
+					{
+						label: cat?.name || catId,
+						href: url(`/bookshelf/category/${cat?.id || catId}/`),
+						icon: "material-symbols:auto-stories-rounded",
+						isCurrent: false,
+					},
+					{
+						label: entryLabel,
+						href: "",
+						icon: "material-symbols:description-rounded",
+						isCurrent: true,
+					},
+				];
+			} else {
+				items = [homeItem, wikiHomeItem];
+			}
+		}
 	} else if (pathname === "/gallery" || pathname.startsWith("/gallery/")) {
 		// 相册页：首页 / 相册 / [子相册]
 		const albumMatch = pathname.match(/^\/gallery\/(.+)$/);

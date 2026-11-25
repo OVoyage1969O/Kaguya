@@ -1,0 +1,59 @@
+---
+import MainGridLayout from './MainGridLayout.astro';
+import Icon from '@/components/common/Icon.astro';
+import NotesToc from '@/components/notes/NotesToc.astro';
+import type { MathNote, MathematicsNotebook } from '@/utils/notes-data';
+import { url } from '@/utils/url-utils';
+import '@/styles/pages/notes.css';
+interface Props {
+  notebook: MathematicsNotebook;
+  active?: MathNote;
+  headings: {depth:number;slug:string;text:string}[];
+  previous?: MathNote;
+  next?: MathNote;
+}
+const {notebook, active, headings, previous, next}=Astro.props;
+---
+<MainGridLayout title={active?`${active.title} · 数学笔记`:'数学笔记'} description={active?.description || '按章节整理的线性代数与概率论笔记。'} hasOwnH1 canonical={active?.originalHref}>
+  <div class="notes-shell" data-notes-root>
+    <div class="notes-toolbar">
+      <div><button class="notes-menu-button" type="button" aria-controls="notes-navigation" aria-expanded="false" data-notes-menu hidden><Icon name="material-symbols:menu-book-outline-rounded"/><span>章节目录</span></button><a class="notes-home-link" href={url('/notes/')} data-no-swup><Icon name="material-symbols:menu-book-outline-rounded"/><span>数学笔记</span></a></div>
+      <div class="notes-toolbar__actions"><a href={url('/')} data-no-swup>返回永远邸</a><button type="button" class="notes-icon-button" aria-label="切换明暗主题" data-notes-theme hidden><Icon name="material-symbols:contrast-rounded"/></button></div>
+    </div>
+    <div class="notes-grid">
+      <button class="notes-backdrop" type="button" aria-label="关闭章节目录" tabindex="-1" aria-hidden="true" data-notes-dismiss hidden></button>
+      <aside class="notes-sidebar" id="notes-navigation" aria-label="数学笔记章节导航">
+        <div class="notes-sidebar__heading"><span>学习目录</span><button type="button" class="notes-close-button" aria-label="关闭章节目录" data-notes-dismiss hidden><Icon name="material-symbols:close-rounded"/></button></div>
+        <label class="notes-search"><Icon name="material-symbols:search-rounded"/><span class="sr-only">搜索章节标题或简介</span><input type="search" placeholder="搜索章节…" aria-label="搜索章节标题或简介" autocomplete="off" data-notes-search /></label>
+        <p class="notes-search-status" role="status" aria-live="polite" data-notes-search-status hidden></p>
+        <a href={url('/notes/')} class:list={['notes-overview-link',{'is-current':!active}]} aria-current={!active?'page':undefined} data-no-swup>笔记总览</a>
+        {notebook.map(subject=><details class="notes-subject" open={!active||active.subjectId===subject.id} data-notes-subject>
+          <summary><span>{subject.name}</span><span class="notes-subject__count">{subject.chapters.length} 篇</span><Icon name="material-symbols:chevron-right-rounded"/></summary>
+          <ol>{subject.chapters.map(note=><li data-notes-nav-item data-search={`${note.title} ${note.description} ${subject.name} ${note.number}`}>
+            <a href={note.href} class:list={{'is-current':active?.id===note.id}} aria-current={active?.id===note.id?'page':undefined} data-no-swup><span class="notes-chapter-number">{note.number}</span><span>{note.title}{note.stub&&<small>待补充</small>}</span></a>
+          </li>)}</ol>
+        </details>)}
+        <noscript><p class="notes-noscript">章节链接可直接使用；目录搜索需要 JavaScript。</p></noscript>
+      </aside>
+      <div class="notes-main" id="notes-reading" tabindex="-1">
+        <div class="notes-breadcrumb"><a href={url('/notes/')} data-no-swup>笔记</a>{active&&<><span>/</span><a href={url(`/notes/#${active.subjectId}`)} data-no-swup>{active.subjectName}</a></>}</div>
+        {active && <details class="notes-inline-toc"><summary>本篇目录<Icon name="material-symbols:keyboard-arrow-down-rounded"/></summary><NotesToc headings={headings}/></details>}
+        <header class="notes-article-header"><h1>{active?.title || '数学笔记'}</h1>{active&&<p><span>{active.subjectName}</span><span>{active.entry.data.author}</span><span>更新于 {new Date(active.entry.data.updated || active.entry.data.published).toISOString().slice(0,10)}</span></p>}</header>
+        <slot/>
+        {active && <>
+          <div class="notes-source">{active.entry.data.licenseName&&<span>{active.entry.data.licenseName}</span>}<a href={active.originalHref} data-no-swup>在原文章中阅读<Icon name="material-symbols:arrow-outward-rounded"/></a></div>
+          <nav class="notes-pagination" aria-label="相邻章节">
+            {previous?<a href={previous.href} data-no-swup><span><Icon name="material-symbols:arrow-back-rounded"/>上一篇</span><strong>{previous.title}</strong></a>:<span/>}
+            {next?<a href={next.href} data-no-swup><span>下一篇<Icon name="material-symbols:arrow-forward-rounded"/></span><strong>{next.title}</strong></a>:<a href={url('/notes/')} data-no-swup><span>已经读到本册末篇</span><strong>返回笔记总览</strong></a>}
+          </nav>
+        </>}
+        <footer class="notes-colophon">永远邸<span>数学笔记</span><a href={url('/notes/')} data-no-swup>全部章节</a></footer>
+      </div>
+      <aside class="notes-outline"><NotesToc headings={headings}/></aside>
+    </div>
+  </div>
+  <script>
+    import {initNotesReader} from '@/utils/notes-reader';
+    initNotesReader();
+  </script>
+</MainGridLayout>

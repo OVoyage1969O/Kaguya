@@ -37,11 +37,11 @@ const { name, categories } = bookshelfConfig;
 					]}
 					data-navbox-group
 				>
-					<div class="bookshelf-navbox__group-head" data-navbox-toggle role="button" tabindex={0}>
+					<div class="bookshelf-navbox__group-head" data-navbox-toggle role="button" tabindex={0} aria-expanded="true" aria-controls={`bk-group-${cat.id}`}>
 						<span class="bookshelf-navbox__group-title">{cat.name}</span>
 						<span class="bookshelf-navbox__group-arrow" aria-hidden="true"></span>
 					</div>
-					<div class="bookshelf-navbox__group-body">
+					<div class="bookshelf-navbox__group-body" id={`bk-group-${cat.id}`}>
 						{cat.entries.length > 0 && (
 							<ul class="bookshelf-navbox__group-list">
 								{cat.entries.map((entry) => (
@@ -52,19 +52,33 @@ const { name, categories } = bookshelfConfig;
 							</ul>
 						)}
 
-						{cat.subgroups && cat.subgroups.map((sub) => (
+						{cat.subgroups && cat.subgroups.map((sub, subIndex) => (
 							<section class="bookshelf-navbox__subgroup" data-navbox-subgroup>
-								<div class="bookshelf-navbox__subgroup-head" data-navbox-subgroup-toggle role="button" tabindex={0}>
+								<div class="bookshelf-navbox__subgroup-head" data-navbox-subgroup-toggle role="button" tabindex={0} aria-expanded="true" aria-controls={`bk-subgroup-${cat.id}-${subIndex}`}>
 									<span class="bookshelf-navbox__subgroup-title">{sub.name}</span>
 									<span class="bookshelf-navbox__subgroup-arrow" aria-hidden="true"></span>
 								</div>
-								<ul class="bookshelf-navbox__subgroup-list">
+								<div class="bookshelf-navbox__subgroup-body" id={`bk-subgroup-${cat.id}-${subIndex}`}>
+								{sub.entries.length > 0 && <ul class="bookshelf-navbox__subgroup-list">
 									{sub.entries.map((entry) => (
 										<li class:list={["bookshelf-navbox__item", entry.title === currentId ? "bookshelf-navbox__item--current" : ""]}>
 											<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)}>{entry.title}</a>
 										</li>
 									))}
-								</ul>
+								</ul>}
+								{sub.entryGroups?.map((entryGroup, groupIndex) => (
+									<section class="bookshelf-navbox__entry-group" aria-labelledby={`bk-entry-group-${cat.id}-${subIndex}-${groupIndex}`}>
+										<h4 class="bookshelf-navbox__entry-group-label" id={`bk-entry-group-${cat.id}-${subIndex}-${groupIndex}`}>{entryGroup.name}</h4>
+										<ul class="bookshelf-navbox__entry-group-list">
+											{entryGroup.entries.map(entry => (
+												<li class:list={["bookshelf-navbox__item", { "bookshelf-navbox__item--current": entry.title === currentId }]}>
+													<a href={url(`/bookshelf/entries/${cat.id}/${encodeURIComponent(entry.title)}/`)} aria-current={entry.title === currentId ? "page" : undefined}>{entry.title}</a>
+												</li>
+											))}
+										</ul>
+									</section>
+								))}
+								</div>
 							</section>
 						))}
 					</div>
@@ -83,6 +97,7 @@ const { name, categories } = bookshelfConfig;
 			if (group) {
 				e.preventDefault();
 				group.classList.toggle("bookshelf-navbox__group--collapsed");
+				toggle.setAttribute("aria-expanded", String(!group.classList.contains("bookshelf-navbox__group--collapsed")));
 			}
 			return;
 		}
@@ -92,6 +107,7 @@ const { name, categories } = bookshelfConfig;
 			if (sub) {
 				e.preventDefault();
 				sub.classList.toggle("bookshelf-navbox__subgroup--collapsed");
+				subToggle.setAttribute("aria-expanded", String(!sub.classList.contains("bookshelf-navbox__subgroup--collapsed")));
 			}
 		}
 	});

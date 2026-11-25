@@ -97,6 +97,10 @@ The existing route-transition engine remains, but its panels now use ivory, clay
 
 Dialogs use ivory panels, 18px corners and a soft offset shadow. Floating tools use compact 48px paper controls. Labels appear on hover or keyboard focus. The visual weight stays below the reading content.
 
+### Encyclopedia shelf
+
+The 永远百科 home (`/bookshelf/`) is a shelf of cloth-bound volumes. Each world is a spine with a vertical serif title, its volume number, two foil bands and an entry count. Exactly one volume is open at a time, showing its cover plate and full table of contents beside the spine. Spine cloth uses muted tones from the wider Anthropic palette (ink, olive, clay, kraft, fig); in dark mode the ink volume becomes vellum so it stays visible. Below the shelf, character portraits sit in ivory mats, and the catalogue is a ruled index with an underline search field and text filters. The only ambient motion is the books being placed on the shelf once on load. Styles live in `src/styles/pages/bookshelf-shelf.css`, behaviour in `src/utils/encyclopedia-home.ts`.
+
 ### Footer
 
 The footer is a compact two-row colophon beneath one hairline. An italic Kaguya signature, horizontal reading links and accessible social icons form the first row; copyright, legal links and technology credits form the second. Descriptive copy, slogans, section labels and last-writing dates are omitted. Mobile keeps signature and social icons together, then wraps the reading links and administrative information naturally. Extra bottom space only clears the fixed mobile dock.

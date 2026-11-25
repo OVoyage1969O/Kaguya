@@ -1,15 +1,17 @@
 ---
+import {
+	getRouteKey,
+	PAGE_PLATE_NAMES,
+	ROUTES_WITH_OWN_TITLE,
+} from "@/constants/page-names";
+
 const { path } = Astro.props;
-const route = path.replace(import.meta.env.BASE_URL, "").split("/")[0];
-const labels: Record<string, string> = {
-  archive: "ARCHIVE", categories: "INDEX", posts: "READING", collections: "TOOLBOX",
-  friends: "CONNECT", guestbook: "DIALOGUE", dynamic: "MOMENTS", calendar: "CALENDAR",
-  gallery: "GALLERY", music: "PLAYLIST", list: "COLLECTION", rss: "SUBSCRIBE",
-  sponsor: "SUPPORT", search: "DISCOVER", konbini: "KONBINI", "404": "LOST & FOUND",
-};
-const label = labels[route];
+const route = getRouteKey(path, import.meta.env.BASE_URL);
+const plate = ROUTES_WITH_OWN_TITLE.has(route) ? undefined : PAGE_PLATE_NAMES[route];
 ---
-{label && <div class="p3-masthead" aria-hidden="true" data-p3-masthead>
-  <div class="p3-masthead__mask"><span data-p3-masthead-type>{label}</span></div>
-  <span class="p3-masthead__slash"></span>
+{plate && <div class="p3-masthead page-plate" aria-hidden="true" data-p3-masthead>
+  <div class="page-plate__row">
+    <span class="page-plate__zh" data-p3-masthead-type>{plate.zh}</span>
+    <span class="page-plate__en" lang="en">{plate.en}</span>
+  </div>
 </div>}

@@ -1,141 +1,46 @@
-/* ============================================
-   永远百科 · 词条详情页
-   黑白高对比风格 · 无圆角
-   ============================================ */
+/* ==========================================================================
+   永远百科 · 词条专刊与人物档案页（Editorial Monograph & Dossier）
+   彻底告别旧版纯黑白粗框，统一至永远邸暖象牙纸 / 炭黑墨 / 布面卷色与文学衬线体系。
+   ========================================================================== */
 
-.bookshelf-entry {
-	--bk-ink: #000;
-	--bk-paper: #fff;
-	--bk-muted: #555;
-	--bk-line: #000;
-	--bk-soft-line: #bbb;
-	--bk-invert: #fff;
-	--bk-invert-bg: #000;
-}
-
-:root.dark .bookshelf-entry {
-	--bk-ink: #fff;
-	--bk-paper: #0a0a0a;
-	--bk-muted: #9a9a9a;
-	--bk-line: #fff;
-	--bk-soft-line: #444;
-	--bk-invert: #000;
-	--bk-invert-bg: #fff;
+.claude-theme #main-grid:has(.bookshelf-entry) {
+	max-width: 1080px;
 }
 
 .bookshelf-entry {
-	color: var(--bk-ink);
+	--vol-cloth: var(--prism-ruby, #b21838);
+	--vol-cloth-ink: #ffffff;
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	position: relative;
+	color: var(--prism-ink, #1c1b20);
 }
 
-/* --- 面包屑 --- */
-.bookshelf-entry__crumb {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	margin-bottom: 1.5rem;
-	font-size: 0.82rem;
-	letter-spacing: 0.04em;
+.bookshelf-entry--touhou {
+	--vol-cloth: #4a7866;
+}
+.bookshelf-entry--magic {
+	--vol-cloth: #c48a3a;
+}
+.bookshelf-entry--places {
+	--vol-cloth: #5d6f96;
+}
+.bookshelf-entry--trivia {
+	--vol-cloth: #7b527e;
 }
 
-.bookshelf-entry__crumb a {
-	color: var(--bk-muted);
-	text-decoration: none;
+/* 全屏静谧尘埃画布 */
+.bookshelf-dust {
+	position: fixed;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	display: block;
 }
 
-.bookshelf-entry__crumb a:hover {
-	color: var(--bk-ink);
-	text-decoration: underline;
-	text-underline-offset: 3px;
-}
-
-.bookshelf-entry__crumb-sep {
-	opacity: 0.5;
-}
-
-/* --- 标题 --- */
-.bookshelf-entry__header {
-	padding-bottom: 1.5rem;
-	border-bottom: 3px solid var(--bk-line);
-	margin-bottom: 2rem;
-}
-
-.bookshelf-entry__summary {
-	margin: 0.75rem 0 0;
-	max-width: 52rem;
-	font-size: 0.95rem;
-	line-height: 1.7;
-	color: var(--bk-muted);
-}
-
-/* --- 正文容器（包含浮动的右侧信息栏） --- */
-.bookshelf-entry__body {
-	/* 让内部 float 的 infobox 不溢出容器，同时保持文字环绕 */
-	display: flow-root;
-}
-
-/* --- 正文分节 --- */
-.bookshelf-entry__section {
-	margin-bottom: 2rem;
-}
-
-.bookshelf-entry__section-heading {
-	display: flex;
-	align-items: baseline;
-	gap: 0.6rem;
-	margin: 0 0 0.6rem;
-	font-size: 1.15rem;
-	letter-spacing: 0.02em;
-	color: var(--bk-ink);
-}
-
-.bookshelf-entry__section-num {
-	font-size: 0.8rem;
-	font-weight: 700;
-	opacity: 0.5;
-	letter-spacing: 0.08em;
-}
-
-.bookshelf-entry__section-body {
-	margin: 0;
-	max-width: 52rem;
-	font-size: 0.95rem;
-	line-height: 1.8;
-	color: var(--bk-ink);
-}
-
-/* --- 页脚返回 --- */
-.bookshelf-entry__footer {
-	margin-top: 2.5rem;
-	padding-top: 1.25rem;
-	border-top: 1px solid var(--bk-soft-line);
-	clear: both;
-}
-
-.bookshelf-entry__back {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	padding: 0.5rem 1.1rem;
-	border: 2px solid var(--bk-line);
-	background: var(--bk-paper);
-	color: var(--bk-ink);
-	text-decoration: none;
-	font-size: 0.9rem;
-	letter-spacing: 0.04em;
-	transition: background 0.15s ease, color 0.15s ease;
-}
-
-.bookshelf-entry__back:hover {
-	background: var(--bk-invert-bg);
-	color: var(--bk-invert);
-}
-
-
-/* --- 背景图：固定全屏，覆盖整个网页、滚动不动 --- */
+/* 背景氛围图：柔和融入暖纸底色 */
 .bookshelf-entry--has-bg {
 	position: relative;
 }
-
 .bookshelf-entry__bg {
 	position: fixed;
 	inset: 0;
@@ -143,77 +48,178 @@
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	opacity: var(--bk-bg-opacity, 0.15);
+	opacity: var(--bk-bg-opacity, 0.12);
+	filter: saturate(0.75);
+	mask-image: radial-gradient(ellipse at 50% 38%, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.25) 85%);
 	pointer-events: none;
 	z-index: 0;
 }
 
-/* 正文插图（gallery） */
-.bookshelf-entry__gallery {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-	gap: 0.75rem;
-	margin: 1.5rem 0;
+/* 档案纸面主体容器 */
+.bookshelf-entry__sheet {
+	position: relative;
+	z-index: 2;
+	padding: clamp(22px, 3.6vw, 44px) clamp(20px, 4.2vw, 52px);
+	border-radius: 18px;
+	border: 1px solid var(--prism-line, rgba(28, 27, 32, 0.13));
+	background: var(--prism-surface, rgba(255, 255, 255, 0.86));
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	box-shadow: 0 20px 56px var(--prism-shadow, rgba(28, 27, 32, 0.05));
 }
 
-.bookshelf-entry__gallery-item {
-	margin: 0;
-	border: 2px solid var(--bk-line, #000);
-	background: var(--bk-paper, #fff);
-}
-
-.bookshelf-entry__gallery-item img {
-	display: block;
-	width: 100%;
-	height: auto;
-}
-/* --- 正文 Markdown 分节（用 ## 标题） --- */
-.bookshelf-entry__markdown h2 {
+/* 顶部馆藏卷眉 */
+.bookshelf-entry__folio-bar {
 	display: flex;
-	align-items: baseline;
-	gap: 0.6rem;
-	margin: 0 0 0.6rem;
-	padding-bottom: 0.3rem;
-	font-size: 1.15rem;
-	letter-spacing: 0.02em;
-	color: var(--bk-ink, #000);
-	border-bottom: 1px solid var(--bk-soft-line, #bbb);
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 10px 18px;
+	margin-bottom: 20px;
 }
 
-.bookshelf-entry__markdown h2::before {
-	content: counter(bk-section);
-	counter-increment: bk-section;
-	font-size: 0.8rem;
-	font-weight: 700;
-	opacity: 0.5;
-	letter-spacing: 0.08em;
+.bookshelf-entry__vol-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 5px 12px;
+	border-radius: 999px;
+	border: 1px solid var(--line-divider);
+	background: var(--page-bg);
+	color: var(--deep-text);
+	font: 500 12.5px/1.2 var(--claude-sans);
+	text-decoration: none;
+	transition: border-color 0.2s ease, color 0.2s ease;
+}
+.bookshelf-entry__vol-pill:hover {
+	border-color: var(--primary);
+	color: var(--primary);
+}
+.bookshelf-entry__vol-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--vol-cloth);
 }
 
+.bookshelf-entry__folio-code {
+	font: 500 11px/1.2 var(--claude-mono);
+	letter-spacing: 0.1em;
+	color: var(--content-meta);
+}
+
+/* 词条主标题 */
+.bookshelf-entry__header {
+	padding-bottom: 24px;
+	margin-bottom: 26px;
+	border-bottom: 1px solid color-mix(in oklab, var(--deep-text) 48%, var(--line-divider));
+}
+.bookshelf-entry__title {
+	margin: 0;
+	color: var(--deep-text);
+	font: 500 clamp(34px, 5vw, 56px) / 1.12 var(--claude-serif);
+	letter-spacing: -0.025em;
+}
+.bookshelf-entry__summary {
+	margin: 12px 0 0;
+	max-width: 44rem;
+	font: 400 16.5px/1.8 var(--claude-serif);
+	color: var(--content-meta);
+}
+
+/* 文学题记栏（Epigraph） */
+.bookshelf-entry__quote {
+	position: relative;
+	margin: 0 0 30px;
+	padding: 20px 26px 18px 46px;
+	border: 0;
+	border-left: 2px solid var(--primary);
+	border-radius: 0 14px 14px 0;
+	background: color-mix(in oklab, var(--page-bg) 72%, var(--float-panel-bg));
+}
+.bookshelf-entry__quote-mark {
+	position: absolute;
+	left: 16px;
+	top: 10px;
+	color: var(--primary);
+	opacity: 0.55;
+	font: 500 42px/1 var(--claude-serif);
+	pointer-events: none;
+}
+.bookshelf-entry__quote-text {
+	margin: 0;
+	color: var(--deep-text);
+	font: 400 clamp(17px, 2vw, 21px) / 1.7 var(--claude-serif);
+	letter-spacing: 0.01em;
+}
+.bookshelf-entry__quote-by {
+	display: block;
+	margin-top: 8px;
+	font: 400 13px/1.4 var(--claude-sans);
+	font-style: normal;
+	color: var(--content-meta);
+}
+
+/* 正文容器（环绕右侧浮动 Dossier Infobox） */
+.bookshelf-entry__body {
+	display: flow-root;
+}
+
+/* 正文 Markdown 分节：精致罗马/前导零编号 */
 .bookshelf-entry__markdown {
 	counter-reset: bk-section;
+	max-width: none !important;
+	font-family: var(--claude-serif);
+	font-size: 1.0625rem;
+	line-height: 1.92;
+	color: var(--deep-text);
+}
+
+:root.claude-theme [data-study-page] .bookshelf-entry__markdown h2 {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	margin: 2.1rem 0 1rem;
+	padding: 0 0 0.55rem;
+	border-top: 0;
+	border-bottom: 1px solid var(--line-divider);
+	font: 600 1.42rem/1.35 var(--claude-serif);
+	color: var(--deep-text);
+}
+:root.claude-theme [data-study-page] .bookshelf-entry__markdown h2:first-of-type {
+	margin-top: 0.25rem;
+}
+:root.claude-theme [data-study-page] .bookshelf-entry__markdown h2::before {
+	display: inline-block;
+	content: counter(bk-section, decimal-leading-zero);
+	counter-increment: bk-section;
+	font: 500 0.78rem/1 var(--claude-mono);
+	letter-spacing: 0.08em;
+	color: var(--primary);
+	opacity: 1;
 }
 
 .bookshelf-entry__markdown p {
-	margin: 0 0 1rem;
-	max-width: 52rem;
-	font-size: 0.95rem;
-	line-height: 1.8;
-	color: var(--bk-ink, #000);
+	margin: 0 0 1.15rem;
+	max-width: 45rem;
+	color: var(--deep-text);
 }
 
-/* 正文分节间距 */
-.bookshelf-entry__markdown h2 + p {
-	margin-top: 0;
+/* 高亮语法 ==...== 与黑幕语法兼容暖纸风格 */
+.bookshelf-entry__markdown mark {
+	padding: 0.05em 0.32em;
+	border-radius: 4px;
+	background: color-mix(in oklab, var(--primary) 18%, transparent);
+	color: inherit;
 }
 
-/* 正文中间插图（Obsidian ![[...]] → <center><figure><img>） */
+/* 正文插图与画廊 */
 .bookshelf-entry__markdown center,
 .bookshelf-entry__markdown figure {
 	display: block;
-	margin: 1.25rem auto;
+	margin: 1.6rem auto;
 	text-align: center;
 }
-
 .bookshelf-entry__markdown figure img {
 	display: block;
 	max-width: 100%;
@@ -222,74 +228,152 @@
 	height: auto;
 	object-fit: contain;
 	margin: 0 auto;
-	border: 2px solid var(--bk-line, #000);
-	background: var(--bk-paper, #fff);
+	padding: 6px;
+	border-radius: 12px;
+	border: 1px solid var(--line-divider);
+	background: var(--page-bg);
 }
-
 .bookshelf-entry__markdown figure figcaption {
-	margin-top: 0.5rem;
-	font-size: 0.8rem;
-	line-height: 1.5;
-	color: var(--bk-muted, #555);
-}
-/* --- 名言栏（无框，居中，综艺圆字体） --- */
-@font-face {
-	font-family: "AaZongYiYuan";
-	src: url("/Kaguya/fonts/AaZongYiYuan/AaZongYiYuan-2.woff2") format("woff2");
-	font-display: swap;
+	margin-top: 0.55rem;
+	font: 400 0.8125rem/1.5 var(--claude-sans);
+	color: var(--content-meta);
 }
 
-.bookshelf-entry__quote {
-	margin: 0 0 1.75rem;
-	padding: 0;
-	border: 0;
-	text-align: center;
+.bookshelf-entry__gallery {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+	gap: 14px;
+	margin: 2rem 0;
+	clear: both;
 }
-
-/* 名言与作者的内联容器（居中，作者相对此容器定位在句子右下） */
-.bookshelf-entry__quote-inner {
-	position: relative;
-	display: inline-block;
-	text-align: left;
-	padding: 0 1.5rem 1.25rem;
-	max-width: 100%;
-}
-
-.bookshelf-entry__quote-text {
+.bookshelf-entry__gallery-item {
 	margin: 0;
-	font-family: "AaZongYiYuan", "Microsoft YaHei", "PingFang SC", sans-serif;
-	font-size: 1.55rem;
-	font-weight: 600;
-	line-height: 1.55;
-	color: var(--bk-ink, #000);
-	opacity: 0.92;
-	letter-spacing: 0.05em;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+	padding: 6px;
+	border-radius: 12px;
+	border: 1px solid var(--line-divider);
+	background: var(--page-bg);
+	overflow: hidden;
+}
+.bookshelf-entry__gallery-item img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
 }
 
-/* 名言前后加引号 */
-.bookshelf-entry__quote-text::before {
-	content: "“";
-	margin-right: 0.15em;
-	opacity: 0.6;
+/* 同卷前后词条续读导航 */
+.bookshelf-entry__sequel {
+	clear: both;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 14px;
+	margin-top: 2.75rem;
+	padding-top: 1.75rem;
+	border-top: 1px solid var(--line-divider);
+}
+.bookshelf-entry__sequel-link {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 14px 18px;
+	border-radius: 13px;
+	border: 1px solid var(--line-divider);
+	background: var(--page-bg);
+	color: var(--deep-text);
+	text-decoration: none;
+	transition:
+		transform 0.28s var(--ease-out),
+		border-color 0.22s ease;
+}
+.bookshelf-entry__sequel-link--next {
+	align-items: flex-end;
+	text-align: right;
+}
+.bookshelf-entry__sequel-link:hover {
+	transform: translateY(-2px);
+	border-color: color-mix(in oklab, var(--primary) 50%, var(--line-divider));
+}
+.bookshelf-entry__sequel-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	font: 500 11px/1.2 var(--claude-mono);
+	color: var(--content-meta);
+}
+.bookshelf-entry__sequel-label svg {
+	width: 15px;
+	height: 15px;
+	transition: transform 0.25s var(--ease-out);
+}
+.bookshelf-entry__sequel-link--prev:hover .bookshelf-entry__sequel-label svg {
+	transform: translateX(-3px);
+}
+.bookshelf-entry__sequel-link--next:hover .bookshelf-entry__sequel-label svg {
+	transform: translateX(3px);
+}
+.bookshelf-entry__sequel-title {
+	font: 500 18px/1.35 var(--claude-serif);
+	transition: color 0.2s ease;
+}
+.bookshelf-entry__sequel-link:hover .bookshelf-entry__sequel-title {
+	color: var(--primary);
 }
 
-.bookshelf-entry__quote-text::after {
-	content: "”";
-	margin-left: 0.15em;
-	opacity: 0.6;
+/* 页脚返回 */
+.bookshelf-entry__footer {
+	margin-top: 2rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--line-divider);
+	clear: both;
 }
-/* 名言说话者（右下角，小字） */
-.bookshelf-entry__quote-by {
-	position: absolute;
-	right: 0;
-	bottom: 0.25rem;
-	font-family: inherit;
-	font-size: 0.8rem;
-	font-weight: 500;
-	font-style: normal;
-	color: var(--bk-ink, #000);
-	opacity: 0.55;
-	letter-spacing: 0.04em;
-	line-height: 1;
+.bookshelf-entry__back {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 42px;
+	padding: 0 18px;
+	border-radius: 11px;
+	border: 1px solid var(--line-divider);
+	background: var(--page-bg);
+	color: var(--deep-text);
+	text-decoration: none;
+	font: 500 13.5px/1 var(--claude-sans);
+	transition:
+		border-color 0.22s ease,
+		color 0.22s ease,
+		transform 0.26s var(--ease-out);
+}
+.bookshelf-entry__back svg {
+	width: 17px;
+	height: 17px;
+	transition: transform 0.26s var(--ease-out);
+}
+.bookshelf-entry__back:hover {
+	border-color: var(--primary);
+	color: var(--primary);
+	transform: translateY(-2px);
+}
+.bookshelf-entry__back:hover svg {
+	transform: translateX(-3px);
+}
+
+@media (max-width: 720px) {
+	.bookshelf-entry__sheet {
+		padding: 20px 16px 26px;
+		border-radius: 16px;
+	}
+	.bookshelf-entry__quote {
+		padding: 16px 16px 14px 36px;
+	}
+	.bookshelf-entry__quote-mark {
+		left: 11px;
+		font-size: 34px;
+	}
+	.bookshelf-entry__sequel {
+		grid-template-columns: 1fr;
+	}
+	.bookshelf-entry__sequel-link--next {
+		align-items: flex-start;
+		text-align: left;
+	}
 }

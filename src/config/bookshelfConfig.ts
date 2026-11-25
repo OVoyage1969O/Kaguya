@@ -80,13 +80,23 @@ export const bookshelfConfig: BookshelfConfig = {
 			summary: "零散的趣闻与杂项",
 			cover: "/Kaguya/assets/images/AOO.jpg",
 			entries: [],
-			// 子分组：人物（先放维塔·萨普里、狄普·桑姆博）
+			// 子分组：人物档案
 			subgroups: [
 				{
 					name: "人物",
-					entries: [
-						{ id: "vita-sapri", title: "维塔·萨普里", summary: "" },
-						{ id: "deep-sambo", title: "狄普·桑姆博", summary: "" },
+					entries: [],
+					entryGroups: [
+						{
+							name: "调查员",
+							entries: [
+								{ id: "vita-sapri", title: "维塔·萨普里", summary: "" },
+								{ id: "deep-sambo", title: "狄普·桑姆博", summary: "" },
+								{ id: "lin-hai", title: "林海", summary: "" },
+								{ id: "shileti-haize", title: "诗勒蒂·海泽", summary: "" },
+								{ id: "helga-messiah", title: "赫尔加·弥赛亚", summary: "" },
+								{ id: "mingqiao-zaomo", title: "明桥造麿", summary: "" },
+							],
+						},
 					],
 				},
 			],

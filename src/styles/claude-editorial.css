@@ -1,0 +1,454 @@
+/* ==========================================================================
+   永远邸 · 书房版（Claude editorial refinement）
+   仅作用于内容页（<main data-study-page>）。导航栏位于 main 之外，首页不带
+   data-study-page，因此两者都不受这里的任何规则影响。
+   ========================================================================== */
+
+:root.claude-theme [data-study-page] {
+  /* 中文衬线：思源宋体（Noto Serif SC）补齐 Anthropic Serif 不覆盖的汉字。 */
+  --claude-serif: "Anthropic Serif", "Noto Serif SC Variable", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", Georgia, serif;
+  --study-serif: var(--claude-serif);
+  --ed-ink: var(--deep-text);
+  --ed-ink-soft: #3d3d3a;
+  --ed-meta: var(--content-meta);
+  --ed-rule: var(--line-divider);
+  --ed-rule-strong: #b0aea5;
+  --ed-raised: var(--float-panel-bg);
+  --ed-well: #e8e6dc;
+  --ed-accent: var(--primary);
+  --ed-measure: 41rem;
+  --ed-ease: cubic-bezier(.16, 1, .3, 1);
+  font-feature-settings: "kern";
+}
+:root.claude-theme.dark [data-study-page] {
+  --ed-ink-soft: #d1cfc5;
+  --ed-rule-strong: #66645e;
+  --ed-well: #30302e;
+}
+
+/* --------------------------------------------------------------------------
+   题签：中文主标题 + 同基线的英文对照名
+   -------------------------------------------------------------------------- */
+:root.claude-theme [data-study-page] .page-plate__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .25rem 2rem;
+}
+:root.claude-theme [data-study-page] .page-plate__zh {
+  margin: 0;
+  color: var(--ed-ink);
+  font: 500 clamp(2.6rem, 5.4vw, 4.25rem)/1.05 var(--claude-serif);
+  letter-spacing: .02em;
+  text-wrap: balance;
+}
+:root.claude-theme [data-study-page] .page-plate__en {
+  color: var(--ed-meta);
+  font: italic 400 clamp(1.15rem, 1.9vw, 1.6rem)/1 var(--claude-serif);
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+:root.claude-theme [data-study-page] .page-title--plate {
+  display: block;
+  padding: clamp(1.5rem, 4vw, 3rem) 0 1.5rem;
+  border-bottom: 1px solid var(--ed-rule-strong);
+}
+:root.claude-theme [data-study-page] .page-title--plate .page-title__text { font-weight: 500; }
+:root.claude-theme [data-study-page] .page-title__description {
+  max-width: 34rem;
+  margin: 1.1rem 0 0;
+  color: var(--ed-ink-soft);
+  font: 400 1.0625rem/1.75 var(--claude-serif);
+  text-wrap: pretty;
+}
+/* 布局层题签（搜索、歌单等没有自带标题的页面） */
+:root.claude-theme [data-study-page] .p3-masthead.page-plate {
+  display: block;
+  margin: clamp(1.5rem, 4vw, 3rem) 0 2.5rem;
+  padding: 0 0 1.5rem;
+  border-bottom: 1px solid var(--ed-rule-strong);
+}
+/* 页面外壳不再套一层“卡片”，题签与正文直接落在纸面上 */
+:root.claude-theme [data-study-page] .card-base { background: transparent; }
+:root.claude-theme [data-study-page] .card-base:has(> .mb-6 > .page-title--plate),
+:root.claude-theme [data-study-page] .card-base:has(> .mb-5 > .page-title--plate),
+:root.claude-theme [data-study-page] .card-base:has(> .mb-8 > .page-title--plate),
+:root.claude-theme [data-study-page] .categories-page { padding-inline: 0; }
+
+/* 面包屑行：更安静，只作定位 */
+:root.claude-theme [data-study-page] .cb { margin-bottom: 0; padding: .9rem 0 .9rem; border-bottom-color: var(--ed-rule); }
+
+/* --------------------------------------------------------------------------
+   文章：章节开篇
+   -------------------------------------------------------------------------- */
+:root.claude-theme [data-study-page] .post-opener {
+  max-width: var(--ed-measure);
+  margin: clamp(2rem, 6vw, 4.5rem) auto 0;
+  padding: 0;
+  text-align: left;
+}
+:root.claude-theme [data-study-page] .post-opener__volume {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: var(--ed-accent);
+  font: 500 .9375rem/1.4 var(--claude-serif);
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+:root.claude-theme [data-study-page] .post-opener__volume:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+:root.claude-theme [data-study-page] .post-opener__title {
+  margin: 0;
+  color: var(--ed-ink);
+  font: 500 clamp(2.1rem, 4.6vw, 3.35rem)/1.18 var(--claude-serif);
+  letter-spacing: .01em;
+  text-wrap: balance;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+:root.claude-theme [data-study-page] .post-opener__lede {
+  margin: 1.25rem 0 0;
+  color: var(--ed-ink-soft);
+  font: 400 1.1875rem/1.75 var(--claude-serif);
+  text-wrap: pretty;
+}
+:root.claude-theme [data-study-page] .post-opener__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .9rem 2.25rem;
+  margin: 2.25rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--ed-rule-strong);
+}
+:root.claude-theme [data-study-page] .post-opener__fact { min-width: 0; }
+:root.claude-theme [data-study-page] .post-opener__fact dt {
+  margin-bottom: .3rem;
+  color: var(--ed-meta);
+  font: 400 .75rem/1.3 var(--claude-sans);
+  letter-spacing: .02em;
+}
+:root.claude-theme [data-study-page] .post-opener__fact dd {
+  margin: 0;
+  color: var(--ed-ink);
+  font: 400 .875rem/1.5 var(--claude-sans);
+  font-variant-numeric: tabular-nums;
+}
+:root.claude-theme [data-study-page] .post-opener__fact--tags dd { display: flex; flex-wrap: wrap; gap: .2rem .85rem; }
+:root.claude-theme [data-study-page] .post-opener__tag { color: var(--ed-ink); text-decoration: underline; text-decoration-color: var(--ed-rule-strong); text-decoration-thickness: 1px; text-underline-offset: .3em; }
+:root.claude-theme [data-study-page] .post-opener__tag:hover { color: var(--ed-accent); text-decoration-color: currentColor; }
+:root.claude-theme [data-study-page] .post-opener__fact--action { margin-left: auto; align-self: flex-end; }
+:root.claude-theme [data-study-page] .post-hero__views,
+:root.claude-theme [data-study-page] .post-hero__views :is(.text-50, span, div) { color: inherit; }
+:root.claude-theme [data-study-page] .post-hero__views svg { display: none; }
+:root.claude-theme [data-study-page] .post-hero__share button {
+  display: inline-flex; align-items: center; gap: .4rem; min-height: 36px; padding: 0 .85rem;
+  border: 1px solid var(--ed-rule); border-radius: 999px; background: transparent;
+  color: var(--ed-ink); font: 500 .8125rem/1 var(--claude-sans);
+  transition: border-color .2s ease, background-color .2s ease;
+}
+:root.claude-theme [data-study-page] .post-hero__share button:hover { border-color: var(--ed-rule-strong); background: var(--ed-raised); color: var(--ed-ink); }
+:root.claude-theme [data-study-page] .post-opener__notice {
+  display: flex; align-items: flex-start; gap: .5rem;
+  margin: 1.25rem 0 0; padding: .7rem .9rem;
+  border-radius: 10px; background: var(--ed-well);
+  color: var(--ed-meta); font: 400 .8125rem/1.6 var(--claude-sans);
+}
+:root.claude-theme [data-study-page] .post-opener__notice.hidden { display: none; }
+:root.claude-theme [data-study-page] .post-opener__notice-icon { flex: 0 0 auto; width: 1rem; height: 1rem; margin-top: .2rem; color: var(--ed-accent); }
+
+/* 封面与正文容器 */
+:root.claude-theme [data-study-page] .post-cover {
+  max-width: 56rem; margin: 2.5rem auto 0; border-radius: 14px; overflow: hidden;
+}
+:root.claude-theme [data-study-page] #post-container { padding: 0; background: transparent; }
+
+/* --------------------------------------------------------------------------
+   正文排版
+   -------------------------------------------------------------------------- */
+:root.claude-theme [data-study-page] #post-container .custom-md {
+  width: min(100%, var(--ed-measure));
+  margin: clamp(2.25rem, 5vw, 3.5rem) auto 0;
+  color: var(--ed-ink);
+  font-family: var(--claude-serif);
+  font-size: 1.09375rem;
+  line-height: 1.95;
+  letter-spacing: .012em;
+  hanging-punctuation: allow-end;
+}
+:root.claude-theme [data-study-page] .custom-md p { margin-block: 0 1.15em; text-wrap: pretty; }
+:root.claude-theme [data-study-page] .custom-md :is(h2,h3,h4) {
+  color: var(--ed-ink);
+  font-family: var(--claude-serif);
+  font-weight: 600;
+  letter-spacing: .01em;
+  text-wrap: balance;
+}
+:root.claude-theme [data-study-page] .custom-md h2 {
+  margin: 2.6em 0 .9em; padding-top: 1.1em;
+  border-top: 1px solid var(--ed-rule);
+  font-size: 1.6rem; line-height: 1.35;
+}
+:root.claude-theme [data-study-page] .custom-md h3 { margin: 2em 0 .7em; font-size: 1.28rem; line-height: 1.45; }
+:root.claude-theme [data-study-page] .custom-md h4 { margin: 1.8em 0 .6em; font-size: 1.08rem; color: var(--ed-ink-soft); }
+:root.claude-theme [data-study-page] .custom-md :is(h2,h3,h4)::before { display: none; }
+:root.claude-theme [data-study-page] .custom-md :is(h2,h3,h4) .anchor-icon { color: var(--ed-meta); }
+:root.claude-theme [data-study-page] .custom-md a:not(.anchor):not([class*="btn"]) {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .28em;
+  transition: color .18s ease, text-decoration-color .18s ease;
+}
+:root.claude-theme [data-study-page] .custom-md a:not(.anchor):not([class*="btn"]):hover { color: var(--ed-accent); text-decoration-color: currentColor; background: none; }
+:root.claude-theme [data-study-page] .custom-md strong { font-weight: 650; color: var(--ed-ink); }
+:root.claude-theme [data-study-page] .custom-md :is(ul,ol) { padding-left: 1.4em; margin-block: 0 1.2em; }
+:root.claude-theme [data-study-page] .custom-md li { margin-block: .35em; padding-left: .15em; }
+:root.claude-theme [data-study-page] .custom-md ul > li::marker { color: var(--ed-accent); }
+:root.claude-theme [data-study-page] .custom-md ol > li::marker { color: var(--ed-meta); font-family: var(--claude-sans); font-size: .9em; font-variant-numeric: tabular-nums; }
+:root.claude-theme [data-study-page] .custom-md ul > li::before { display: none; }
+:root.claude-theme [data-study-page] .custom-md ul > li { list-style: disc; }
+:root.claude-theme [data-study-page] .custom-md blockquote {
+  margin: 1.8em 0; padding: .1em 0 .1em 1.4em;
+  border-left: 2px solid var(--ed-accent);
+  background: transparent;
+  color: var(--ed-ink-soft);
+  font-style: normal;
+}
+:root.claude-theme [data-study-page] .custom-md blockquote::before { display: none; }
+:root.claude-theme [data-study-page] .custom-md hr {
+  width: 4rem; height: 0; margin: 3em auto; border: 0; border-top: 1px solid var(--ed-rule-strong);
+}
+:root.claude-theme [data-study-page] .custom-md :is(img, figure img) { border-radius: 10px; }
+:root.claude-theme [data-study-page] .custom-md figcaption {
+  margin-top: .6rem; color: var(--ed-meta); font: 400 .8125rem/1.5 var(--claude-sans); text-align: center;
+}
+:root.claude-theme [data-study-page] .custom-md table {
+  width: 100%; border-collapse: collapse; font-family: var(--claude-sans); font-size: .9rem; line-height: 1.6;
+}
+:root.claude-theme [data-study-page] .custom-md :is(th,td) { padding: .6rem .8rem; border: 0; border-bottom: 1px solid var(--ed-rule); text-align: left; }
+:root.claude-theme [data-study-page] .custom-md th { border-bottom-color: var(--ed-rule-strong); color: var(--ed-meta); font-weight: 500; background: transparent; }
+:root.claude-theme [data-study-page] .custom-md :not(pre) > code {
+  padding: .12em .38em; border-radius: 5px; font-size: .86em;
+}
+:root.claude-theme [data-study-page] .custom-md .expressive-code { margin-block: 1.6em; }
+:root.claude-theme [data-study-page] .custom-md .expressive-code .frame { border-radius: 12px; box-shadow: none; }
+:root.claude-theme [data-study-page] .custom-md .katex-display { margin-block: 1.4em; overflow-x: auto; overflow-y: hidden; padding-block: .3em; }
+
+/* 提示块：去掉卡片感，改为左侧细线的旁注 */
+:root.claude-theme [data-study-page] .custom-md .callout,
+:root.claude-theme [data-study-page] .custom-md .callout[data-callout] {
+  margin: 1.8em 0; padding: .9rem 1.15rem;
+  border: 0 !important; border-left: 2px solid var(--ed-accent) !important;
+  border-radius: 0 10px 10px 0;
+  background: var(--ed-well) !important;
+}
+:root.claude-theme [data-study-page] .custom-md .callout-title { margin-bottom: .35rem; color: var(--ed-accent) !important; font: 500 .8125rem/1.4 var(--claude-sans); }
+:root.claude-theme [data-study-page] .custom-md .callout-content > :last-child { margin-bottom: 0; }
+
+/* --------------------------------------------------------------------------
+   文末：版权说明、相关文章、续读
+   -------------------------------------------------------------------------- */
+:root.claude-theme [data-study-page] #post-container :is(.license-container, .related-posts) {
+  max-width: var(--ed-measure); margin-inline: auto;
+}
+:root.claude-theme [data-study-page] .license-container {
+  margin-top: 3.5rem; padding: 1.25rem 0 0 !important;
+  border: 0; border-top: 1px solid var(--ed-rule-strong); border-radius: 0 !important;
+  background: transparent !important; overflow: visible;
+  font-family: var(--claude-sans);
+}
+:root.claude-theme [data-study-page] .license-container > svg:last-child { display: none; }
+:root.claude-theme [data-study-page] .license-container .font-bold { color: var(--ed-ink); font: 500 1rem/1.5 var(--claude-serif); }
+:root.claude-theme [data-study-page] .license-container :is(.text-black\/30, .dark\:text-white\/30) { color: var(--ed-meta); font-size: .75rem; }
+:root.claude-theme [data-study-page] .license-container a.link { color: var(--ed-meta); font-size: .8125rem; }
+
+:root.claude-theme [data-study-page] .related-posts {
+  margin-top: 2.75rem; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+:root.claude-theme [data-study-page] .related-posts__title {
+  margin: 0 0 .5rem; padding: 0 0 .75rem; border: 0; border-bottom: 1px solid var(--ed-rule);
+  color: var(--ed-meta); font: 400 .8125rem/1.4 var(--claude-sans); letter-spacing: .02em;
+}
+:root.claude-theme [data-study-page] .related-posts__title::before { display: none; }
+:root.claude-theme [data-study-page] .related-posts__list { gap: 0; padding: 0; }
+:root.claude-theme [data-study-page] .related-posts__item { border-bottom: 1px solid var(--ed-rule); }
+:root.claude-theme [data-study-page] .related-posts__link {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem;
+  padding: .95rem 0; border-radius: 0; background: transparent;
+}
+:root.claude-theme [data-study-page] .related-posts__link:hover { background: transparent; }
+:root.claude-theme [data-study-page] .related-posts__post-title { color: var(--ed-ink); font: 400 1.0625rem/1.5 var(--claude-serif); transition: color .18s ease; }
+:root.claude-theme [data-study-page] .related-posts__link:hover .related-posts__post-title { color: var(--ed-accent); }
+:root.claude-theme [data-study-page] .related-posts__post-meta { flex: 0 0 auto; gap: .9rem; margin: 0; color: var(--ed-meta); font: 400 .75rem/1.4 var(--claude-sans); font-variant-numeric: tabular-nums; }
+:root.claude-theme [data-study-page] .related-posts__post-category { color: var(--ed-meta); }
+
+:root.claude-theme [data-study-page] .post-sequel {
+  display: grid; grid-template-columns: 1fr 1fr;
+  max-width: var(--ed-measure); margin: 3.5rem auto 1rem;
+  border-top: 1px solid var(--ed-rule-strong); border-bottom: 1px solid var(--ed-rule);
+}
+:root.claude-theme [data-study-page] .post-sequel__link {
+  display: flex; flex-direction: column; gap: .55rem; min-width: 0;
+  padding: 1.4rem 1.5rem 1.5rem 0; color: var(--ed-ink); text-decoration: none;
+}
+:root.claude-theme [data-study-page] .post-sequel__link--next { align-items: flex-end; padding: 1.4rem 0 1.5rem 1.5rem; border-left: 1px solid var(--ed-rule); text-align: right; }
+:root.claude-theme [data-study-page] .post-sequel__label { display: inline-flex; align-items: center; gap: .4rem; color: var(--ed-meta); font: 400 .75rem/1.3 var(--claude-sans); letter-spacing: .02em; }
+:root.claude-theme [data-study-page] .post-sequel__icon { width: .95rem; height: .95rem; transition: transform .35s var(--ed-ease); }
+:root.claude-theme [data-study-page] .post-sequel__title { max-width: 100%; font: 400 1.1875rem/1.45 var(--claude-serif); text-wrap: balance; transition: color .18s ease; }
+:root.claude-theme [data-study-page] .post-sequel__link:hover .post-sequel__title { color: var(--ed-accent); }
+:root.claude-theme [data-study-page] .post-sequel__link--prev:hover .post-sequel__icon { transform: translateX(-3px); }
+:root.claude-theme [data-study-page] .post-sequel__link--next:hover .post-sequel__icon { transform: translateX(3px); }
+
+/* 评论区：与正文同宽，输入框改为纸面细线 */
+:root.claude-theme [data-study-page] #post-comments { max-width: var(--ed-measure); margin: 3rem auto 0; padding: 0 !important; background: transparent; }
+:root.claude-theme [data-study-page] #post-comments > .relative.z-10.mb-6 .w-1 { display: none; }
+:root.claude-theme [data-study-page] #post-comments h2,
+:root.claude-theme [data-study-page] #post-comments .text-xl { color: var(--ed-ink); font: 500 1.375rem/1.3 var(--claude-serif); }
+:root.claude-theme [data-study-page] #post-comments .ml-4 { margin-left: 0; }
+:root.claude-theme [data-study-page] #post-comments > .relative.z-10.pl-2 { padding-inline: 0; }
+:root.claude-theme [data-study-page] .tk-input .el-input-group__prepend { border-color: var(--ed-rule); background: var(--ed-well); color: var(--ed-meta); }
+:root.claude-theme [data-study-page] :is(.tk-input .el-input__inner, .tk-input .el-textarea__inner) { border-color: var(--ed-rule); border-radius: 8px; background: var(--ed-raised); color: var(--ed-ink); box-shadow: none; }
+:root.claude-theme [data-study-page] .tk-submit .el-button--primary { border-color: var(--deep-text); background: var(--deep-text); color: var(--page-bg); }
+:root.claude-theme [data-study-page] .tk-submit .el-button { border-radius: 8px; }
+
+/* --------------------------------------------------------------------------
+   归档：年份分栏的账簿式目录
+   -------------------------------------------------------------------------- */
+:root.claude-theme [data-study-page] .archive-stats { margin: 2rem 0 0; }
+:root.claude-theme [data-study-page] .archive-stats__grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0;
+  border-top: 1px solid var(--ed-rule); border-bottom: 1px solid var(--ed-rule);
+}
+:root.claude-theme [data-study-page] .archive-stats__metric { padding: 1.1rem 1.25rem 1.2rem; border-left: 1px solid var(--ed-rule); }
+:root.claude-theme [data-study-page] .archive-stats__metric:first-child { padding-left: 0; border-left: 0; }
+:root.claude-theme [data-study-page] .archive-stats__value { color: var(--ed-ink); font: 400 clamp(2rem, 3.6vw, 2.75rem)/1.05 var(--claude-serif); font-variant-numeric: lining-nums tabular-nums; letter-spacing: -.02em; }
+:root.claude-theme [data-study-page] .archive-stats__label { margin-top: .45rem; color: var(--ed-meta); font: 400 .8125rem/1.4 var(--claude-sans); }
+:root.claude-theme [data-study-page] .archive-stats__goal { color: var(--ed-meta); font-size: .75rem; }
+:root.claude-theme [data-study-page] .archive-stats__evaluation { max-width: 38rem; margin-top: 1rem; color: var(--ed-ink-soft); font: 400 1rem/1.8 var(--claude-serif); }
+
+:root.claude-theme [data-study-page] .archive-panel { margin-top: 3rem; padding: 0; background: transparent; }
+:root.claude-theme [data-study-page] .ap-col,
+:root.claude-theme [data-study-page] .ap-node,
+:root.claude-theme [data-study-page] .ap-highlight-svg { display: none !important; }
+:root.claude-theme [data-study-page] .ap-year-block {
+  display: grid; grid-template-columns: minmax(7.5rem, 11rem) minmax(0, 1fr); gap: 0 2rem;
+  padding: 1.75rem 0 2.25rem; border-top: 1px solid var(--ed-rule-strong);
+}
+:root.claude-theme [data-study-page] .ap-year-header { display: block; align-self: start; position: sticky; top: 6.5rem; padding: 0; }
+:root.claude-theme [data-study-page] .ap-year-label { display: flex; flex-direction: column; gap: .5rem; margin: 0; padding: 0; }
+:root.claude-theme [data-study-page] .ap-h1 { margin: 0; color: var(--ed-ink); font: 400 clamp(2.25rem, 4vw, 3rem)/1 var(--claude-serif); font-variant-numeric: lining-nums; letter-spacing: -.02em; }
+:root.claude-theme [data-study-page] .ap-count { color: var(--ed-meta); font: 400 .75rem/1.4 var(--claude-sans); }
+:root.claude-theme [data-study-page] .ap-months-area { margin: 0; padding: 0; border: 0; }
+:root.claude-theme [data-study-page] .ap-month-block { margin: 0; padding: 0; }
+:root.claude-theme [data-study-page] .ap-month-block + .ap-month-block { margin-top: 1.75rem; }
+:root.claude-theme [data-study-page] .ap-month-header { display: block; margin: 0 0 .25rem; padding: .35rem 0 .6rem; border-bottom: 1px solid var(--ed-rule); }
+:root.claude-theme [data-study-page] .ap-month-label { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 0; padding: 0; }
+:root.claude-theme [data-study-page] .ap-h2 { margin: 0; color: var(--ed-ink-soft); font: 500 1rem/1.4 var(--claude-serif); }
+:root.claude-theme [data-study-page] .ap-posts-area { margin: 0; padding: 0; border: 0; }
+:root.claude-theme [data-study-page] .ap-post-list { margin: 0; padding: 0; }
+:root.claude-theme [data-study-page] .ap-post-row { display: block; margin: 0; padding: 0; border-bottom: 1px solid var(--ed-rule); }
+:root.claude-theme [data-study-page] .ap-post-row.last { border-bottom: 0; }
+:root.claude-theme [data-study-page] .ap-post-link {
+  display: grid; grid-template-columns: 3.75rem minmax(0, 1fr); align-items: baseline; gap: 1rem;
+  width: 100%; min-height: 0; padding: .8rem 0; border-radius: 0; background: transparent !important;
+}
+:root.claude-theme [data-study-page] .ap-date { color: var(--ed-meta); font: 400 .8125rem/1.5 var(--claude-sans); font-variant-numeric: tabular-nums; }
+:root.claude-theme [data-study-page] .ap-post-content { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; min-width: 0; }
+:root.claude-theme [data-study-page] .ap-title { color: var(--ed-ink); font: 400 1.0625rem/1.5 var(--claude-serif); transition: color .18s ease; }
+:root.claude-theme [data-study-page] .ap-post-link:hover .ap-title { color: var(--ed-accent) !important; }
+:root.claude-theme [data-study-page] .ap-meta { flex: 0 0 auto; gap: .4rem; color: var(--ed-meta); font: 400 .75rem/1.4 var(--claude-sans); }
+:root.claude-theme [data-study-page] .ap-category { color: var(--ed-meta) !important; }
+:root.claude-theme [data-study-page] .ap-meta-gap { width: .6rem; }
+
+/* --------------------------------------------------------------------------
+   文章列表：一份目录，而不是一叠卡片
+   -------------------------------------------------------------------------- */
+:root.claude-theme [data-study-page] .article-list-page__header { margin-bottom: 2.5rem; }
+:root.claude-theme [data-study-page] .article-list-toolbar { padding: 0 0 .9rem; border-bottom: 1px solid var(--ed-rule-strong); }
+:root.claude-theme [data-study-page] .article-list-toolbar__total { color: var(--ed-meta); font: 400 .8125rem/1.4 var(--claude-sans); }
+:root.claude-theme [data-study-page] .article-list-toolbar__total strong { color: var(--ed-ink); font: 400 1.25rem/1 var(--claude-serif); margin-inline: .2rem; }
+:root.claude-theme [data-study-page] .article-list-toolbar__sort { gap: .25rem; padding: 3px; border: 1px solid var(--ed-rule); border-radius: 10px; background: var(--ed-raised); }
+:root.claude-theme [data-study-page] .article-list-toolbar__sort button { min-height: 32px; padding: 0 .85rem; border: 0; border-radius: 7px; color: var(--ed-meta); font: 500 .8125rem/1 var(--claude-sans); }
+:root.claude-theme [data-study-page] .article-list-toolbar__sort button::after { display: none; }
+:root.claude-theme [data-study-page] .article-list-toolbar__sort button.is-active { background: var(--deep-text); color: var(--page-bg); }
+:root.claude-theme [data-study-page] .article-list-pinned { margin-bottom: 2.5rem; }
+:root.claude-theme [data-study-page] .article-list-card { border: 0; border-radius: 0; background: transparent; transform: none !important; }
+:root.claude-theme [data-study-page] .article-list-card--regular { border-bottom: 1px solid var(--ed-rule); }
+:root.claude-theme [data-study-page] .article-list-card--regular .article-list-card__body { padding: 1.6rem 0 1.5rem; }
+:root.claude-theme [data-study-page] .article-list-card--pinned {
+  padding: 0; border-radius: 16px; background: var(--ed-raised); box-shadow: inset 0 0 0 1px var(--ed-rule);
+}
+:root.claude-theme [data-study-page] .article-list-card--pinned .article-list-card__body { padding: clamp(1.5rem, 3vw, 2.25rem); }
+:root.claude-theme [data-study-page] .article-list-card__pinned { margin-bottom: .85rem; color: var(--ed-accent); font: 500 .75rem/1.3 var(--claude-sans); letter-spacing: .02em; }
+:root.claude-theme [data-study-page] .article-list-card__title { display: block; color: var(--ed-ink); font-family: var(--claude-serif); font-weight: 500; letter-spacing: .01em; line-height: 1.4; }
+:root.claude-theme [data-study-page] .article-list-card__title::before { display: none; }
+:root.claude-theme [data-study-page] .article-list-card--regular .article-list-card__title { font-size: clamp(1.2rem, 2.1vw, 1.45rem); }
+:root.claude-theme [data-study-page] .article-list-card--pinned .article-list-card__title { font-size: clamp(1.5rem, 2.8vw, 2rem); }
+:root.claude-theme [data-study-page] .article-list-card__article-link { text-decoration-thickness: 1px; text-underline-offset: .3em; }
+:root.claude-theme [data-study-page] .article-list-card__article-link:hover { color: var(--ed-accent); text-decoration-line: none; }
+:root.claude-theme [data-study-page] .article-list-card__description { max-width: 40rem; margin-top: .55rem; color: var(--ed-ink-soft); font: 400 .9375rem/1.75 var(--claude-serif); }
+:root.claude-theme [data-study-page] .article-list-card__rule { display: none; }
+:root.claude-theme [data-study-page] .article-list-card__meta { margin-top: .9rem; column-gap: .7rem; color: var(--ed-meta); font: 400 .75rem/1.45 var(--claude-sans); font-variant-numeric: tabular-nums; }
+:root.claude-theme [data-study-page] .article-list-card__meta svg { display: none; }
+:root.claude-theme [data-study-page] .article-list-card__meta-divider { color: transparent; width: 0; overflow: hidden; }
+:root.claude-theme [data-study-page] .article-list-card__category { color: var(--ed-accent); font-weight: 500; }
+:root.claude-theme [data-study-page] .article-list-card__tag-more { font-weight: 400; }
+:root.claude-theme [data-study-page] .article-list-pagination__page.is-active { background: var(--deep-text); color: var(--page-bg); }
+:root.claude-theme [data-study-page] :is(.article-list-pagination__page, .article-list-pagination__btn) { border-radius: 9px; font-family: var(--claude-sans); }
+
+/* --------------------------------------------------------------------------
+   其他内容页的共享部件
+   -------------------------------------------------------------------------- */
+/* 筛选胶囊（友链、工具箱等） */
+:root.claude-theme [data-study-page] :is(.tools-tab-pill) { border-color: var(--ed-rule); }
+
+/* 友链与动态：细线纸卡替换粗黑描边 */
+:root.claude-theme [data-study-page] :is(.friend-card, .fl-card, [class*="friend-link-card"]) {
+  border: 1px solid var(--ed-rule) !important; border-radius: 14px !important; background: var(--ed-raised) !important; box-shadow: none !important;
+}
+
+/* 页脚：署名更舒展，链接退为次要 */
+:root.claude-theme [data-study-page] .footer:has(> .study-footer) { margin-top: clamp(4rem, 9vw, 7rem); }
+:root.claude-theme [data-study-page] .study-footer__rule > i { background: var(--ed-rule-strong); }
+:root.claude-theme [data-study-page] .study-footer__body { padding: 1.75rem 0 1.25rem; }
+:root.claude-theme [data-study-page] .study-footer__signature > span { font-size: 2rem; font-weight: 400; }
+:root.claude-theme [data-study-page] .study-footer nav > a { color: var(--ed-ink-soft); font-size: .8125rem; }
+:root.claude-theme [data-study-page] .study-footer__meta { padding-top: 1rem; border-top: 1px solid var(--ed-rule); color: var(--ed-meta); font-size: .6875rem; }
+
+/* --------------------------------------------------------------------------
+   响应式
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  :root.claude-theme [data-study-page] .page-plate__row { flex-direction: column; align-items: flex-start; gap: .55rem; }
+  :root.claude-theme [data-study-page] .page-plate__zh { font-size: clamp(2.3rem, 10vw, 3rem); }
+  :root.claude-theme [data-study-page] .page-title__description { font-size: 1rem; }
+  :root.claude-theme [data-study-page] .post-opener { margin-top: 1.75rem; }
+  :root.claude-theme [data-study-page] .post-opener__facts { gap: .9rem 1.5rem; }
+  :root.claude-theme [data-study-page] .post-opener__fact--action { margin-left: 0; }
+  :root.claude-theme [data-study-page] #post-container .custom-md { font-size: 1.0625rem; line-height: 1.9; }
+  :root.claude-theme [data-study-page] .custom-md h2 { font-size: 1.4rem; }
+  :root.claude-theme [data-study-page] .post-sequel { grid-template-columns: 1fr; }
+  :root.claude-theme [data-study-page] .post-sequel__link { padding: 1.1rem 0; }
+  :root.claude-theme [data-study-page] .post-sequel__link--next { align-items: flex-start; padding: 1.1rem 0; border-left: 0; border-top: 1px solid var(--ed-rule); text-align: left; }
+  :root.claude-theme [data-study-page] .related-posts__link { flex-direction: column; gap: .3rem; }
+  :root.claude-theme [data-study-page] .archive-stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :root.claude-theme [data-study-page] .archive-stats__metric:nth-child(3) { padding-left: 0; border-left: 0; }
+  :root.claude-theme [data-study-page] .archive-stats__metric:nth-child(n+3) { border-top: 1px solid var(--ed-rule); }
+  :root.claude-theme [data-study-page] .ap-year-block { grid-template-columns: 1fr; gap: 1rem; padding-top: 1.25rem; }
+  :root.claude-theme [data-study-page] .ap-year-header { position: static; }
+  :root.claude-theme [data-study-page] .ap-year-label { flex-direction: row; align-items: baseline; gap: .75rem; }
+  :root.claude-theme [data-study-page] .ap-post-link { grid-template-columns: 3.25rem minmax(0, 1fr); gap: .75rem; }
+  :root.claude-theme [data-study-page] .ap-post-content { flex-direction: column; gap: .2rem; }
+  :root.claude-theme [data-study-page] .article-list-toolbar { flex-wrap: wrap; gap: .75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.claude-theme [data-study-page] :is(.post-sequel__icon, .post-sequel__title, .ap-title, .related-posts__post-title) { transition: none; }
+}
+
+:root.claude-theme [data-study-page] .custom-md .callout-title { padding: 0; border: 0; background: none; }
+:root.claude-theme [data-study-page] .custom-md .callout-title + * ,
+:root.claude-theme [data-study-page] .custom-md .callout-content { border: 0 !important; padding-top: 0; background: none; }
+
+:root.claude-theme [data-study-page] .custom-md .callout :is(h2,h3,h4) { margin: .2em 0; padding: 0; border: 0; font-size: 1.2rem; line-height: 1.55; }

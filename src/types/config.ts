@@ -975,6 +975,10 @@ export type BookshelfEntry = {
 export type BookshelfSubgroup = {
 	name: string; // 子分组名
 	entries: BookshelfEntry[]; // 子分组词条
+	entryGroups?: {
+		name: string; // 子分组内的分类标签
+		entries: BookshelfEntry[];
+	}[];
 };
 
 export type BookshelfCategory = {

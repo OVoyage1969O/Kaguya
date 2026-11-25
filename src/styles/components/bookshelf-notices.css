@@ -1,49 +1,32 @@
-/* ============================================
-   永远百科 · 顶部说明栏（Notice）
-   黑白高对比 · 仿萌娘 infoBox 提示条
-   ============================================ */
+/* ==========================================================================
+   永远百科 · 词条馆藏旁注提示条（Editorial Notice）
+   ========================================================================== */
 
 .bk-notices {
-	--bk-ink: #000;
-	--bk-paper: #fff;
-	--bk-muted: #555;
-	--bk-line: #000;
-	--bk-soft-line: #bbb;
-	--bk-invert: #fff;
-	--bk-invert-bg: #000;
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
+	gap: 0.55rem;
 	margin-bottom: 1.5rem;
-}
-
-:root.dark .bk-notices {
-	--bk-ink: #fff;
-	--bk-paper: #0a0a0a;
-	--bk-muted: #9a9a9a;
-	--bk-line: #fff;
-	--bk-soft-line: #444;
-	--bk-invert: #000;
-	--bk-invert-bg: #fff;
 }
 
 .bk-notice {
 	display: flex;
 	align-items: flex-start;
-	gap: 0.6rem;
-	padding: 0.6rem 0.8rem;
-	border: 1px solid var(--bk-soft-line);
-	border-left: 6px solid var(--bk-notice-color, var(--bk-ink));
-	background: var(--bk-paper);
-	color: var(--bk-ink);
-	font-size: 0.88rem;
-	line-height: 1.6;
+	gap: 0.65rem;
+	padding: 0.65rem 0.95rem;
+	border-radius: 10px;
+	border: 1px solid var(--line-divider);
+	border-left: 3px solid var(--bk-notice-color, var(--vol-cloth, var(--primary)));
+	background: var(--page-bg);
+	color: var(--content-meta);
+	font: 400 0.84rem/1.6 var(--claude-sans);
 }
 
 .bk-notice__icon {
 	flex: 0 0 auto;
-	font-size: 1.3rem;
-	margin-top: 0.1rem;
+	font-size: 1.15rem;
+	margin-top: 0.12rem;
+	color: var(--primary);
 }
 
 .bk-notice__text {
@@ -56,11 +39,11 @@
 }
 
 .bk-notice__text :is(a) {
-	color: var(--bk-ink);
+	color: var(--deep-text);
 	text-decoration: underline;
+	text-decoration-color: var(--link-underline);
 	text-underline-offset: 3px;
 }
-
 .bk-notice__text :is(a):hover {
-	text-decoration-thickness: 2px;
+	color: var(--primary);
 }

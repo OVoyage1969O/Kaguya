@@ -1,15 +1,7 @@
-/* ============================================
-   能力值九轴雷达图 — 来自 StatRadar.astro
-   构建期内联 SVG：无运行时依赖。
-
-   默认落点是右侧信息栏（.bk-infobox）里的一个分区，与「人物信息」「魔术」
-   等分组同构；条目若没有 infobox，则退回正文里的独立卡片（见文件末尾）。
-
-   选择器都要压过正文容器的 `.custom-md figure`（0,1,1）——它的左右外边距
-   会把图表挤进浮动区的边缘。
-   ============================================ */
-
-/* ---------- 图表本体，两种容器共用 ---------- */
+/* ==========================================================================
+   永远百科 · 角色能力九轴雷达图（StatRadar）
+   构建期内联 SVG + 纸面绽放动效（radar-bloom）
+   ========================================================================== */
 
 .custom-md .stat-radar__chart {
 	display: block;
@@ -28,28 +20,34 @@
 }
 
 .custom-md .stat-radar__area {
-	stroke-width: 2;
-	stroke-linejoin: miter;
+	stroke-width: 1.8;
+	stroke-linejoin: round;
+	transform-origin: 190px 190px;
+}
+
+.custom-md .stat-radar__vertices {
+	transform-origin: 190px 190px;
 }
 
 .custom-md .stat-radar__vertices rect {
 	stroke-width: 1.5;
+	rx: 1.5px;
 }
 
 .custom-md .stat-radar__label {
-	font-family: var(--p3-display);
-	font-weight: 700;
-	font-size: 17px;
+	font-family: var(--claude-mono);
+	font-weight: 600;
+	font-size: 14px;
 	letter-spacing: 0.04em;
 }
 
 .custom-md .stat-radar__value {
-	font-size: 15px;
+	font-family: var(--claude-mono);
+	font-size: 13px;
 	font-variant-numeric: tabular-nums;
 }
 
-/* 图的数值另以纯文本给出，供读屏使用；视觉上完全移出布局。
-   不复用 Tailwind 的 sr-only：`.custom-md table/list` 会改写它的宽高。 */
+/* 供读屏使用的隐藏数据列表 */
 .custom-md .stat-radar__data {
 	position: absolute;
 	width: 1px;
@@ -63,127 +61,122 @@
 	list-style: none;
 }
 
-/* ---------- 语境一：信息栏内的一个分区 ---------- */
+@media (prefers-reduced-motion: no-preference) {
+	.custom-md .stat-radar__area,
+	.custom-md .stat-radar__vertices {
+		animation: bk-radar-bloom 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+	}
+}
 
+@keyframes bk-radar-bloom {
+	from {
+		opacity: 0;
+		transform: scale(0.18);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* ---------- 语境一：右侧档案卡内的分组 ---------- */
 .custom-md .bk-infobox .stat-radar {
 	margin: 0;
-	padding: 0 10px 10px;
-	border-bottom: 1px solid var(--bk-soft-line);
+	padding: 0 10px 12px;
+	border-bottom: 1px solid var(--line-divider);
 	background: none;
 	max-width: none;
 	text-align: center;
 }
-
 .custom-md .bk-infobox .stat-radar:last-child {
 	border-bottom: 0;
 }
 
-/* 与 .bk-infobox__group-title 同款标题条，读起来就是信息栏的又一个分组。 */
 .custom-md .bk-infobox .stat-radar__title {
 	margin: 0 -10px 8px;
-	padding: 0.45em 0.4em;
-	background: var(--bk-invert-bg);
-	color: var(--bk-invert);
-	font-size: 0.95rem;
-	font-weight: 700;
-	letter-spacing: 0.05em;
-	text-align: center;
+	padding: 0.45rem 0.9rem;
+	background: color-mix(in oklab, var(--deep-text) 6%, var(--float-panel-bg));
+	color: var(--content-meta);
+	font: 600 0.75rem/1.3 var(--claude-mono);
+	letter-spacing: 0.1em;
+	text-align: left;
+	border-bottom: 1px solid var(--line-divider);
 }
 
 .custom-md .bk-infobox .stat-radar__grid polygon {
-	stroke: var(--bk-soft-line);
+	stroke: var(--line-divider);
 }
-
 .custom-md .bk-infobox .stat-radar__grid polygon:last-child {
-	stroke: var(--bk-line);
+	stroke: var(--meta-divider);
 }
-
 .custom-md .bk-infobox .stat-radar__spokes line {
-	stroke: var(--bk-soft-line);
+	stroke: var(--line-divider);
 }
-
 .custom-md .bk-infobox .stat-radar__label {
-	fill: var(--bk-ink);
+	fill: var(--deep-text);
 }
-
 .custom-md .bk-infobox .stat-radar__value {
-	fill: var(--bk-muted);
+	fill: var(--content-meta);
 }
-
-/* 数据面是信息栏里唯一的彩色，用站点主色，浅深两套各自可读。 */
 .custom-md .bk-infobox .stat-radar__area {
 	fill: color-mix(in oklch, var(--primary) 22%, transparent);
 	stroke: var(--primary);
 }
-
 .custom-md .bk-infobox .stat-radar__vertices rect {
 	fill: var(--primary);
-	stroke: var(--bk-paper);
+	stroke: var(--page-bg);
 }
 
-/* ---------- 语境二：条目没有 infobox 时的独立卡片 ---------- */
-
+/* ---------- 语境二：无 infobox 时的独立纸面卡 ---------- */
 .custom-md > .stat-radar {
 	margin: 0 0 1.5rem;
 	padding: 16px 18px 12px;
 	max-width: 23rem;
 	border: 1px solid var(--line-divider);
-	border-radius: 3px;
-	background: var(--float-panel-bg);
+	border-radius: 14px;
+	background: var(--page-bg);
 }
-
 .custom-md > .stat-radar .stat-radar__title {
-	margin: 0 0 6px;
+	margin: 0 0 8px;
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 8px;
 	color: var(--deep-text);
-	font-weight: 750;
-	font-size: 0.9375rem;
-	letter-spacing: 0.015em;
+	font: 500 0.95rem/1.3 var(--claude-serif);
 }
-
 .custom-md > .stat-radar .stat-radar__title::before {
 	content: "";
 	flex: 0 0 auto;
-	width: 8px;
-	height: 17px;
-	background: var(--p3-cyan);
-	transform: skewX(-14deg);
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--primary);
 }
-
 .custom-md > .stat-radar .stat-radar__grid polygon {
 	stroke: var(--line-divider);
 }
-
 .custom-md > .stat-radar .stat-radar__grid polygon:last-child {
 	stroke: var(--meta-divider);
 }
-
 .custom-md > .stat-radar .stat-radar__spokes line {
 	stroke: var(--line-divider);
 }
-
 .custom-md > .stat-radar .stat-radar__label {
 	fill: var(--deep-text);
 }
-
 .custom-md > .stat-radar .stat-radar__value {
 	fill: var(--content-meta);
 }
-
 .custom-md > .stat-radar .stat-radar__area {
 	fill: color-mix(in oklch, var(--primary) 20%, transparent);
 	stroke: var(--primary);
 }
-
 .custom-md > .stat-radar .stat-radar__vertices rect {
 	fill: var(--primary);
-	stroke: var(--float-panel-bg);
+	stroke: var(--page-bg);
 }
 
-/* 信息栏在 768px 以下铺满整行，图表随之变宽。 */
-@media (max-width: 768px) {
+@media (max-width: 820px) {
 	.custom-md > .stat-radar {
 		max-width: 100%;
 		padding: 14px 14px 10px;

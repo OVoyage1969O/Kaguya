@@ -159,9 +159,9 @@ export function initPersonaMotion() {
 				);
 		}
 	};
-	const cover = () => {
+	const cover = (visit?: { to?: { url?: string } }) => {
 		reset();
-		if (reduced.matches) return;
+		if (reduced.matches || document.querySelector('[data-notes-root]') || String(visit?.to?.url || '').includes('/notes/')) return;
 		active = pick();
 		wipe.dataset.variant = active.id;
 		const used = panels.slice(0, active.panels);

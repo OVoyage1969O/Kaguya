@@ -16,7 +16,7 @@ const enabledApisCount = enabledGroups.reduce((count,group)=>count+group.items.l
 <MainGridLayout title={title} description={description} hasOwnH1={true}>
   <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
     <div class="card-base z-10 px-4 md:px-9 py-6 relative w-full">
-      <div class="mb-8"><PageTitle title={title} variant="stacked" /></div>
+      <div class="mb-8"><PageTitle title={title} description={description} variant="stacked" /></div>
       {enabledApisCount>0 && enabledGroups.length>1 && <div class="tools-tab-wrapper">
         <div class="tools-tab-pill" data-tools-tab-nav>
           <div class="tools-tab-indicator" data-tools-tab-indicator></div>

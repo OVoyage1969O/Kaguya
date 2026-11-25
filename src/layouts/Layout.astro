@@ -15,6 +15,7 @@ import MobileDock from "@components/layout/MobileDock.astro";
 import FloatingDock from "@/components/controls/FloatingDock.astro";
 import PersonaFrame from "@components/layout/PersonaFrame.astro";
 import AnimatedCursor from "@components/features/AnimatedCursor.astro";
+import PrismOpticalStage from "@components/features/PrismOpticalStage.astro";
 
 import {
 	aiSearchConfig,
@@ -52,6 +53,7 @@ interface Props {
 	postSlug?: string;
 	robots?: string;
 	articleMeta?: ArticleMeta;
+	canonical?: string;
 }
 
 const { title, description, setOGTypeArticle, postSlug, articleMeta, robots } =
@@ -80,7 +82,7 @@ if (siteConfig.generateOgImages && postSlug) {
 	ogImageUrl = new URL(siteConfig.defaultOgImage, Astro.site).toString();
 }
 
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const canonicalUrl = new URL(Astro.props.canonical || Astro.url.pathname, Astro.site).toString();
 
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
@@ -257,6 +259,7 @@ const siteLang = lang.replace("_", "-");
     ]}
   >
     <div id="progress-bar"></div>
+    <PrismOpticalStage />
     <PersonaFrame />
     <AnimatedCursor />
     <PageLoader />

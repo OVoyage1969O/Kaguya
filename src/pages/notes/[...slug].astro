@@ -1,0 +1,26 @@
+---
+import {render} from 'astro:content';
+import {experimental_AstroContainer as AstroContainer} from 'astro/container';
+import NotesLayout from '@/layouts/NotesLayout.astro';
+import KatexManager from '@/components/features/KatexManager.astro';
+import {getMathematicsNotebook, type MathNote} from '@/utils/notes-data';
+import '@/styles/markdown.css';
+import '@/styles/expressive-code.css';
+
+export async function getStaticPaths(){
+  const notebook=await getMathematicsNotebook();
+  return notebook.flatMap(subject=>subject.chapters.map((note,index)=>({params:{slug:note.id},props:{note,notebook,previous:subject.chapters[index-1],next:subject.chapters[index+1]}})));
+}
+const {note,notebook,previous,next}=Astro.props;
+const {Content,headings:originalHeadings}=await render((note as MathNote).entry);
+const container=await AstroContainer.create();
+const rendered=await container.renderToString(Content);
+// The same source is read as a chapter: reserve H1 for its title, preserving section IDs.
+const body=rendered.replace(/<(\/?)(h)([1-6])(?=[\s>])/gi,(_match,closing,tag,level)=>`<${closing}${tag}${Math.min(6,Number(level)+1)}`);
+const headings=originalHeadings.map(heading=>({...heading,depth:Math.min(6,heading.depth+1)})).filter(heading=>heading.depth<=3);
+---
+<NotesLayout notebook={notebook} active={note} headings={headings} previous={previous} next={next}>
+  <KatexManager/>
+  {note.stub&&<div class="notes-status-note">这一章仍在整理中。{next?'可以先阅读下一篇。':'可以返回笔记总览查看其他章节。'}</div>}
+  <article id="notes-content" class="notes-prose custom-md prose max-w-none" data-pagefind-ignore="all" set:html={body}/>
+</NotesLayout>

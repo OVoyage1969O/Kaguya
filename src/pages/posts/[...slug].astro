@@ -226,108 +226,94 @@ const serializedBreadcrumbJsonLd = JSON.stringify(breadcrumbJsonLd).replace(
 		type="application/ld+json"
 		set:html={serializedBreadcrumbJsonLd}
 	/>
-  <!-- Layer 1: Title + meta -->
-  <div class="post-hero rounded-(--radius-large) mb-2 onload-animation">
-    <div class="post-hero__content">
-      <h1
-        data-pagefind-body
-        data-pagefind-weight="10"
-        data-pagefind-meta="title"
-        class="post-hero__title"
-      >
-        {entry.data.title}
-      </h1>
-
-      <div class="post-hero__meta-row">
-        <span class="post-hero__meta-item">
-          {formatDateI18n(entry.data.published, false, true)}
-        </span>
-
-        <span class="post-hero__meta-dot">·</span>
-
-        <a href={getCategoryUrl(entry.data.category || null)} class="post-hero__meta-link">
-          #{entry.data.category || i18n(I18nKey.uncategorized)}
+  {/* 章节开篇：卷名、标题、导语与一条元信息带 */}
+  {(() => {
+    const lastModified = dayjs(entry.data.updated || entry.data.published);
+    const outdatedThreshold = siteConfig.outdatedThreshold ?? 1;
+    const tags = (entry.data.tags || []).map((tag) => tag.trim()).filter(Boolean);
+    return (
+      <header class="post-hero post-opener onload-animation">
+        <a href={getCategoryUrl(entry.data.category || null)} class="post-opener__volume">
+          {entry.data.category || i18n(I18nKey.uncategorized)}
         </a>
-
-        {entry.data.tags && entry.data.tags.length > 0 && entry.data.tags.map((tag, i) => (
-          <span class="post-hero__meta-tag">
-            {i > 0 && <span class="post-hero__meta-sep">/</span>}
-            <a href={getTagUrl(tag)} class="post-hero__meta-link">{tag.trim()}</a>
-          </span>
-        ))}
-
-        <span class="post-hero__meta-dot">·</span>
-
-        <span class="post-hero__meta-item">
-          {remarkPluginFrontmatter.words} {i18n(I18nKey.wordsCount)} {remarkPluginFrontmatter.minutes} {i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
-        </span>
-
-        <span class="post-hero__meta-dot">·</span>
-
-        <span class="post-hero__views"><VisitorCount id={entry.id} compact /></span>
-
-        <span class="post-hero__meta-dot">·</span>
-
-        {siteConfig.sharePoster && (
-          <span class="post-hero__share"><SharePoster
-            client:only="svelte"
-            title={entry.data.title}
-            author={homeConfig.name}
-            description={entry.data.description || entry.data.title}
-            pubDate={formatDateToYYYYMMDD(entry.data.published)}
-            coverImage={posterCoverUrl}
-            fallbackCoverImage={posterFallbackCoverUrl}
-            url={Astro.url.href}
-            siteTitle={siteConfig.title}
-            avatar={posterAvatarUrl}
-          /></span>
+        <h1
+          data-pagefind-body
+          data-pagefind-weight="10"
+          data-pagefind-meta="title"
+          class="post-hero__title post-opener__title"
+        >
+          {entry.data.title}
+        </h1>
+        {entry.data.description && entry.data.description.trim() !== entry.data.title.trim() && (
+          <p class="post-opener__lede">{entry.data.description}</p>
         )}
-      </div>
-    </div>
-  </div>
 
-  <!-- Layer 2: Introduction card (notebook-style) -->
-  {
-    (entry.data.description || siteConfig.showLastModified) && (() => {
-      const lastModified = dayjs(entry.data.updated || entry.data.published);
-      const dateStr = lastModified.format("YYYY-MM-DD");
-      const outdatedThreshold = siteConfig.outdatedThreshold ?? 1;
-      return (
-        <div class="post-intro-card mb-2">
-          {
-            siteConfig.showLastModified && (
-              <div
-                id="outdated-info"
-                class="post-intro-card__outdated hidden"
-                data-date={lastModified.toISOString()}
-                data-threshold={outdatedThreshold}
-              >
-                <div class="post-intro-card__section">
-                  <div class="post-intro-card__row">
-                    <Icon name="material-symbols:info-outline-rounded" class="post-intro-card__icon" />
-                    <span class="post-intro-card__text">
-                      {i18n(I18nKey.lastModifiedPrefix)}{dateStr}
-                      <span id="days-ago-text-intro" class="outdated-days" data-template={i18n(I18nKey.lastModifiedDaysAgo)}></span>
-                      <span id="outdated-warning-intro" class="outdated-warning hidden">，{i18n(I18nKey.lastModifiedOutdated)}</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )
-          }
-          {entry.data.description && (
-            <>
-              {siteConfig.showLastModified && <div class="post-intro-card__divider" />}
-              <div class="post-intro-card__section">
-                <div class="post-intro-card__label">{i18n(I18nKey.postIntroLabel)}</div>
-                <p class="post-intro-card__desc">{entry.data.description}</p>
-              </div>
-            </>
+        <dl class="post-opener__facts">
+          <div class="post-opener__fact">
+            <dt>发布于</dt>
+            <dd><time datetime={entry.data.published.toISOString()}>{formatDateI18n(entry.data.published)}</time></dd>
+          </div>
+          {entry.data.updated && (
+            <div class="post-opener__fact">
+              <dt>更新于</dt>
+              <dd><time datetime={entry.data.updated.toISOString()}>{formatDateI18n(entry.data.updated)}</time></dd>
+            </div>
           )}
-        </div>
-      );
-    })()
-  }
+          <div class="post-opener__fact">
+            <dt>篇幅</dt>
+            <dd>{remarkPluginFrontmatter.words} {i18n(I18nKey.wordsCount)}，约 {remarkPluginFrontmatter.minutes} {i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}</dd>
+          </div>
+          <div class="post-opener__fact post-hero__views">
+            <dt>浏览</dt>
+            <dd><VisitorCount id={entry.id} compact /></dd>
+          </div>
+          {tags.length > 0 && (
+            <div class="post-opener__fact post-opener__fact--tags">
+              <dt>标签</dt>
+              <dd>
+                {tags.map((tag) => (
+                  <a href={getTagUrl(tag)} class="post-opener__tag">{tag}</a>
+                ))}
+              </dd>
+            </div>
+          )}
+          {siteConfig.sharePoster && (
+            <div class="post-opener__fact post-opener__fact--action post-hero__share">
+              <dt class="sr-only">分享</dt>
+              <dd><SharePoster
+                client:only="svelte"
+                title={entry.data.title}
+                author={homeConfig.name}
+                description={entry.data.description || entry.data.title}
+                pubDate={formatDateToYYYYMMDD(entry.data.published)}
+                coverImage={posterCoverUrl}
+                fallbackCoverImage={posterFallbackCoverUrl}
+                url={Astro.url.href}
+                siteTitle={siteConfig.title}
+                avatar={posterAvatarUrl}
+              /></dd>
+            </div>
+          )}
+        </dl>
+
+        {siteConfig.showLastModified && (
+          <p
+            id="outdated-info"
+            class="post-opener__notice hidden"
+            data-date={lastModified.toISOString()}
+            data-threshold={outdatedThreshold}
+          >
+            <Icon name="material-symbols:history-rounded" class="post-opener__notice-icon" />
+            <span>
+              {i18n(I18nKey.lastModifiedPrefix)}{lastModified.format("YYYY-MM-DD")}
+              <span id="days-ago-text-intro" class="outdated-days" data-template={i18n(I18nKey.lastModifiedDaysAgo)}></span>
+              <span id="outdated-warning-intro" class="outdated-warning hidden">，{i18n(I18nKey.lastModifiedOutdated)}</span>
+            </span>
+          </p>
+        )}
+      </header>
+    );
+  })()}
 
   {/* Layer 3: Cover image */}
   {coverImageConfig.enableInPost && posterCoverUrl && (
@@ -415,39 +401,23 @@ const serializedBreadcrumbJsonLd = JSON.stringify(breadcrumbJsonLd).replace(
     document.addEventListener("astro:page-load", checkOutdated);
   </script>
 
-  <div
-    class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full"
-  >
-    <a
-      href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug) : url("/")}
-      class="w-full font-bold overflow-hidden active:scale-95"
-    >
-      <div class="btn-card rounded-2xl w-full h-15 max-w-full px-4 flex items-center justify-start! gap-4">
-        <Icon
-          name="material-symbols:chevron-left-rounded"
-          class="text-[2rem] text-(--primary)"
-        />
-        <div class="overflow-hidden transition text-ellipsis whitespace-nowrap max-w-[calc(100%-3rem)] text-black/75 dark:text-white/75">
-          {entry.data.nextTitle || i18n(I18nKey.home)}
-        </div>
-      </div>
+  {/* 续读：左侧是较新的一篇，右侧是较早的一篇（文章按发布时间倒序） */}
+  <nav class="post-sequel" aria-label="继续阅读">
+    <a href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug) : url("/")} class="post-sequel__link post-sequel__link--prev">
+      <span class="post-sequel__label">
+        <Icon name="material-symbols:arrow-back-rounded" class="post-sequel__icon" />
+        {entry.data.nextSlug ? "较新一篇" : i18n(I18nKey.home)}
+      </span>
+      <span class="post-sequel__title">{entry.data.nextTitle || "回到永远邸"}</span>
     </a>
-
-    <a
-      href={entry.data.prevSlug ? getPostUrlBySlug(entry.data.prevSlug) : url("/")}
-      class="w-full font-bold overflow-hidden active:scale-95"
-    >
-      <div class="btn-card rounded-2xl w-full h-15 max-w-full px-4 flex items-center justify-end! gap-4">
-        <div class="overflow-hidden transition text-ellipsis whitespace-nowrap max-w-[calc(100%-3rem)] text-black/75 dark:text-white/75">
-          {entry.data.prevTitle || i18n(I18nKey.home)}
-        </div>
-        <Icon
-          name="material-symbols:chevron-right-rounded"
-          class="text-[2rem] text-(--primary)"
-        />
-      </div>
+    <a href={entry.data.prevSlug ? getPostUrlBySlug(entry.data.prevSlug) : url("/")} class="post-sequel__link post-sequel__link--next">
+      <span class="post-sequel__label">
+        {entry.data.prevSlug ? "较早一篇" : i18n(I18nKey.home)}
+        <Icon name="material-symbols:arrow-forward-rounded" class="post-sequel__icon" />
+      </span>
+      <span class="post-sequel__title">{entry.data.prevTitle || "回到永远邸"}</span>
     </a>
-  </div>
+  </nav>
 
   <!-- 评论 -->
   {entry.data.comment && !entry.data.password && <Comment post={entry} />}

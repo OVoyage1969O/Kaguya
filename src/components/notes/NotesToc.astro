@@ -1,0 +1,9 @@
+---
+interface Props { headings: { depth: number; slug: string; text: string }[]; }
+const { headings } = Astro.props;
+---
+<nav class="notes-toc" aria-label="本页目录">
+  <p>本页目录</p>
+  <ul>{headings.map(heading => <li class:list={{'notes-toc__nested':heading.depth>2}}><a href={`#${heading.slug}`} data-notes-toc-link>{heading.text.replace(/\$/g, '')}</a></li>)}</ul>
+  {headings.length===0 && <span class="notes-muted">本篇没有分节标题</span>}
+</nav>
